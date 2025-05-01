@@ -1,0 +1,116 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model appointments {
+  appointment_id   Int          @id @default(autoincrement())
+  donor_id         Int
+  center_id        Int
+  appointment_date DateTime     @db.Timestamp(6)
+  description      String?
+  status           String?      @default("scheduled") @db.VarChar(20)
+  bloodcenters     bloodcenters @relation(fields: [center_id], references: [center_id], onDelete: NoAction, onUpdate: NoAction)
+  donors           donors       @relation(fields: [donor_id], references: [donor_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model bloodcenters {
+  center_id       Int               @id @default(autoincrement())
+  center_name     String            @db.VarChar(100)
+  address         String            @db.VarChar(255)
+  contact_info    String            @db.VarChar(100)
+  appointments    appointments[]
+  bloodstock      bloodstock[]
+  donationhistory donationhistory[]
+  subadmins       subadmins[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model bloodrequests {
+  request_id    Int           @id @default(autoincrement())
+  staff_id      Int
+  request_date  DateTime      @db.Timestamp(6)
+  blood_type    String        @db.VarChar(3)
+  units_needed  Int
+  patient_name  String        @db.VarChar(100)
+  status        String?       @default("requested") @db.VarChar(20)
+  hospitalstaff hospitalstaff @relation(fields: [staff_id], references: [staff_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model bloodstock {
+  stock_id        Int          @id @default(autoincrement())
+  center_id       Int
+  blood_type      String       @db.VarChar(3)
+  units_available Int
+  expiration_date DateTime     @db.Date
+  bloodcenters    bloodcenters @relation(fields: [center_id], references: [center_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model donationhistory {
+  donation_id    Int          @id @default(autoincrement())
+  donor_id       Int
+  center_id      Int
+  donation_date  DateTime     @db.Timestamp(6)
+  amount_donated Decimal      @db.Decimal(5, 2)
+  status         String?      @default("successful") @db.VarChar(20)
+  bloodcenters   bloodcenters @relation(fields: [center_id], references: [center_id], onDelete: NoAction, onUpdate: NoAction)
+  donors         donors       @relation(fields: [donor_id], references: [donor_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model donors {
+  donor_id           Int               @id @default(autoincrement())
+  user_id            Int               @unique
+  full_name          String            @db.VarChar(100)
+  national_id        String            @unique @db.VarChar(20)
+  email              String            @unique @db.VarChar(100)
+  password           String            @db.VarChar(255)
+  birth_date         DateTime          @db.Date
+  gender             String            @db.VarChar(10)
+  address            String            @db.VarChar(255)
+  blood_type         String            @db.VarChar(3)
+  last_donation_date DateTime?         @db.Date
+  medications        String?
+  medical_conditions String?
+  weight             Decimal           @db.Decimal(5, 2)
+  appointments       appointments[]
+  donationhistory    donationhistory[]
+  users              users             @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model hospitalstaff {
+  staff_id      Int             @id @default(autoincrement())
+  hospital_name String          @db.VarChar(100)
+  user_id       Int             @unique
+  address       String          @db.VarChar(255)
+  bloodrequests bloodrequests[]
+  users         users           @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model subadmins {
+  sub_admin_id Int          @id @default(autoincrement())
+  user_id      Int          @unique
+  center_id    Int
+  bloodcenters bloodcenters @relation(fields: [center_id], references: [center_id], onDelete: NoAction, onUpdate: NoAction)
+  users        users        @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model users {
+  user_id       Int            @id @default(autoincrement())
+  username      String         @unique @db.VarChar(50)
+  password      String         @db.VarChar(255)
+  email         String         @unique @db.VarChar(100)
+  contact_phone String         @db.VarChar(20)
+  role          String         @db.VarChar(20)
+  donors        donors?
+  hospitalstaff hospitalstaff?
+  subadmins     subadmins?
+}
