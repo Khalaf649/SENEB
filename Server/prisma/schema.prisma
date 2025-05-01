@@ -77,8 +77,6 @@ model donors {
   user_id            Int               @unique
   full_name          String            @db.VarChar(100)
   national_id        String            @unique @db.VarChar(20)
-  email              String            @unique @db.VarChar(100)
-  password           String            @db.VarChar(255)
   birth_date         DateTime          @db.Date
   gender             String            @db.VarChar(10)
   address            String            @db.VarChar(255)

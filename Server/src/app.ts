@@ -4,13 +4,16 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import bcrpt from 'bcrypt';
 import { Request,Response,NextFunction } from 'express';
-import { PrismaClient } from '../generated/prisma';
-
-const prisma = new PrismaClient();
+import { errorHandler } from './middlewares/error.middleware';
+import authRouter from "./routes/auth.routes";
 const port = process.env.PORT || 3000;
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+
+app.use('/auth', authRouter);
+
+app.use(errorHandler);
 
 
 
