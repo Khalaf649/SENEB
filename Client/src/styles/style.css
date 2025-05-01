@@ -172,7 +172,7 @@ body {
   margin-left: 2rem;
 }
 
-.image__content {
+.image_content {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -186,45 +186,45 @@ body {
   box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
 }
 
-.image__content__1 {
+.imagecontent_1 {
   transform: translate(calc(-50% - 9rem), calc(-50% - 8rem));
 }
 
-.image__content__1 span {
+.imagecontent_1 span {
   padding: 10px 12px;
   font-size: 1.5rem;
   background-color: #defcf4;
   border-radius: 100%;
 }
 
-.image__content__1 h4 {
+.imagecontent_1 h4 {
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--text-dark);
 }
 
-.image__content__1 p {
+.imagecontent_1 p {
   color: var(--text-dark);
 }
 
-.image__content__2 {
+.imagecontent_2 {
   transform: translate(calc(-50% + 9.5rem), calc(-50% + 12rem));
 }
 
-.image__content__2 ul {
+.imagecontent_2 ul {
   list-style: none;
   display: grid;
   gap: 1rem;
 }
 
-.image__content__2 li {
+.imagecontent_2 li {
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
   color: var(--text-dark);
 }
 
-.image__content__2 span {
+.imagecontent_2 span {
   font-size: 1.5rem;
   color: var(--darkred);
 }
@@ -498,15 +498,15 @@ body {
 
 
 /* Start login form*/
-#login-body {
+.login-page {
   background-color: #e7e8ea;
 }
 
 .login-image img {
-  max-width: 400px;
+  max-width: 450px;
   height: auto;
   margin-left: 2rem;
-  transform: translateY(-10%);
+  transform: translateY(-7%);
 
 }
 
@@ -723,3 +723,65 @@ body {
 }
 
 /* End Registeration Form */
+
+/* Start Donor profile */
+
+.profile-container {
+  max-width: 1000px;
+  margin: 50px auto;
+  padding: 30px;
+  border-radius: 15px;
+  background-color: white;
+}
+
+.profile-text {
+  text-align: left;
+  font-size: 1.4rem;
+  color: #7a2312;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.user-photo {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: none;
+}
+
+.btn-change-photo {
+  background-color: #7a2617;
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 0.2rem;
+  margin-bottom: 12px;
+  margin-left: 12px;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-change-photo:hover {
+  background-color: #62180B;
+}
+
+
+.update-btn {
+  color: #ffffff;
+  background-color: #7a2617;
+  border: 2px solid #7a2617;
+  font-weight: 700;
+  transition: 0.3s ease;
+}
+
+.update-btn:hover {
+  background-color: #62180B;
+  color: #ffffff;
+}
+/* End Donor profile */
