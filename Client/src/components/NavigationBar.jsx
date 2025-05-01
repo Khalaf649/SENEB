@@ -2,15 +2,16 @@ import React from "react";
 import logo from "../../src/assets/images/seneb.png"; 
 import "../styles/bootstrap.min.css";
 import "../styles/all.min.css";
-import Login from "../pages/Auth/Login";
+import "../styles/style.css";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
     return (
         <nav className="navbar navbar-expand-lg sticky-top">
-            <a href="#!" className="navbar-brand d-flex align-items-center">
+            <Link to="/" className="navbar-brand d-flex align-items-center">
                 <img className="logo" src={logo} alt="Logo" width="60" />
                 <h2 className="fx-semibold mx-1 mb-0">SENEB</h2>
-            </a>
+            </Link>
             <button
                 className="navbar-toggler"
                 type="button"
@@ -34,7 +35,7 @@ export default function Navbar() {
                         <a className="nav-link" href="#contact-us">Contact Us</a>
                     </li>
                 </ul>
-                <a href= {Login} className="btn btn-primary ms-3">Login</a>
+                <Link to="/login" className="btn btn-primary ms-3">Login</Link>
             </div>
         </nav>
     );

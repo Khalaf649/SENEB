@@ -4,7 +4,7 @@ import '../../styles/style.css';
 import '../../styles/bootstrap.min.css';
 import headerImage from '../../assets/images/header.png';
 import bloodBag from '../../assets/images/blood-bag.png';
-import Navbar from '../../components/NavigationBar';
+import Navbar from '../../Components/NavigationBar';
 
 
 export default function Home() {
