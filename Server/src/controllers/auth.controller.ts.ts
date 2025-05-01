@@ -20,7 +20,7 @@ import {LoginRequest,RegisterDonorRequest} from "../Interfaces/auth.interface";
         if (!user) {
              res.status(401).json({ message: "Invalid email or password" });
             return;
-        }
+        } 
 
         const isMatch = await bcrypt.compare(password, user.password);
 
