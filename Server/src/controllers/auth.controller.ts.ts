@@ -7,10 +7,11 @@ const saltRounds = 10;
 import tokenPayload from "../Interfaces/TokenPayload";
 import { Role } from "../constants/roles";
 import bcrpt from "bcrypt";
+import {LoginRequest,RegisterDonorRequest} from "../Interfaces/auth.interface";
 
 
  export const login= async (req: Request, res: Response, next: NextFunction) => {
-    const { email, password } = req.body;
+    const { email, password } = req.body as LoginRequest;
     try {
         const user = await prisma.users.findUnique({
             where: { email },
@@ -61,7 +62,7 @@ import bcrpt from "bcrypt";
       medications,
       medical_conditions,
       weight,
-    } = req.body;
+    } = req.body as RegisterDonorRequest;
 
     const donor_image = req.body.donor_image; // from Cloudinary middleware
 
