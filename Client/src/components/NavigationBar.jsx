@@ -20,19 +20,28 @@ export default function Navbar() {
             >
                 <i className="fa-solid fa-bars"></i>
             </button>
+
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav ms-auto">
                     <li className="nav-item mx-2">
-                        <a className="nav-link" href="#home">Home</a>
+                        <Link to={{ pathname: "/", hash: "#home" }} className="nav-link">
+                            Home
+                        </Link>
                     </li>
                     <li className="nav-item mx-2">
-                        <a className="nav-link" href="#why-donate">Why Donate Blood</a>
+                        <Link to={{ pathname: "/", hash: "#why-donate" }} className="nav-link">
+                            Why Donate Blood
+                        </Link>
                     </li>
                     <li className="nav-item mx-2">
-                        <a className="nav-link" href="#donate-process">Donate Process</a>
+                        <Link to={{ pathname: "/", hash: "#donate-process" }} className="nav-link">
+                            Donate Process
+                        </Link>
                     </li>
                     <li className="nav-item mx-2">
-                        <a className="nav-link" href="#contact-us">Contact Us</a>
+                        <Link to={{ pathname: "/", hash: "#contact-us" }} className="nav-link">
+                            Contact Us
+                        </Link>
                     </li>
                 </ul>
                 <Link to="/login" className="btn btn-primary ms-3">Login</Link>

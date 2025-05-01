@@ -498,15 +498,15 @@ body {
 
 
 /* Start login form*/
-#login-body {
+.login-page {
   background-color: #e7e8ea;
 }
 
 .login-image img {
-  max-width: 400px;
+  max-width: 450px;
   height: auto;
   margin-left: 2rem;
-  transform: translateY(-10%);
+  transform: translateY(-7%);
 
 }
 

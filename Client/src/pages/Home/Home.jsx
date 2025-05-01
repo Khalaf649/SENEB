@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import '../../styles/all.min.css';
 import '../../styles/style.css';
 import '../../styles/bootstrap.min.css';
@@ -8,10 +9,25 @@ import Navbar from '../../Components/NavigationBar';
 
 
 export default function Home() {
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const el = document.querySelector(location.hash);
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }, 100); // Slight delay ensures DOM is ready
+      }
+    }
+  }, [location]);
+
   return (
     <>
       <Navbar />
 
+      {/* Header Section */}
       <header className="header" id="home">
         <div className="content">
           <h1><span>Be the Reason</span><br />Someone Lives Today</h1>
@@ -112,6 +128,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Call to Action Section */}
       <section className="cta">
         <div className="cta-text">
           <h1>Ready to Make a Difference?</h1>
