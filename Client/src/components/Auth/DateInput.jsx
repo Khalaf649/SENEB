@@ -1,6 +1,6 @@
 import React from "react";
 
-const DateInput = ({ label, value, onChange, required }) => (
+const DateInput = ({ label, value, onChange, required, disabled = false  }) => (
     <div className="input-field">
         <label>{label}{required && '*'}</label>
         <input 
@@ -8,6 +8,7 @@ const DateInput = ({ label, value, onChange, required }) => (
             value={value}
             onChange={onChange}
             required={required}
+            disabled={disabled}
         />
     </div>
 );

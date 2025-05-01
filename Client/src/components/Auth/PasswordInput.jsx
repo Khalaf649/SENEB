@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const PasswordInput = ({ label, id, placeholder, value, onChange, required }) => {
+const PasswordInput = ({ label, id, placeholder, value, onChange, required, disabled = false  }) => {
     const [showPassword, setShowPassword] = useState(false);
 
     return (
@@ -14,6 +14,7 @@ const PasswordInput = ({ label, id, placeholder, value, onChange, required }) =>
                     value={value}
                     onChange={onChange}
                     required={required}
+                    disabled={disabled}
                     className="form-control"
                 />
                 <i

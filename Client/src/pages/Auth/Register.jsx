@@ -73,7 +73,7 @@ export default function Register() {
                     <span className="title mb-3">Donation Details:</span>
                     <div className="donation-fields mb-3">
                         <SelectInput label="Blood Type" required={true} options={bloodOptions} value={formData.bloodType} onChange={handleChange('bloodType')} placeholder="Select your blood type" />
-                        <DateInput label="Last Donation Date" required={true} value={formData.lastDonation} onChange={handleChange('lastDonation')} />
+                        <DateInput label="Last Donation Date" required={false} value={formData.lastDonation} onChange={handleChange('lastDonation')} />
                         <TextInput label="Medical Conditions" placeholder="e.g., None, Diabetes" value={formData.medicalCondition} onChange={(e) =>
                             setFormData({ ...formData, medicalCondition: e.target.value })} />
                         <TextInput

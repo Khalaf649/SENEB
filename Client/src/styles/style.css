@@ -723,3 +723,65 @@ body {
 }
 
 /* End Registeration Form */
+
+/* Start Donor profile */
+
+.profile-container {
+  max-width: 1000px;
+  margin: 50px auto;
+  padding: 30px;
+  border-radius: 15px;
+  background-color: white;
+}
+
+.profile-text {
+  text-align: left;
+  font-size: 1.4rem;
+  color: #7a2312;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.user-photo {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: none;
+}
+
+.btn-change-photo {
+  background-color: #7a2617;
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 0.2rem;
+  margin-bottom: 12px;
+  margin-left: 12px;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-change-photo:hover {
+  background-color: #62180B;
+}
+
+
+.update-btn {
+  color: #ffffff;
+  background-color: #7a2617;
+  border: 2px solid #7a2617;
+  font-weight: 700;
+  transition: 0.3s ease;
+}
+
+.update-btn:hover {
+  background-color: #62180B;
+  color: #ffffff;
+}
+/* End Donor profile */
