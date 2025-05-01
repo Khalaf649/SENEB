@@ -1,0 +1,725 @@
+:root {
+  --darkred: #7a2617;
+  --lightgrey: #dcdcdc;
+  --darkgrey: #cdcbcb;
+  --text-dark: #111827;
+  --text-light: #fffcef;
+  --white: #ffffff;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Enable smooth scrolling */
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", system-ui;
+  background-color: var(--lightgrey);
+  overflow-x: hidden;
+}
+
+/* Start Navbar */
+.navbar {
+  background-color: var(--darkgrey);
+  padding: 1rem;
+  width: 100%;
+  z-index: 1000;
+}
+
+.navbar-brand img {
+  width: 60px;
+  height: auto;
+}
+
+.navbar-brand h2 {
+  color: var(--darkred);
+  font-weight: bold;
+  font-size: 30px;
+  align-content: center;
+  padding: 0 1rem;
+}
+
+.navbar .navbar-toggler {
+  color: white;
+  font-size: 30px;
+}
+
+.navbar .navbar-toggler:focus {
+  outline: none;
+  box-shadow: none;
+  /* Remove focus outline */
+  padding-left: 1rem;
+}
+
+.navbar-collapse {
+  padding-left: 2rem;
+}
+
+.navbar-nav .nav-link {
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: var(--text-dark);
+  transition: color 0.3s ease;
+  /* Smooth transition */
+}
+
+.navbar .btn-primary {
+  background-color: var(--darkred);
+  color: var(--lightgrey);
+  font-weight: 800;
+  border: none;
+  font-size: 16px;
+  /* Adjust font size */
+  padding: 10px 20px;
+  /* Add padding for a larger button */
+}
+
+/* Optional: Customize the hover effect */
+.navbar .btn-primary:hover {
+  background-color: #612116;
+  /* Hover effect color */
+}
+
+
+.navbar-nav .nav-link:active,
+.navbar-nav .nav-link:hover {
+  color: black;
+}
+
+.navbar-nav .login-btn:active,
+.navbar-nav .login-btn:hover {
+  color: var(--dark-red);
+}
+
+.navbar-nav .nav-item {
+  width: max-content;
+}
+
+/* End Navbar */
+
+/* Header section */
+.header {
+  padding: 0 3rem;
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  align-items: center;
+
+}
+
+.header .donate-btn {
+  background-color: var(--darkred);
+  color: var(--lightgrey);
+  font-weight: 800;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  /* Adjust font size */
+  padding: 10px 20px;
+  /* Add padding for a larger button */
+}
+
+.content {
+  padding-left: 2rem;
+}
+
+.content h1 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.content h1 span {
+  font-weight: 400;
+}
+
+.content h4 {
+  margin-bottom: 2rem;
+  color: var(--text-dark);
+  line-height: 1.75rem;
+}
+
+.image {
+  position: relative;
+  text-align: center;
+  isolation: isolate;
+}
+
+.image__bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 450px;
+  width: 450px;
+  background-color: var(--lightgrey);
+  border-radius: 100%;
+  z-index: -1;
+}
+
+.image img {
+  width: 100%;
+  max-width: 475px;
+  margin-left: 2rem;
+}
+
+.image__content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-align: left;
+  background-color: var(--white);
+  border-radius: 5px;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.image__content__1 {
+  transform: translate(calc(-50% - 9rem), calc(-50% - 8rem));
+}
+
+.image__content__1 span {
+  padding: 10px 12px;
+  font-size: 1.5rem;
+  background-color: #defcf4;
+  border-radius: 100%;
+}
+
+.image__content__1 h4 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.image__content__1 p {
+  color: var(--text-dark);
+}
+
+.image__content__2 {
+  transform: translate(calc(-50% + 9.5rem), calc(-50% + 12rem));
+}
+
+.image__content__2 ul {
+  list-style: none;
+  display: grid;
+  gap: 1rem;
+}
+
+.image__content__2 li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  color: var(--text-dark);
+}
+
+.image__content__2 span {
+  font-size: 1.5rem;
+  color: var(--darkred);
+}
+
+/* General Section Styling */
+.section {
+  padding: 4rem 1rem;
+  text-align: center;
+  scroll-margin-top: 5rem;
+  /* Offset for fixed navbar */
+}
+
+.section h2 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--darkred);
+  margin-bottom: 1.5rem;
+}
+
+.section p {
+  color: var(--text-dark);
+  line-height: 1.75rem;
+  max-width: 800px;
+  margin: 0 auto 2rem;
+}
+
+/* Why Donate Section */
+.why-donate {
+  background-color: var(--white);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.card {
+  background-color: var(--lightgrey);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card i {
+  font-size: 2.5rem;
+  color: var(--darkred);
+  margin-bottom: 1rem;
+}
+
+.card h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+/* Donation Process Section */
+.donation-process {
+  background-color: var(--lightgrey);
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.step {
+  background-color: var(--white);
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.step span {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  background-color: var(--darkred);
+  color: var(--white);
+  border-radius: 50%;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.step h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+/* Call to Action Section */
+.cta {
+  background-color: var(--white);
+  padding: 0rem 3rem;
+  /* Reduce side padding to bring content in */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Center the two sides naturally */
+  gap: 0.5rem;
+  /* Smaller gap between text and image */
+  scroll-margin-top: 5rem;
+}
+
+.cta .cta-text {
+  flex: 1;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-right: 5rem;
+  /* Push text a bit to the right */
+}
+
+.cta .cta-text h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--darkred);
+  margin-bottom: 0.5rem;
+}
+
+.cta .cta-text p {
+  font-size: 1.2rem;
+  color: var(--text-dark);
+  line-height: 1.5rem;
+  margin-bottom: 1rem;
+  /* Space for the button below */
+}
+
+.cta .cta-text .btn {
+  font-size: 20px;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  color: var(--lightgrey);
+  background-color: var(--darkred);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.cta .cta-text .btn:hover {
+  background-color: #7a2312;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.cta .cta-image {
+  flex: 1;
+  text-align: right;
+  padding-left: 5rem;
+  /* Push image a bit to the left */
+}
+
+.cta .cta-image img {
+  max-width: 100%;
+  height: auto;
+  max-height: 450px;
+}
+
+
+
+/* Footer Section */
+.footer {
+  background-color: #62180B;
+  color: var(--text-light);
+  padding: 3rem 1rem;
+  scroll-margin-top: 5rem;
+  /* Offset for fixed navbar */
+}
+
+
+.footer__content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.footer__section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.footer__section p,
+.footer__section ul {
+  font-size: 1rem;
+  line-height: 1.75rem;
+}
+
+.footer__section ul {
+  list-style: none;
+}
+
+.footer__section ul li {
+  margin-bottom: 0.5rem;
+}
+
+.footer__section ul li a {
+  color: var(--text-light);
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.footer__section ul li a:hover {
+  color: var(--darkred);
+}
+
+.footer__bottom {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--darkgrey);
+}
+
+/* Responsive Design */
+@media (width < 900px) {
+  .nav__links {
+    display: none;
+  }
+
+  .nav__logo {
+    margin-left: 1rem;
+  }
+
+  nav .btn {
+    margin-right: 1rem;
+  }
+
+  .header {
+    padding: 1rem;
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .content {
+    padding-left: 1rem;
+    text-align: center;
+  }
+
+  .image {
+    grid-area: 1/1/2/2;
+  }
+
+  .image img {
+    margin-left: 0;
+  }
+
+  .cards,
+  .steps {
+    grid-template-columns: 1fr;
+  }
+
+  .footer__content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+
+
+/* Start login form*/
+#login-body {
+  background-color: #e7e8ea;
+}
+
+.login-image img {
+  max-width: 400px;
+  height: auto;
+  margin-left: 2rem;
+  transform: translateY(-10%);
+
+}
+
+.login-form {
+  background-color: var(--white);
+  padding: 2.5rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  margin-left: 2rem;
+}
+
+.login-form h2 {
+  text-align: center;
+  color: var(--darkred);
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--darkgrey);
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.signup-link {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.signup-link a {
+  color: var(--darkred);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input[type="password"],
+.password-wrapper input[type="text"] {
+  padding-right: 40px;
+  width: 100%;
+}
+
+.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+  color: #666;
+}
+
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 2rem;
+  font-size: small;
+  width: auto;
+
+}
+
+
+.role-btn {
+  background-color: transparent;
+  border: 1px solid var(--darkred);
+  color: var(--darkred);
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s, color 0.3s;
+  width: 100%;
+}
+
+.role-btn:hover {
+  background-color: #d5d5d5;
+}
+
+.btn-login {
+  width: 100%;
+  background-color: #7a2312;
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 0.1rem;
+  margin-bottom: 12px;
+}
+
+.welcome-text {
+  text-align: left;
+  font-size: 1.4rem;
+  color: #7a2312;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+#login-title {
+  text-align: left;
+  color: #9e9e9e;
+  font-size: 1rem;
+}
+
+/* End login form*/
+
+/* Start Registeration Form */
+.registration-form {
+  background-color: rgba(255, 254, 254, 0.408);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding: 2rem;
+}
+
+.registration-form h2 {
+  color: var(--darkred);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.role-options label {
+  margin-right: 1rem;
+}
+
+#donorFields .title {
+  font-size: 1.3rem;
+  color: var(--darkred);
+}
+
+#hospitalFields .title {
+  font-size: 1.3rem;
+  color: var(--darkred);
+}
+
+.personal-fields,
+.donation-fields,
+.hospital-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  /* 3 fields per row (if space allows) */
+  gap: 20px;
+  /* Space between fields */
+  padding: 1rem 1.5rem;
+}
+
+.input-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-field input,
+.input-field input:focus {
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.613);
+  color: rgb(94, 94, 94);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  /* Add a light border */
+  border-radius: 5px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.input-field select,
+.input-field select:focus {
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.613);
+  color: rgb(94, 94, 94);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 2rem;
+  margin-bottom: 2rem;
+}
+
+.submit-btn {
+  background-color: var(--darkred);
+  color: var(--white);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* End Registeration Form */
