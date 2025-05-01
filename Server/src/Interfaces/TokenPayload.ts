@@ -1,4 +1,5 @@
+import { Role } from "../constants/roles";
 export default interface tokenPayload {
     id:number;
-    role: "donor" | "admin"| "hospital_staff"|"sub_admin";
+    role: Role;
 }
