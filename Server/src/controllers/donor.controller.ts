@@ -2,7 +2,7 @@ import { Request,Response,NextFunction } from "express";
 import AuthRequest from "../Interfaces/AuthRequest";
 import { PrismaClient } from "../../generated/prisma";
 const prisma = new PrismaClient();
-
+import { DonorUpdateRequest } from "../Interfaces/DonorUpdate";
 
 export const getDonorProfile = async (req: AuthRequest, res: Response, next: NextFunction) => {
     const userId = req.user?.id;
@@ -58,8 +58,49 @@ export const getDonorProfile = async (req: AuthRequest, res: Response, next: Nex
 }
 
 export const updateDonorProfile = async (req: AuthRequest, res: Response, next: NextFunction) => {
-}
+    const userId = req.user?.id;
+  
+    if (!userId) {
+       res.status(400).json({ message: "User ID not found" });
+        return;
+    }
+  
+    try {
+      const { full_name, contact_phone, weight, address, last_donation_date, blood_type, medical_conditions, medications } = req.body as DonorUpdateRequest;
+      const donor_image = req.body.donor_image; // from Cloudinary middleware
+      const parsedDonationDate = last_donation_date ? new Date(last_donation_date) : null;
+      // Update the donor's profile in the database
+      const updatedDonor = await prisma.donors.update({
+        where: {
+          user_id: userId,  // Assuming user_id is the foreign key linking donors with users
+        },
+        data: {
+          full_name,
+          weight,
+          address,
+          last_donation_date,
+          blood_type,
+          medical_conditions,
+          medications,
+          donor_image,
+        },
+      });
+      const  updatedUser = await prisma.users.update({
+        where: {
+          user_id: userId,
+        },
+        data: {
+          contact_phone,
+        },
+      });
 
+       res.status(200).json({
+        message: "Donor profile updated successfully",
+      });
+    } catch (err) {
+      next(err); // Pass the error to the error-handling middleware
+    }
+  };
 export const  getAppointments=(req: AuthRequest, res: Response, next: NextFunction) => {
 }
 
