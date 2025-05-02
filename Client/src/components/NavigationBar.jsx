@@ -6,6 +6,15 @@ import "../styles/style.css";
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
+    // Check if there's a token in localStorage
+    const token = localStorage.getItem('token');
+
+    const handleLogout = () => {
+        // Clear the token from localStorage on logout
+        localStorage.removeItem('token');
+        window.location.href = "/";  // Redirect to home after logout
+    };
+
     return (
         <nav className="navbar navbar-expand-lg sticky-top">
             <Link to="/" className="navbar-brand d-flex align-items-center">
@@ -44,8 +53,17 @@ export default function Navbar() {
                         </Link>
                     </li>
                 </ul>
-                <Link to="/login" className="btn btn-primary ms-3">Login</Link>
+                {/* Conditionally render based on the presence of token */}
+                {token ? (
+                    <button className="btn btn-primary ms-3" onClick={handleLogout}>
+                        Logout
+                    </button>
+                ) : (
+                    <Link to="/login" className="btn btn-primary ms-3">
+                        Login
+                    </Link>
+                )}
             </div>
         </nav>
     );
-};
+}

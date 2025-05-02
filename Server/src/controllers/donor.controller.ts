@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 export const getDonorProfile = async (req: AuthRequest, res: Response, next: NextFunction) => {
     const userId = req.user?.id;
     if(!userId) {
-         res.status(400).json({ message: "Donor ID not found" });
+         res.status(400).json({ message: "User ID not found" });
         return;
     }
     try{
@@ -33,7 +33,7 @@ export const getDonorProfile = async (req: AuthRequest, res: Response, next: Nex
             id:user.user_id,
             email:user.email,
             contact_phone:user.contact_phone,
-            adress:donor.address,
+            address:donor.address,
             birth_date:donor.birth_date,
             blood_type:donor.blood_type,
             full_name:donor.full_name,
