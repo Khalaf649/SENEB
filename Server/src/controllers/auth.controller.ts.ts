@@ -8,44 +8,50 @@ import tokenPayload from "../Interfaces/TokenPayload";
 import { Role } from "../constants/roles";
 import bcrpt from "bcrypt";
 import {LoginRequest,RegisterDonorRequest} from "../Interfaces/auth.interface";
+import {User} from "../Interfaces/User";
 
 
- export const login= async (req: Request, res: Response, next: NextFunction) => {
-    const { email, password } = req.body as LoginRequest;
-    try {
-        const user = await prisma.users.findUnique({
-            where: { email },
-        });
+export const login = async (req: Request, res: Response, next: NextFunction) => {
+  const { email, password } = req.body as LoginRequest;
+  try {
+    const result: User[] = await prisma.$queryRaw<User[]>`SELECT * FROM users WHERE email = ${email}`;
 
-        if (!user) {
-             res.status(401).json({ message: "Invalid email or password" });
-            return;
-        } 
+    const user: User = result[0];
+    
+ // Assuming the result is an array of users and we need the first one
 
-        const isMatch = await bcrypt.compare(password, user.password);
+      if (!user) {
+          res.status(401).json({ message: "Invalid email or password" });
+          return;
+      }
 
-        if (!isMatch) {
-             res.status(401).json({ message: "Invalid email or password" });
-             return;
-        }
-        const payload: tokenPayload = {
-            id: user.user_id,
-            role: user.role as Role
-        };
-        const token = jwt.sign(
-            payload,
-            process.env.JWT_SECRET as string,
-            { expiresIn: "7d" }
-        );
-     
-        res.json({token});
-    } catch (error) {
-        next(error);
-    }
- }
+      const isMatch = await bcrypt.compare(password, user.password);
+
+      if (!isMatch) {
+          res.status(401).json({ message: "Invalid email or password" });
+          return;
+      }
+
+      const payload: tokenPayload = {
+          id: user.user_id,
+          role: user.role as Role
+      };
+
+      const token = jwt.sign(
+          payload,
+          process.env.JWT_SECRET as string,
+          { expiresIn: "7d" }
+      );
+
+      res.json({ token });
+  } catch (error) {
+      next(error);
+  }
+}
 
 
- export const donorRegister = async (req: Request, res: Response, next: NextFunction) => {
+
+export const donorRegister = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const {
       full_name,
@@ -62,42 +68,53 @@ import {LoginRequest,RegisterDonorRequest} from "../Interfaces/auth.interface";
       medical_conditions,
       weight,
     } = req.body as RegisterDonorRequest;
-    console.log(req.body)
+
+    console.log(req.body);
     const donor_image = req.body.donor_image; // from Cloudinary middleware
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    // Convert birth_date and last_donation_date to ISO strings
     const parsedBirthDate = new Date(birth_date);
     const parsedDonationDate = last_donation_date ? new Date(last_donation_date) : null;
 
-    // First, create the user
-    const user = await prisma.users.create({
-      data: {
-        email,
-        password: hashedPassword,
-        contact_phone: phone_number,
-        role: "donor",
-      },
-    });
+    // Insert user and get inserted user_id
+    const userInsertResult = await prisma.$queryRaw<
+      { user_id: number }[]
+    >`INSERT INTO users (email, password, contact_phone, role)
+       VALUES (${email}, ${hashedPassword}, ${phone_number}, 'donor')
+       RETURNING user_id`;
 
-    // Then create the donor record with the user's id
-    const donor = await prisma.donors.create({
-      data: {
-        user_id: user.user_id,
-        full_name,
-        national_id,
-        birth_date: parsedBirthDate,
-        gender,
-        address,
-        blood_type,
-        last_donation_date: parsedDonationDate,
-        medications,
-        medical_conditions,
-        weight: Number(weight),
-        donor_image,
-      },
-    });
+    const user_id = userInsertResult[0].user_id;
+
+    // Insert donor with that user_id
+    await prisma.$executeRaw`INSERT INTO donors (
+      user_id,
+      full_name,
+      national_id,
+      birth_date,
+      gender,
+      address,
+      blood_type,
+      last_donation_date,
+      medications,
+      medical_conditions,
+      weight,
+      donor_image
+    )
+    VALUES (
+      ${user_id},
+      ${full_name},
+      ${national_id},
+      ${parsedBirthDate},
+      ${gender},
+      ${address},
+      ${blood_type},
+      ${parsedDonationDate},
+      ${medications},
+      ${medical_conditions},
+      ${Number(weight)},
+      ${donor_image}
+    )`;
 
     res.status(201).json({ message: "Donor registered successfully" });
   } catch (error) {
@@ -105,6 +122,7 @@ import {LoginRequest,RegisterDonorRequest} from "../Interfaces/auth.interface";
     next(error);
   }
 };
+
 
  export const staffRegister= async (req: Request, res: Response, next: NextFunction) => {
  }
