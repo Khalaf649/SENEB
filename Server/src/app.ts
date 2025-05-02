@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+dotenv.config();
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import bcrpt from 'bcrypt';
@@ -9,6 +10,9 @@ import authRouter from "./routes/auth.routes";
 const port = process.env.PORT || 3000;
 const app = express();
 app.use(cors());
+
+
+
 app.use(bodyParser.json());
 
 app.use('/auth', authRouter);

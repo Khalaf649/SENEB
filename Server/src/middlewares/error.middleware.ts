@@ -10,7 +10,7 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  console.error(err.message);
+  console.error(err.stack);
 
   res.status(err.status || 500).json({
     success: false,

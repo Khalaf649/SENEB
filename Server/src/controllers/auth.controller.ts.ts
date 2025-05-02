@@ -38,7 +38,7 @@ import {LoginRequest,RegisterDonorRequest} from "../Interfaces/auth.interface";
             { expiresIn: "7d" }
         );
      
-
+          console.log(token);
         res.json({token});
     } catch (error) {
         next(error);
@@ -63,7 +63,7 @@ import {LoginRequest,RegisterDonorRequest} from "../Interfaces/auth.interface";
       medical_conditions,
       weight,
     } = req.body as RegisterDonorRequest;
-
+    console.log(req.body)
     const donor_image = req.body.donor_image; // from Cloudinary middleware
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);

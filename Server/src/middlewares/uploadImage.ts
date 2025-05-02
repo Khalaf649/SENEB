@@ -22,6 +22,7 @@ export const uploadToCloudinary = async (req: Request, res: Response, next: Next
     req.body.donor_image = imageUrl;
     next();
   } catch (err) {
+    console.error('Error uploading image to Cloudinary:', err);
     next(err);
   }
 };
