@@ -38,7 +38,6 @@ import {LoginRequest,RegisterDonorRequest} from "../Interfaces/auth.interface";
             { expiresIn: "7d" }
         );
      
-          console.log(token);
         res.json({token});
     } catch (error) {
         next(error);
