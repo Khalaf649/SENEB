@@ -7,6 +7,7 @@ import bcrpt from 'bcrypt';
 import { Request,Response,NextFunction } from 'express';
 import { errorHandler } from './middlewares/error.middleware';
 import authRouter from "./routes/auth.routes";
+import  donorRouter from "./routes/donor.routes";
 const port = process.env.PORT || 3000;
 const app = express();
 app.use(cors());
