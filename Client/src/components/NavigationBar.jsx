@@ -52,8 +52,16 @@ export default function Navbar() {
                             Contact Us
                         </Link>
                     </li>
+                    {/* Conditionally render Profile link if token exists */}
+                    {token && (
+                        <li className="nav-item mx-2">
+                            <Link to="/donorProfile" className="nav-link">
+                                Profile
+                            </Link>
+                        </li>
+                    )}
                 </ul>
-                {/* Conditionally render based on the presence of token */}
+                {/* Conditionally render Login/Logout button */}
                 {token ? (
                     <button className="btn btn-primary ms-3" onClick={handleLogout}>
                         Logout
