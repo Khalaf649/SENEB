@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/all.min.css';
 import '../../styles/style.css';
 import '../../styles/bootstrap.min.css';
@@ -31,6 +32,9 @@ export default function Register() {
 
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const navigate = useNavigate();
 
   const handleChange = (field) => (event) => {
     setFormData((data) => ({ ...data, [field]: event.target.value }));
@@ -44,19 +48,21 @@ export default function Register() {
     e.preventDefault();
 
     if (formData.password !== formData.confirm_password) {
-      alert("Passwords do not match");
+      setErrorMessage("Passwords do not match");
       return;
     }
 
     try {
       setLoading(true);
       setErrorMessage('');
+      setSuccessMessage('');
       const response = await registerDonor(formData);  // Call API function to register donor
       console.log('Response:', response);
 
       // Handle success
       if(response){
-        alert('Donor registered successfully');
+        setSuccessMessage('Donor registered successfully!');
+        setTimeout(() => navigate('/login'), 1000); // Redirect to login page after successful registration
       }
       
       // Optionally, reset the form or redirect to a different page
@@ -87,7 +93,7 @@ export default function Register() {
         <div className='container registration-form'>
           <h2>Registration</h2>
           <p>All fields (*) are mandatory</p>
-          {errorMessage && <div className="error-message">{errorMessage}</div>}
+          
           <hr />
           <div id='donorFields'>
             <span className='title mb-3'>Personal Details:</span>
@@ -113,6 +119,8 @@ export default function Register() {
               <TextInput label="Weight (kg)" required type="number" placeholder="Enter your weight" value={formData.weight} onChange={handleChange('weight')} />
             </div>
           </div>
+          {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+          {successMessage && <div className="alert alert-success">{successMessage}</div>}
           <div className="btn-container">
             <button type="submit" className="submit-btn" disabled={loading}>
               {loading ? 'Registering...' : 'Register'}

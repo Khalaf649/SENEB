@@ -16,6 +16,7 @@ export default function DonorProfile() {
         id: '',
         email: '',
         password: '',
+        contact_phone: '',
         weight: '',
         address: '',
         gender: '',
@@ -54,6 +55,7 @@ export default function DonorProfile() {
                     medications: profileData.medications || '',
                     medicalCondition: profileData.medical_conditions || '',
                     photo: profileData.donor_image || null, // use backend image URL
+                    contact_phone: profileData.contact_phone || '',
                 });
             } catch (error) {
                 console.error('Error fetching profile data:', error);
@@ -141,7 +143,7 @@ export default function DonorProfile() {
                                         label="National ID"
                                         value={formData.id}
                                         onChange={handleChange('id')}
-                                        disabled={!isEditable}
+                                        disabled={true}
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
@@ -150,14 +152,15 @@ export default function DonorProfile() {
                                         type="email"
                                         value={formData.email}
                                         onChange={handleChange('email')}
-                                        disabled={!isEditable}
+                                        disabled={true}
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <PasswordInput
-                                        label="Password"
-                                        value={formData.password}
-                                        onChange={handleChange('password')}
+                                    <TextInput
+                                        label="Phone Number"
+                                        type="tel"
+                                        value={formData.contact_phone}
+                                        onChange={handleChange('contact_phone')}
                                         disabled={!isEditable}
                                     />
                                 </div>
@@ -185,7 +188,7 @@ export default function DonorProfile() {
                                         value={formData.gender}
                                         onChange={handleChange('gender')}
                                         placeholder="Choose..."
-                                        disabled={!isEditable}
+                                        disabled={true}
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
@@ -201,7 +204,7 @@ export default function DonorProfile() {
                                         label="Birth Date"
                                         value={formData.dob}
                                         onChange={handleChange('dob')}
-                                        disabled={!isEditable}
+                                        disabled={true}
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">

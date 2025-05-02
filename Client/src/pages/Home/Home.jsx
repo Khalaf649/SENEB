@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import '../../styles/all.min.css';
 import '../../styles/style.css';
 import '../../styles/bootstrap.min.css';
@@ -11,6 +11,18 @@ import Navbar from '../../Components/NavigationBar';
 export default function Home() {
 
   const location = useLocation();
+
+  const navigate = useNavigate();
+
+  const handleDonateClick = () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login'); // Redirect to login page
+    } else {
+      // Proceed with donation or navigate to donation page
+      navigate('/donate'); // Change this to the actual donation route
+    }
+  };
 
   useEffect(() => {
     if (location.hash) {
@@ -35,7 +47,9 @@ export default function Home() {
             Your blood can give life, hope, and a second chance. Donate now — It
             only takes a moment, but the impact lasts forever.
           </h4>
-          <button className="donate-btn">Donate Now!</button>
+          <button className="donate-btn" onClick={handleDonateClick}>
+            Donate Now!
+          </button>
         </div>
         <div className="image">
           <span className="image__bg"></span>
@@ -133,7 +147,7 @@ export default function Home() {
         <div className="cta-text">
           <h1>Ready to Make a Difference?</h1>
           <p>Join our community of donors and help save lives today.</p>
-          <button className="btn">Become a Donor</button>
+          <button className="btn" onClick={handleDonateClick}>Become a Donor</button>
         </div>
         <div className="cta-image">
           <img src={bloodBag} alt="Blood donation bag" />

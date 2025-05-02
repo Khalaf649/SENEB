@@ -736,19 +736,20 @@ body {
 
 .profile-text {
   text-align: left;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   color: #7a2312;
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
 
 .user-photo {
-  width: 150px;
-  height: 150px;
+  width: 180px;
+  height: 180px;
   object-fit: cover;
   border-radius: 50%;
   border: 2px solid white;
   box-shadow: none;
+  margin: 1rem;
 }
 
 .btn-change-photo {
@@ -759,7 +760,7 @@ body {
   border-radius: 5px;
   font-size: 0.9rem;
   font-weight: 600;
-  margin-top: 0.2rem;
+  margin-top: 1rem;
   margin-bottom: 12px;
   margin-left: 12px;
   cursor: pointer;
