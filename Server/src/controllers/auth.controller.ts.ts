@@ -75,8 +75,6 @@ import {LoginRequest,RegisterDonorRequest} from "../Interfaces/auth.interface";
     // First, create the user
     const user = await prisma.users.create({
       data: {
-       // Generate a unique user ID
-        username: full_name,
         email,
         password: hashedPassword,
         contact_phone: phone_number,
