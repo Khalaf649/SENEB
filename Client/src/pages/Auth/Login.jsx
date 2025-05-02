@@ -16,6 +16,8 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+
 
   const navigate = useNavigate();
 
@@ -27,6 +29,7 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     setErrorMessage('');
+    setSuccessMessage('');
 
     try {
       // Prepare the credentials object
@@ -35,7 +38,7 @@ export default function Login() {
         password,
       };
 
-     
+
 
       // Pass the credentials to the login function
       const result = await loginDonor(credentials);
@@ -43,16 +46,19 @@ export default function Login() {
       if (result?.token) {
         // Store the JWT token in localStorage
         localStorage.setItem('token', result.token);
-        alert('Login successful!');
+        setSuccessMessage('Login successful!');
 
 
         // Redirect based on role
-        if (loginRole === 'Login as Donor') {
-          navigate('/donorProfile');
-        } else {
-          navigate('/staff/dashboard');
-        }
-      } else {
+        setTimeout(() => {
+          if (loginRole === 'Login as Donor') {
+            navigate('/donorProfile');
+          } else {
+            navigate('/staff/dashboard');
+          }
+        }, 1000); // Give time to show the message before navigating
+      } 
+      else {
         setErrorMessage('Login failed. Please check your credentials.');
       }
     } catch (error) {
@@ -83,6 +89,10 @@ export default function Login() {
                 {/* Display error message if any */}
                 {errorMessage && (
                   <div className="alert alert-danger">{errorMessage}</div>
+                )}
+                {/* Display success message if any */}
+                {successMessage && (
+                  <div className="alert alert-success">{successMessage}</div>
                 )}
 
                 {/* Email Input */}
