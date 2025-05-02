@@ -17,6 +17,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/auth', authRouter);
+app.use('/donor', donorRouter);
 
 app.use(errorHandler);
 

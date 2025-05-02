@@ -1,8 +1,60 @@
 import { Request,Response,NextFunction } from "express";
 import AuthRequest from "../Interfaces/AuthRequest";
+import { PrismaClient } from "../../generated/prisma";
+const prisma = new PrismaClient();
 
 
 export const getDonorProfile = async (req: AuthRequest, res: Response, next: NextFunction) => {
+    const userId = req.user?.id;
+    if(!userId) {
+         res.status(400).json({ message: "Donor ID not found" });
+        return;
+    }
+    try{
+        const donor=await prisma.donors.findUnique({
+            where:{
+                user_id:userId
+            }
+        })
+        if(!donor) {
+            res.status(404).json({ message: "Donor not found" });
+            return;
+        }
+        const user=await prisma.users.findUnique({
+            where:{
+                user_id:userId
+            }
+        })
+        if(!user) {
+            res.status(404).json({ message: "User not found" });
+            return;
+        }
+       const donorProfile={
+            id:user.user_id,
+            email:user.email,
+            contact_phone:user.contact_phone,
+            adress:donor.address,
+            birth_date:donor.birth_date,
+            blood_type:donor.blood_type,
+            full_name:donor.full_name,
+            gender:donor.gender,
+            weight:donor.weight,
+            national_id:donor.national_id,
+            last_donation_date:donor.last_donation_date,
+            medications:donor.medications,
+            medical_conditions:donor.medical_conditions,
+            donor_image:donor.donor_image,
+       }
+         res.status(200).json(donorProfile);
+
+    }
+    catch(err) {
+        next(err);
+    }
+
+
+
+
 }
 
 export const updateDonorProfile = async (req: AuthRequest, res: Response, next: NextFunction) => {
