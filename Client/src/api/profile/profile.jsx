@@ -24,3 +24,20 @@ export const fetchDonorProfile = async (token) => {
         throw error;  // Re-throw error to be handled in the component
     }
 };
+export const updateDonorProfile = async (token, updatedProfile) => {
+    const response = await fetch('http://localhost:3000/donor/profile', {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedProfile),
+    });
+  
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to update profile');
+    }
+  
+    return await response.json();
+  };

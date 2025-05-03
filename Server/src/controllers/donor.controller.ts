@@ -64,7 +64,6 @@ export const updateDonorProfile = async (req: AuthRequest, res: Response, next: 
        res.status(400).json({ message: "User ID not found" });
         return;
     }
-  console.log(10);
     try {
       const { full_name, contact_phone, weight, address, last_donation_date, blood_type, medical_conditions, medications } = req.body as DonorUpdateRequest;
       const donor_image = req.body.donor_image; // from Cloudinary middleware

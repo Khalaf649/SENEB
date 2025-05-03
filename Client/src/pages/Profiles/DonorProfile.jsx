@@ -5,17 +5,15 @@ import '../../styles/bootstrap.min.css';
 import userPhoto from '../../assets/images/user-photo.png';
 import Navbar from '../../Components/NavigationBar';
 import TextInput from '../../components/Auth/TextInput';
-import PasswordInput from '../../components/Auth/PasswordInput';
 import SelectInput from '../../components/Auth/SelectInput';
 import DateInput from '../../components/Auth/DateInput';
-import { fetchDonorProfile } from '../../api/profile/profile';
+import { fetchDonorProfile,updateDonorProfile } from '../../api/profile/profile';
 
 export default function DonorProfile() {
     const [formData, setFormData] = useState({
         name: '',
         id: '',
         email: '',
-        password: '',
         contact_phone: '',
         weight: '',
         address: '',
@@ -28,8 +26,18 @@ export default function DonorProfile() {
         photo: null,
     });
 
-    const [isEditable, setIsEditable] = useState(false);
+    const [editableData, setEditableData] = useState({
+        name: '',
+        contact_phone: '',
+        weight: '',
+        address: '',
+        lastDonation: '',
+        bloodType: '',
+        medications: '',
+        medicalCondition: ''
+    });
 
+    const [isEditable, setIsEditable] = useState(false);
     const token = localStorage.getItem('token');
 
     useEffect(() => {
@@ -41,7 +49,6 @@ export default function DonorProfile() {
 
             try {
                 const profileData = await fetchDonorProfile(token);
-                console.log('Profile Data:', profileData);
                 setFormData({
                     name: profileData.full_name || '',
                     id: profileData.national_id || '',
@@ -49,13 +56,23 @@ export default function DonorProfile() {
                     weight: profileData.weight || '',
                     address: profileData.address || '',
                     gender: profileData.gender || '',
-                    lastDonation: profileData.last_donation_date ? profileData.last_donation_date.split('T')[0] : '',
-                    dob: profileData.birth_date ? profileData.birth_date.split('T')[0] : '',
+                    lastDonation: profileData.last_donation_date?.split('T')[0] || '',
+                    dob: profileData.birth_date?.split('T')[0] || '',
                     bloodType: profileData.blood_type || '',
                     medications: profileData.medications || '',
                     medicalCondition: profileData.medical_conditions || '',
-                    photo: profileData.donor_image || null, // use backend image URL
+                    photo: profileData.donor_image || null,
                     contact_phone: profileData.contact_phone || '',
+                });
+                setEditableData({
+                    name: profileData.full_name || '',
+                    contact_phone: profileData.contact_phone || '',
+                    weight: profileData.weight || '',
+                    address: profileData.address || '',
+                    lastDonation: profileData.last_donation_date?.split('T')[0] || '',
+                    bloodType: profileData.blood_type || '',
+                    medications: profileData.medications || '',
+                    medicalCondition: profileData.medical_conditions || '',
                 });
             } catch (error) {
                 console.error('Error fetching profile data:', error);
@@ -66,14 +83,7 @@ export default function DonorProfile() {
     }, [token]);
 
     const handleChange = (field) => (event) => {
-        setFormData((data) => ({ ...data, [field]: event.target.value }));
-    };
-
-    const handlePhotoChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            setFormData((data) => ({ ...data, photo: file }));
-        }
+        setEditableData((data) => ({ ...data, [field]: event.target.value }));
     };
 
     const genderOptions = [
@@ -92,158 +102,164 @@ export default function DonorProfile() {
         { value: 'O-', label: 'O-' },
     ];
 
-    const toggleEditMode = () => {
-        setIsEditable((editable) => !editable);
+    const handleSubmit = async () => {
+        if (!token) {
+            alert('Token not found.');
+            return;
+        }
+
+        const updatedProfile = {
+            full_name: editableData.name,
+            contact_phone: editableData.contact_phone,
+            weight: editableData.weight,
+            address: editableData.address,
+            blood_type: editableData.bloodType,
+            medications: editableData.medications,
+            medical_conditions: editableData.medicalCondition,
+          };
+          
+          if (editableData.lastDonation) {
+            updatedProfile.last_donation_date = new Date(editableData.lastDonation).toISOString();
+          }
+          
+
+          try {
+            const result = await updateDonorProfile(token, updatedProfile);
+            console.log('Profile updated:', result);
+            alert('Profile updated successfully!');
+            setIsEditable(false);
+          } catch (error) {
+            console.error('Update failed:', error);
+            alert(error.message || 'Failed to update profile.');
+          }
+    };
+
+    const handleButtonClick = () => {
+        if (isEditable) {
+            handleSubmit(); // Save changes
+        } else {
+            setIsEditable(true); // Enable edit mode
+        }
     };
 
     return (
         <>
             <Navbar />
             <div className="container profile-container">
-                <h1 className="profile-text" style={{ color: '#7a2617' }}>
-                    Donor Profile
-                </h1>
+                <h1 className="profile-text" style={{ color: '#7a2617' }}>Donor Profile</h1>
                 <div className="d-flex align-items-start mb-4">
                     <div className="me-4 text-center">
                         <img
-                            src={
-                                formData.photo
-                                    ? typeof formData.photo === 'string'
-                                        ? formData.photo
-                                        : URL.createObjectURL(formData.photo)
-                                    : userPhoto
-                            }
+                            src={formData.photo ? formData.photo : userPhoto}
                             alt="User"
                             className="user-photo"
                         />
-                        <br />
-                        <label htmlFor="upload-photo" className="btn-change-photo">
-                            Change Photo
-                        </label>
-                        <input
-                            type="file"
-                            id="upload-photo"
-                            style={{ display: 'none' }}
-                            onChange={handlePhotoChange}
-                        />
                     </div>
                     <div className="flex-grow-1">
-                        <form className="donor-form">
-                            <div className="row">
-                                <div className="col-md-6 mb-3">
-                                    <TextInput
-                                        label="Full Name"
-                                        value={formData.name}
-                                        onChange={handleChange('name')}
-                                        disabled={!isEditable}
-                                    />
-                                </div>
-                                <div className="col-md-6 mb-3">
-                                    <TextInput
-                                        label="National ID"
-                                        value={formData.id}
-                                        onChange={handleChange('id')}
-                                        disabled={true}
-                                    />
-                                </div>
-                                <div className="col-md-6 mb-3">
-                                    <TextInput
-                                        label="Email"
-                                        type="email"
-                                        value={formData.email}
-                                        onChange={handleChange('email')}
-                                        disabled={true}
-                                    />
-                                </div>
-                                <div className="col-md-6 mb-3">
-                                    <TextInput
-                                        label="Phone Number"
-                                        type="tel"
-                                        value={formData.contact_phone}
-                                        onChange={handleChange('contact_phone')}
-                                        disabled={!isEditable}
-                                    />
-                                </div>
-                                <div className="col-md-6 mb-3">
-                                    <TextInput
-                                        label="Weight (kg)"
-                                        type="number"
-                                        value={formData.weight}
-                                        onChange={handleChange('weight')}
-                                        disabled={!isEditable}
-                                    />
-                                </div>
-                                <div className="col-md-6 mb-3">
-                                    <TextInput
-                                        label="Address"
-                                        value={formData.address}
-                                        onChange={handleChange('address')}
-                                        disabled={!isEditable}
-                                    />
-                                </div>
-                                <div className="col-md-6 mb-3">
-                                    <SelectInput
-                                        label="Gender"
-                                        options={genderOptions}
-                                        value={formData.gender}
-                                        onChange={handleChange('gender')}
-                                        placeholder="Choose..."
-                                        disabled={true}
-                                    />
-                                </div>
-                                <div className="col-md-6 mb-3">
-                                    <DateInput
-                                        label="Last Donation Date"
-                                        value={formData.lastDonation}
-                                        onChange={handleChange('lastDonation')}
-                                        disabled={!isEditable}
-                                    />
-                                </div>
-                                <div className="col-md-6 mb-3">
-                                    <DateInput
-                                        label="Birth Date"
-                                        value={formData.dob}
-                                        onChange={handleChange('dob')}
-                                        disabled={true}
-                                    />
-                                </div>
-                                <div className="col-md-6 mb-3">
-                                    <SelectInput
-                                        label="Blood Type"
-                                        options={bloodOptions}
-                                        value={formData.bloodType}
-                                        onChange={handleChange('bloodType')}
-                                        placeholder="Choose Blood Type"
-                                        disabled={!isEditable}
-                                    />
-                                </div>
-                                <div className="col-md-12 mb-3">
-                                    <TextInput
-                                        label="Medical Conditions"
-                                        value={formData.medicalCondition}
-                                        onChange={handleChange('medicalCondition')}
-                                        disabled={!isEditable}
-                                        isTextArea="true"
-                                    />
-                                </div>
-                                <div className="col-md-12 mb-3">
-                                    <TextInput
-                                        label="Medications"
-                                        value={formData.medications}
-                                        onChange={handleChange('medications')}
-                                        disabled={!isEditable}
-                                        isTextArea="true"
-                                    />
-                                </div>
+                        <div className="row">
+                            <div className="col-md-6 mb-3">
+                                <TextInput
+                                    label="Full Name"
+                                    value={editableData.name}
+                                    onChange={handleChange('name')}
+                                    disabled={!isEditable}
+                                />
                             </div>
-                            <button
-                                type="button"
-                                className="btn update-btn mt-3"
-                                onClick={toggleEditMode}
-                            >
-                                {isEditable ? 'Save Changes' : 'Edit Profile'}
-                            </button>
-                        </form>
+                            <div className="col-md-6 mb-3">
+                                <TextInput
+                                    label="National ID"
+                                    value={formData.id}
+                                    disabled
+                                />
+                            </div>
+                            <div className="col-md-6 mb-3">
+                                <TextInput
+                                    label="Email"
+                                    type="email"
+                                    value={formData.email}
+                                    disabled
+                                />
+                            </div>
+                            <div className="col-md-6 mb-3">
+                                <TextInput
+                                    label="Phone Number"
+                                    type="tel"
+                                    value={editableData.contact_phone}
+                                    onChange={handleChange('contact_phone')}
+                                    disabled={!isEditable}
+                                />
+                            </div>
+                            <div className="col-md-6 mb-3">
+                                <TextInput
+                                    label="Weight (kg)"
+                                    type="number"
+                                    value={editableData.weight}
+                                    onChange={handleChange('weight')}
+                                    disabled={!isEditable}
+                                />
+                            </div>
+                            <div className="col-md-6 mb-3">
+                                <TextInput
+                                    label="Address"
+                                    value={editableData.address}
+                                    onChange={handleChange('address')}
+                                    disabled={!isEditable}
+                                />
+                            </div>
+                            <div className="col-md-6 mb-3">
+                                <SelectInput
+                                    label="Gender"
+                                    options={genderOptions}
+                                    value={formData.gender}
+                                    disabled
+                                />
+                            </div>
+                            <div className="col-md-6 mb-3">
+                                <DateInput
+                                    label="Last Donation Date"
+                                    value={editableData.lastDonation}
+                                    onChange={handleChange('lastDonation')}
+                                    disabled={!isEditable}
+                                />
+                            </div>
+                            <div className="col-md-6 mb-3">
+                                <DateInput
+                                    label="Birth Date"
+                                    value={formData.dob}
+                                    disabled
+                                />
+                            </div>
+                            <div className="col-md-6 mb-3">
+                                <SelectInput
+                                    label="Blood Type"
+                                    options={bloodOptions}
+                                    value={editableData.bloodType}
+                                    onChange={handleChange('bloodType')}
+                                    disabled={!isEditable}
+                                />
+                            </div>
+                            <div className="col-md-12 mb-3">
+                                <TextInput
+                                    label="Medical Conditions"
+                                    value={editableData.medicalCondition}
+                                    onChange={handleChange('medicalCondition')}
+                                    disabled={!isEditable}
+                                    isTextArea="true"
+                                />
+                            </div>
+                            <div className="col-md-12 mb-3">
+                                <TextInput
+                                    label="Medications"
+                                    value={editableData.medications}
+                                    onChange={handleChange('medications')}
+                                    disabled={!isEditable}
+                                    isTextArea="true"
+                                />
+                            </div>
+                        </div>
+                        <button type="button" className="btn update-btn mt-3" onClick={handleButtonClick}>
+                            {isEditable ? 'Save Changes' : 'Edit Profile'}
+                        </button>
                     </div>
                 </div>
             </div>

@@ -13,7 +13,7 @@ router.use(authMiddleware); // Apply auth middleware to all routes in this route
 router.use(roleMiddlware(["donor"])); // Apply role middleware to all routes in this router
 
 router.get("/profile", getDonorProfile);
-router.put("/profile",upload.single('donor_image'), donorUpdateValidator, validateRequest, uploadToCloudinary,  // Upload image and validate request
+router.put("/profile",upload.single('donor_image'), donorUpdateValidator, validateRequest,  // Upload image and validate request
      updateDonorProfile);
 router.get("/appointments", getAppointments);
 router.post("/appointments", createAppointment);
