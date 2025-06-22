@@ -27,7 +27,7 @@ export const registerDonor = async (formData) => {
       return null; // Also return null in case of unexpected errors
     }
   };
-  export const loginDonor = async (credentials) => {
+  export const login = async (credentials) => {
     try {
       // Send the credentials as JSON in the request body
       const response = await fetch('http://localhost:3000/auth/login', {
@@ -53,6 +53,3 @@ export const registerDonor = async (formData) => {
       return null; // Return null in case of an error
     }
   };
-  export const loginAdmin = async (credentials) => {};
-  export const loginSubAdmin = async (credentials) => {};
-  export const loginHealthFacility = async (credentials) => {};

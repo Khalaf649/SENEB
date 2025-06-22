@@ -8,6 +8,10 @@ export const loginValidator = [
     body("password")
       .isLength({ min: 6 })
       .withMessage("Password must be at least 6 characters."),
+    body("role")
+      .isIn(["admin", "donor", "hospital_staff",])
+      .withMessage("Role must be one of the following: admin, donor, hospital_staff")
+      .notEmpty().withMessage("Role is required"),
   ];
   
 

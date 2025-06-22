@@ -1,53 +1,65 @@
-import  { Request,Response,NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import { PrismaClient } from "../../generated/prisma"
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-const prisma= new PrismaClient();
+const prisma = new PrismaClient();
 const saltRounds = 10;
 import tokenPayload from "../Interfaces/TokenPayload";
 import { Role } from "../constants/roles";
 import bcrpt from "bcrypt";
-import {LoginRequest,RegisterDonorRequest} from "../Interfaces/auth.interface";
+import { LoginRequest, RegisterDonorRequest } from "../Interfaces/auth.interface";
 
 
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
-  const { email, password,role } = req.body as LoginRequest;
+  const { email, password, role } = req.body as LoginRequest;
   try {
-       const user = await prisma.users.findUnique({
-       where: { email },
-        });
+    const user = await prisma.users.findUnique({
+      where: { email },
+    });
 
-    
- // Assuming the result is an array of users and we need the first one
 
-      if (!user) {
-          res.status(401).json({ message: "Invalid email or password" });
-          return;
+    // Assuming the result is an array of users and we need the first one
+
+    if (!user) {
+      res.status(401).json({ message: "Invalid email or password" });
+      return;
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      res.status(401).json({ message: "Invalid email or password" });
+      return;
+    }
+    if (role === "admin") {
+      if (user.role !== "admin" && user.role !== "sub_admin") {
+        res.status(403).json({ message: "Inavlid email or password" });
+        return
       }
-
-      const isMatch = await bcrypt.compare(password, user.password);
-
-      if (!isMatch||user.role!==role) {
-          res.status(401).json({ message: "Invalid email or password" });
-          return;
+    } else {
+      if (user.role !== role) {
+        res.status(403).json({ message: "Inavlid email or password." });
+        return
       }
-  
+    }
 
-      const payload: tokenPayload = {
-          id: user.user_id,
-          role: user.role as Role
-      };
 
-      const token = jwt.sign(
-          payload,
-          process.env.JWT_SECRET as string,
-          { expiresIn: "7d" }
-      );
 
-      res.json({ token });
+    const payload: tokenPayload = {
+      id: user.user_id,
+      role: user.role as Role
+    };
+
+    const token = jwt.sign(
+      payload,
+      process.env.JWT_SECRET as string,
+      { expiresIn: "7d" }
+    );
+
+    res.json({ token,role:user.role });
   } catch (error) {
-      next(error);
+    next(error);
   }
 }
 
@@ -126,8 +138,8 @@ export const donorRegister = async (req: Request, res: Response, next: NextFunct
 };
 
 
- export const staffRegister= async (req: Request, res: Response, next: NextFunction) => {
- }
+export const staffRegister = async (req: Request, res: Response, next: NextFunction) => {
+}
 
-export const adminRegister= async (req: Request, res: Response, next: NextFunction) => {
+export const adminRegister = async (req: Request, res: Response, next: NextFunction) => {
 }

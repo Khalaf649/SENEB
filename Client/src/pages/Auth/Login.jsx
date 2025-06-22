@@ -8,7 +8,7 @@ import TextInput from '../../components/Auth/TextInput';
 import PasswordInput from '../../components/Auth/PasswordInput';
 import RoleSelector from '../../components/Auth/RoleSelector';
 import { Link, useNavigate } from "react-router-dom";
-import { loginDonor, loginAdmin, loginSubAdmin, loginHealthFacility } from '../../api/auth/authService';
+import { login } from '../../api/auth/authService';
 
 export default function Login() {
   const [loginRole, setLoginRole] = useState("donor");
@@ -45,35 +45,31 @@ export default function Login() {
       const credentials = {
         email,
         password,
+        role: loginRole,
       };
       let result;
 
-      if (loginRole === 'donor') {
-        result = await loginDonor(credentials);
-      } else if (loginRole === 'admin') {
-        result = await loginDonor(credentials); // Assuming admin login uses the same endpoint as donor
-      } else if (loginRole === 'sub_admin') {
-        result = await loginDonor(credentials); // Assuming sub-admin login uses the same endpoint as donor
-      } else if (loginRole === 'hospital_staff') {
-        result = await loginHealthFacility(credentials);
-      }
+      result=await login(credentials);
 
       if (result?.token) {
+        console.log('Login successful:', result);
         // Store the JWT token in localStorage
         localStorage.setItem('token', result.token);
-        localStorage.setItem('loginRole', loginRole);
+        localStorage.setItem('loginRole', result.role);
         setSuccessMessage('Login successful!');
 
 
         // Redirect based on role
+
+        const role= localStorage.getItem('loginRole');
         setTimeout(() => {
-          if (loginRole === 'donor') {
+          if (role === 'donor') {
             navigate('/donorProfile');
-          } else if (loginRole === 'admin') {
+          } else if (role === 'admin') {
             navigate('/adminDashboard');
-          } else if (loginRole === 'sub_admin') {
+          } else if (role === 'sub_admin') {
             navigate('/subAdminDashboard');
-          } else if (loginRole === 'hospital_staff') {
+          } else if (role === 'hospital_staff') {
             navigate('/healthFacilityDashboard');
           }
         }, 1000);
