@@ -8,10 +8,10 @@ import TextInput from '../../components/Auth/TextInput';
 import PasswordInput from '../../components/Auth/PasswordInput';
 import RoleSelector from '../../components/Auth/RoleSelector';
 import { Link, useNavigate } from "react-router-dom";
-import { loginDonor } from '../../api/auth/authService';
+import { loginDonor, loginStaff, loginHealthFacility } from '../../api/auth/authService';
 
 export default function Login() {
-  const [loginRole, setLoginRole] = useState("Login as Donor");
+  const [loginRole, setLoginRole] = useState("donor");
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -22,8 +22,15 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleRoleSelect = (role) => {
-    setLoginRole(role === 'donor' ? 'Login as Donor' : 'Login as Staff');
+    setLoginRole(role);
   };
+
+  const handleLoginRole = () => {
+    if (loginRole === 'donor') return 'Login as Donor';
+    if (loginRole === 'staff') return 'Login as Staff';
+    if (loginRole === 'healthFacility') return 'Login as Health Facility';
+    return 'Login';
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,11 +44,15 @@ export default function Login() {
         email,
         password,
       };
+      let result;
 
-
-
-      // Pass the credentials to the login function
-      const result = await loginDonor(credentials);
+      if(loginRole === 'donor'){
+        result = await loginDonor(credentials);
+      } else if(loginRole === 'staff'){
+        result = await loginDonor(credentials); // Assuming staff login uses the same function, will be adjusted
+      } else if(loginRole === 'healthFacility'){
+        result = await loginHealthFacility(credentials);
+      }
 
       if (result?.token) {
         // Store the JWT token in localStorage
@@ -51,10 +62,12 @@ export default function Login() {
 
         // Redirect based on role
         setTimeout(() => {
-          if (loginRole === 'Login as Donor') {
+          if (loginRole === 'donor') {
             navigate('/donorProfile');
-          } else {
-            navigate('/staff/dashboard');
+          } else if (loginRole === 'staff') {
+            navigate('/adminDashboard');
+          } else if (loginRole === 'healthFacility') {
+            navigate('/healthFacilityDashboard');
           }
         }, 1000); // Give time to show the message before navigating
       } 
@@ -84,7 +97,7 @@ export default function Login() {
             <div className='col-md-6 mt-3 mb-3'>
               <form className='login-form' onSubmit={handleSubmit}>
                 <p className='welcome-text'>Welcome to SENEB</p>
-                <h2 id='login-title'>{loginRole}</h2>
+                <h2 id='login-title'>{handleLoginRole()}</h2>
 
                 {/* Display error message if any */}
                 {errorMessage && (

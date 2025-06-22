@@ -2,6 +2,7 @@
   --darkred: #7a2617;
   --lightgrey: #dcdcdc;
   --darkgrey: #cdcbcb;
+  --dark-bg: #b1afaf;
   --text-dark: #111827;
   --text-light: #fffcef;
   --white: #ffffff;
@@ -69,24 +70,6 @@ body {
   /* Smooth transition */
 }
 
-.navbar .btn-primary {
-  background-color: var(--darkred);
-  color: var(--lightgrey);
-  font-weight: 800;
-  border: none;
-  font-size: 16px;
-  /* Adjust font size */
-  padding: 10px 20px;
-  /* Add padding for a larger button */
-}
-
-/* Optional: Customize the hover effect */
-.navbar .btn-primary:hover {
-  background-color: #612116;
-  /* Hover effect color */
-}
-
-
 .navbar-nav .nav-link:active,
 .navbar-nav .nav-link:hover {
   color: black;
@@ -100,7 +83,18 @@ body {
 .navbar-nav .nav-item {
   width: max-content;
 }
-
+.login-logout {
+  background-color: var(--darkred);
+  color: var(--lightgrey);
+  font-weight: 800;
+  border: none;
+  font-size: 16px;
+  /* Adjust font size */
+  padding: 10px 20px;
+}
+.login-logout:hover{
+  background-color: #612116;
+}
 /* End Navbar */
 
 /* Header section */
@@ -786,3 +780,77 @@ body {
   color: #ffffff;
 }
 /* End Donor profile */
+/* Start dashboard */
+/* Start Sidebar */
+.admin-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--darkred), #5a1a12);
+}
+.sidebar {
+  background: rgba(0, 0, 0, 0.5); /* semi-transparent dark gray */
+  backdrop-filter: blur(8px);        /* frosted glass effect */
+  -webkit-backdrop-filter: blur(8px); /* Safari support */
+  color: var(--lightgrey);
+  min-height: 100vh;
+}
+.sidebar-divider {
+  margin: 0.5rem 1rem;
+}
+
+.sidebar i{
+  color: var(--lightgrey);
+}
+/* Sidebar link color (default) */
+.sidebar-link {
+  display: block;                 /* Make it fill width */
+  width: 100%; 
+  color: var(--lightgrey);  /* Or any color code, e.g. #f8f9fa */
+  border-radius: 0.375rem;
+  transition: background 0.3s ease, color 0.3s ease;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* On hover */
+.sidebar-link:hover {
+  background: linear-gradient(135deg, var(--darkred), #5a1a12);
+  color: var(--lightgrey);        /* make text light on hover for contrast */
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+/* On active */
+.sidebar-link:active,
+.sidebar-link.active {
+  background: linear-gradient(135deg, var(--darkred), #5a1a12);
+  color: var(--lightgrey);
+}
+.sidebar-link:hover i {
+  color: var(--lightgrey); /* or any contrasting color you want on hover */
+}
+.sidebar-logo h4 {
+  color: #979797;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+/* End Sidebar */
+.main-content-wrapper {
+  min-height: 100vh;
+  
+  display: flex;
+  justify-content: center;    /* center horizontally */
+  align-items: center;        /* center vertically */
+  padding: 2rem;  
+}
+
+.main-content-inner {
+  background-color: var(--white);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  padding: 2rem;
+  width: 100%;
+  max-width: 1200px; 
+  min-height: 100%;
+}
+
+/* End dashboard */

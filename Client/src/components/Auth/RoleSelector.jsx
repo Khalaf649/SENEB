@@ -4,7 +4,7 @@ const RoleSelector = ({onSelect}) => {
     const roles = [
         {label: 'Donor', value: 'donor'},
         {label: 'BTD Staff', value: 'staff'},
-        {label: 'Health Facility Staff', value: 'staff'}
+        {label: 'Health Facility Staff', value: 'healthFacility'},
     ];
 
     return (

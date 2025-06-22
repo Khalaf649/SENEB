@@ -1,19 +1,16 @@
 import React from "react";
-import logo from "../../src/assets/images/seneb.png"; 
+import logo from "../../src/assets/images/seneb.png";
+import LoginLogoutButton from "../components/LoginLogoutButton";
 import "../styles/bootstrap.min.css";
 import "../styles/all.min.css";
 import "../styles/style.css";
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
-    // Check if there's a token in localStorage
     const token = localStorage.getItem('token');
+    const loginRole = localStorage.getItem('loginRole');
 
-    const handleLogout = () => {
-        // Clear the token from localStorage on logout
-        localStorage.removeItem('token');
-        window.location.href = "/";  // Redirect to home after logout
-    };
+
 
     return (
         <nav className="navbar navbar-expand-lg sticky-top">
@@ -33,9 +30,15 @@ export default function Navbar() {
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav ms-auto">
                     <li className="nav-item mx-2">
-                        <Link to={{ pathname: "/", hash: "#home" }} className="nav-link">
+                        <Link
+                            to="/"
+                            className="nav-link"
+                            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                        >
                             Home
                         </Link>
+
+
                     </li>
                     <li className="nav-item mx-2">
                         <Link to={{ pathname: "/", hash: "#why-donate" }} className="nav-link">
@@ -52,25 +55,9 @@ export default function Navbar() {
                             Contact Us
                         </Link>
                     </li>
-                    {/* Conditionally render Profile link if token exists */}
-                    {token && (
-                        <li className="nav-item mx-2">
-                            <Link to="/donorProfile" className="nav-link">
-                                Profile
-                            </Link>
-                        </li>
-                    )}
                 </ul>
                 {/* Conditionally render Login/Logout button */}
-                {token ? (
-                    <button className="btn btn-primary ms-3" onClick={handleLogout}>
-                        Logout
-                    </button>
-                ) : (
-                    <Link to="/login" className="btn btn-primary ms-3">
-                        Login
-                    </Link>
-                )}
+                <LoginLogoutButton className="ms-3" />
             </div>
         </nav>
     );

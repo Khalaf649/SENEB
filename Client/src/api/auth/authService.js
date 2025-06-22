@@ -53,4 +53,5 @@ export const registerDonor = async (formData) => {
       return null; // Return null in case of an error
     }
   };
-  
+  export const loginStaff = async (credentials) => {};
+  export const loginHealthFacility = async (credentials) => {};
