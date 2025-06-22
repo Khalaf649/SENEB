@@ -1,6 +1,8 @@
+import { Role } from "../constants/roles";
 export interface LoginRequest {
     email: string;
     password: string;
+    role: Role;
   }
   export interface RegisterDonorRequest {
     full_name: string;

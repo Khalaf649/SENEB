@@ -8,15 +8,16 @@ import tokenPayload from "../Interfaces/TokenPayload";
 import { Role } from "../constants/roles";
 import bcrpt from "bcrypt";
 import {LoginRequest,RegisterDonorRequest} from "../Interfaces/auth.interface";
-import {User} from "../Interfaces/User";
+
 
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
-  const { email, password } = req.body as LoginRequest;
+  const { email, password,role } = req.body as LoginRequest;
   try {
-    const result: User[] = await prisma.$queryRaw<User[]>`SELECT * FROM users WHERE email = ${email}`;
+       const user = await prisma.users.findUnique({
+       where: { email },
+        });
 
-    const user: User = result[0];
     
  // Assuming the result is an array of users and we need the first one
 
@@ -27,10 +28,11 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 
       const isMatch = await bcrypt.compare(password, user.password);
 
-      if (!isMatch) {
+      if (!isMatch||user.role!==role) {
           res.status(401).json({ message: "Invalid email or password" });
           return;
       }
+  
 
       const payload: tokenPayload = {
           id: user.user_id,
