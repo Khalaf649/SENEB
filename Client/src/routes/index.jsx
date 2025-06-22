@@ -4,8 +4,10 @@ import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import DonorProfile from "../pages/Profiles/DonorProfile";
 import Admin from "../pages/Dashboard/Admin";
-import Donor from "../pages/Dashboard/Donor";
-import HealthFacility from "../pages/Dashboard/HealthFaccility";
+import SubAdmin from "../pages/Dashboard/SubAdmin";
+import HealthFacility from "../pages/Dashboard/HealthFacility";
+
+
 
 export default function AppRoutes() {
   return (
@@ -15,9 +17,14 @@ export default function AppRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/donorProfile" element={<DonorProfile />} />
-        <Route path="/adminDashboard" element={<Admin/>} />
-        <Route path="/donorDashboard" element={<Donor/>} />
-        <Route path="/healthFacilityDashboard" element={<HealthFacility/>} />
+
+        {/* Admin Dashboard with nested routes */}
+        <Route path="/adminDashboard" element={<Admin />}>
+          
+        </Route>
+        
+        <Route path="/subAdminDashboard" element={<SubAdmin />} />
+        <Route path="/healthFacilityDashboard" element={<HealthFacility />} />
       </Routes>
     </Router>
   );

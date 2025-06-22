@@ -8,7 +8,7 @@ import TextInput from '../../components/Auth/TextInput';
 import PasswordInput from '../../components/Auth/PasswordInput';
 import RoleSelector from '../../components/Auth/RoleSelector';
 import { Link, useNavigate } from "react-router-dom";
-import { loginDonor, loginStaff, loginHealthFacility } from '../../api/auth/authService';
+import { loginDonor, loginAdmin, loginSubAdmin, loginHealthFacility } from '../../api/auth/authService';
 
 export default function Login() {
   const [loginRole, setLoginRole] = useState("donor");
@@ -25,12 +25,14 @@ export default function Login() {
     setLoginRole(role);
   };
 
-  const handleLoginRole = () => {
-    if (loginRole === 'donor') return 'Login as Donor';
-    if (loginRole === 'staff') return 'Login as Staff';
-    if (loginRole === 'healthFacility') return 'Login as Health Facility';
-    return 'Login';
-  }
+  const roleMap = {
+    donor: 'Login as Donor',
+    admin: 'Login as Staff',
+    sub_admin: 'Login as Staff',
+    hospital_staff: 'Login as Health Facility',
+  };
+
+  const handleLoginRole = () => roleMap[loginRole] || 'Login';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,17 +48,20 @@ export default function Login() {
       };
       let result;
 
-      if(loginRole === 'donor'){
+      if (loginRole === 'donor') {
         result = await loginDonor(credentials);
-      } else if(loginRole === 'staff'){
-        result = await loginDonor(credentials); // Assuming staff login uses the same function, will be adjusted
-      } else if(loginRole === 'healthFacility'){
+      } else if (loginRole === 'admin') {
+        result = await loginDonor(credentials); // Assuming admin login uses the same endpoint as donor
+      } else if (loginRole === 'sub_admin') {
+        result = await loginDonor(credentials); // Assuming sub-admin login uses the same endpoint as donor
+      } else if (loginRole === 'hospital_staff') {
         result = await loginHealthFacility(credentials);
       }
 
       if (result?.token) {
         // Store the JWT token in localStorage
         localStorage.setItem('token', result.token);
+        localStorage.setItem('loginRole', loginRole);
         setSuccessMessage('Login successful!');
 
 
@@ -64,13 +69,16 @@ export default function Login() {
         setTimeout(() => {
           if (loginRole === 'donor') {
             navigate('/donorProfile');
-          } else if (loginRole === 'staff') {
+          } else if (loginRole === 'admin') {
             navigate('/adminDashboard');
-          } else if (loginRole === 'healthFacility') {
+          } else if (loginRole === 'sub_admin') {
+            navigate('/subAdminDashboard');
+          } else if (loginRole === 'hospital_staff') {
             navigate('/healthFacilityDashboard');
           }
-        }, 1000); // Give time to show the message before navigating
-      } 
+        }, 1000);
+        // Give time to show the message before navigating
+      }
       else {
         setErrorMessage('Login failed. Please check your credentials.');
       }
@@ -139,7 +147,7 @@ export default function Login() {
                 </button>
 
                 {/* Role Selector */}
-                <RoleSelector onSelect={handleRoleSelect} />
+                <RoleSelector onSelect={handleRoleSelect} disabled={loading} />
 
                 {/* Sign up Link */}
                 <p className='signup-link mt-3'>
