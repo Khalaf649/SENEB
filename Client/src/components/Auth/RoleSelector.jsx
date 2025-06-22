@@ -3,8 +3,8 @@ import React from "react";
 const RoleSelector = ({onSelect}) => {
     const roles = [
         {label: 'Donor', value: 'donor'},
-        {label: 'BTD Staff', value: 'staff'},
-        {label: 'Health Facility Staff', value: 'healthFacility'},
+        {label: 'BTD Staff', value: 'admin'},
+        {label: 'Health Facility Staff', value: 'hospital_staff'},
     ];
 
     return (

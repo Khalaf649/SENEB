@@ -10,8 +10,6 @@ export default function Navbar() {
     const token = localStorage.getItem('token');
     const loginRole = localStorage.getItem('loginRole');
 
-
-
     return (
         <nav className="navbar navbar-expand-lg sticky-top">
             <Link to="/" className="navbar-brand d-flex align-items-center">

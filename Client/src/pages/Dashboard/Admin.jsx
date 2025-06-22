@@ -77,12 +77,6 @@ export default function Admin() {
                                     <i className="fas fa-user me-2"></i> My Profile
                                 </Link>
                             </li>
-                            <li className="nav-item">
-                                <Link className="nav-link sidebar-link" to="/">
-                                    <i className="fas fa-home me-2"></i> Home Page
-                                </Link>
-                            </li>
-
                         </div>
                     </ul>
                     <LoginLogoutButton />
