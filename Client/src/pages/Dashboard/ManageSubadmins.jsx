@@ -8,6 +8,7 @@ export default function ManageSubadmins() {
         id: 101,
         name: "Ahmed Ali",
         email: "ahmed@example.com",
+        contact: "01011223344",
       },
       bloodcenter: {
         id: 5,
@@ -20,10 +21,37 @@ export default function ManageSubadmins() {
         id: 102,
         name: "Sara Ibrahim",
         email: "sara@example.com",
+        contact: "01099887766",
       },
       bloodcenter: {
         id: 7,
         name: "Alexandria Blood Center",
+      },
+    },
+    {
+      sub_admin_id: 3,
+      user: {
+        id: 103,
+        name: "Salma Youssef",
+        email: "salma@hospital.com",
+        contact: "01234567890",
+      },
+      bloodcenter: {
+        id: 6,
+        name: "Giza Blood Center",
+      },
+    },
+    {
+      sub_admin_id: 4,
+      user: {
+        id: 104,
+        name: "Mohamed Tarek",
+        email: "mohamed@hospital.com",
+        contact: "01122334455",
+      },
+      bloodcenter: {
+        id: 5,
+        name: "Cairo Blood Center",
       },
     },
   ]);
@@ -32,6 +60,8 @@ export default function ManageSubadmins() {
     name: "",
     email: "",
     bloodcenterId: "",
+    password: "",
+    contact: "",
   });
 
   const [showModal, setShowModal] = useState(false);
@@ -55,6 +85,7 @@ export default function ManageSubadmins() {
                   ...s.user,
                   name: newSubadmin.name,
                   email: newSubadmin.email,
+                  contact: newSubadmin.contact,
                 },
                 bloodcenter: bloodCentersList.find(
                   (center) => center.id === newSubadmin.bloodcenterId
@@ -70,6 +101,7 @@ export default function ManageSubadmins() {
           id: Date.now() + 1,
           name: newSubadmin.name,
           email: newSubadmin.email,
+          contact: newSubadmin.contact,
         },
         bloodcenter: bloodCentersList.find(
           (center) => center.id === newSubadmin.bloodcenterId
@@ -89,27 +121,30 @@ export default function ManageSubadmins() {
       "Are you sure you want to delete this subadmin?"
     );
     if (confirmed) {
-      setSubadmins(subadmins.filter((subadmin) => subadmin.id !== id));
+      setSubadmins(
+        subadmins.filter((subadmin) => subadmin.sub_admin_id !== id)
+      );
     }
   };
 
   return (
     <div>
-      <h2 className="mb-4">Manage Subadmins</h2>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2 className="mb-4">Manage Subadmins</h2>
 
-      {/* Add Button */}
-      <button
-        className="btn btn-primary mb-3"
-        onClick={() => setShowModal(true)}
-      >
-        Add New Subadmin
-      </button>
-
+        {/* Add Button */}
+        <button
+          className="btn add-subadmin-btn"
+          onClick={() => setShowModal(true)}
+        >
+          Add Subadmin
+        </button>
+      </div>
       {/* Search Box */}
       <div className="mb-3">
         <input
           type="text"
-          className="form-control"
+          className="search-input"
           placeholder="Search by name or email..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -117,13 +152,15 @@ export default function ManageSubadmins() {
       </div>
 
       {/* Table */}
-      <table className="table table-hover align-middle shadow-sm rounded">
-        <thead>
+      <table className="table table-hover table-bordered align-middle text-center shadow-sm">
+        <thead className="subadmin-header">
           <tr>
             <th>#</th>
-            <th>Sub Admin ID</th>
+
             <th>Name</th>
             <th>Email</th>
+            <th>Contact</th>
+
             <th>Blood Center</th>
             <th>Actions</th>
           </tr>
@@ -142,18 +179,23 @@ export default function ManageSubadmins() {
             .map((subadmin, index) => (
               <tr key={subadmin.sub_admin_id}>
                 <td>{index + 1}</td>
-                <td>{subadmin.sub_admin_id}</td>
+
                 <td>{subadmin.user.name}</td>
                 <td>{subadmin.user.email}</td>
+                <td>{subadmin.user.contact || "-"}</td>
+
                 <td>{subadmin.bloodcenter.name}</td>
                 <td>
                   <button
-                    className="btn btn-warning btn-sm me-2"
+                    className="edit-btn me-2"
                     onClick={() => {
                       setNewSubadmin({
                         name: subadmin.user.name,
                         email: subadmin.user.email,
+
                         bloodcenterId: subadmin.bloodcenter.id,
+
+                        contact: subadmin.user.contact || "",
                       });
 
                       setEditId(subadmin.sub_admin_id);
@@ -164,7 +206,7 @@ export default function ManageSubadmins() {
                   </button>
 
                   <button
-                    className="btn btn-danger btn-sm"
+                    className="delete-btn"
                     onClick={() => handleDelete(subadmin.sub_admin_id)}
                   >
                     Delete
@@ -215,6 +257,39 @@ export default function ManageSubadmins() {
                     }
                   />
                 </div>
+
+                {!editId && (
+                  <div className="mb-3">
+                    <label className="form-label">Password</label>
+                    <input
+                      type="password"
+                      className="form-control"
+                      value={newSubadmin.password}
+                      onChange={(e) =>
+                        setNewSubadmin({
+                          ...newSubadmin,
+                          password: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                )}
+
+                <div className="mb-3">
+                  <label className="form-label">Contact Info</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={newSubadmin.contact}
+                    onChange={(e) =>
+                      setNewSubadmin({
+                        ...newSubadmin,
+                        contact: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+
                 <div className="mb-3">
                   <label className="form-label">Blood Center</label>
                   <select

@@ -8,9 +8,6 @@ import SubAdmin from "../pages/Dashboard/SubAdmin";
 import HealthFacility from "../pages/Dashboard/HealthFacility";
 import ManageSubadmins from "../pages/Dashboard/ManageSubadmins";
 
-
-
-
 export default function AppRoutes() {
   return (
     <Router>
@@ -21,13 +18,10 @@ export default function AppRoutes() {
         <Route path="/donorProfile" element={<DonorProfile />} />
 
         {/* Admin Dashboard with nested routes */}
-        <Route path="/Dashboard" element={<Admin />}>
-           <Route path="manage-subadmins" element={<ManageSubadmins />} />
+        <Route path="/adminDashboard" element={<Admin />}>
+          <Route path="manage-subadmins" element={<ManageSubadmins />} />
         </Route>
-       
 
-       
-        
         <Route path="/subAdminDashboard" element={<SubAdmin />} />
         <Route path="/healthFacilityDashboard" element={<HealthFacility />} />
       </Routes>
