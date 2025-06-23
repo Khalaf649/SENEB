@@ -33,6 +33,10 @@ export default function Admin() {
                                 <Link className="nav-link sidebar-link" to="manage-subadmins">
                                     <i className="fas fa-user-shield me-2"></i> Manage Subadmins
                                 </Link>
+         
+<Link className="nav-link sidebar-link" to="/Dashboard/manage-subadmins">
+  <i className="fas fa-user-shield me-2"></i> Manage Subadmins
+</Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link sidebar-link" to="manage-blood-centers">
