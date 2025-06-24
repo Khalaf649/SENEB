@@ -8,6 +8,8 @@ import tokenPayload from "../Interfaces/TokenPayload";
 import { Role } from "../constants/roles";
 import bcrpt from "bcrypt";
 import { LoginRequest, RegisterDonorRequest } from "../Interfaces/auth.interface";
+import { Prisma } from '@prisma/client';
+import { Decimal } from '@prisma/client/runtime/library';
 
 
 
@@ -57,7 +59,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
       { expiresIn: "7d" }
     );
 
-    res.json({ token,role:user.role });
+    res.json({ token, role: user.role });
   } catch (error) {
     next(error);
   }
@@ -83,7 +85,6 @@ export const donorRegister = async (req: Request, res: Response, next: NextFunct
       weight,
     } = req.body as RegisterDonorRequest;
 
-    console.log(req.body);
     const donor_image = req.body.donor_image; // from Cloudinary middleware
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -92,43 +93,37 @@ export const donorRegister = async (req: Request, res: Response, next: NextFunct
     const parsedDonationDate = last_donation_date ? new Date(last_donation_date) : null;
 
     // Insert user and get inserted user_id
-    const userInsertResult = await prisma.$queryRaw<
-      { user_id: number }[]
-    >`INSERT INTO users (email, password, contact_phone, role)
-       VALUES (${email}, ${hashedPassword}, ${phone_number}, 'donor')
-       RETURNING user_id`;
+    const user = await prisma.users.create({
+      data: {
+        // missing the name
+       email: email,
+        password: hashedPassword,
+        contact_phone: phone_number,
+        role: 'donor'
+      },
+      select: {
+        user_id: true
+      }
+    });
 
-    const user_id = userInsertResult[0].user_id;
+    const user_id = user.user_id;
 
-    // Insert donor with that user_id
-    await prisma.$executeRaw`INSERT INTO donors (
-      user_id,
-      full_name,
-      national_id,
-      birth_date,
-      gender,
-      address,
-      blood_type,
-      last_donation_date,
-      medications,
-      medical_conditions,
-      weight,
-      donor_image
-    )
-    VALUES (
-      ${user_id},
-      ${full_name},
-      ${national_id},
-      ${parsedBirthDate},
-      ${gender},
-      ${address},
-      ${blood_type},
-      ${parsedDonationDate},
-      ${medications},
-      ${medical_conditions},
-      ${Number(weight)},
-      ${donor_image}
-    )`;
+    await prisma.donors.create({
+      data: {
+        user_id: user_id,
+        national_id: national_id,
+        birth_date: parsedBirthDate,
+        gender: gender,
+        address: address,
+        blood_type: blood_type,
+        last_donation_date: parsedDonationDate,
+        medications: medications || null,
+        medical_conditions: medical_conditions || null,
+         weight: new Decimal(weight),
+        donor_image: donor_image
+      }
+    });
+
 
     res.status(201).json({ message: "Donor registered successfully" });
   } catch (error) {
