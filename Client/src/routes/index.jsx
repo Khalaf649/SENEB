@@ -3,10 +3,13 @@ import Home from "../pages/Home/Home";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import DonorProfile from "../pages/Profiles/DonorProfile";
-import Admin from "../pages/Dashboard/Admin/Admin";
-import SubAdmin from "../pages/Dashboard/SubAdmin/SubAdmin";
-import HealthFacility from "../pages/Dashboard/HealthFacility/HealthFacility";
-import ManageSubadmins from "../pages/Dashboard/Admin/ManageSubadmins";
+
+import Admin from "../pages/Dashboard/Admin";
+import SubAdmin from "../pages/Dashboard/SubAdmin";
+import HealthFacility from "../pages/Dashboard/HealthFacility";
+import ManageSubadmins from "../pages/Dashboard/ManageSubadmins";
+import ManageBloodCenters from "../pages/Dashboard/ManageBloodCenters";
+
 
 export default function AppRoutes() {
   return (
@@ -20,6 +23,7 @@ export default function AppRoutes() {
         {/* Admin Dashboard with nested routes */}
         <Route path="/adminDashboard" element={<Admin />}>
           <Route path="manage-subadmins" element={<ManageSubadmins />} />
+          <Route path="manage-blood-centers" element={<ManageBloodCenters />} />
         </Route>
 
         <Route path="/subAdminDashboard" element={<SubAdmin />} />
