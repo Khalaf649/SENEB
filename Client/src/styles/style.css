@@ -853,7 +853,6 @@ body {
 /* End Sidebar */
 .main-content-wrapper {
   min-height: 100vh;
-
   display: flex;
   justify-content: center;
   /* center horizontally */
