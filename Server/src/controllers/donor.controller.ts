@@ -31,12 +31,12 @@ export const getDonorProfile = async (req: AuthRequest, res: Response, next: Nex
         }
        const donorProfile={
             id:user.user_id,
+            name:user.name,
             email:user.email,
             contact_phone:user.contact_phone,
             address:donor.address,
             birth_date:donor.birth_date,
             blood_type:donor.blood_type,
-            full_name:donor.full_name,
             gender:donor.gender,
             weight:donor.weight,
             national_id:donor.national_id,
@@ -74,7 +74,6 @@ export const updateDonorProfile = async (req: AuthRequest, res: Response, next: 
           user_id: userId,  // Assuming user_id is the foreign key linking donors with users
         },
         data: {
-          full_name,
           weight,
           address,
           last_donation_date,
@@ -89,6 +88,7 @@ export const updateDonorProfile = async (req: AuthRequest, res: Response, next: 
           user_id: userId,
         },
         data: {
+          name:full_name,
           contact_phone,
         },
       });

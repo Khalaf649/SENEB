@@ -75,7 +75,6 @@ model donationhistory {
 model donors {
   donor_id           Int               @id @default(autoincrement())
   user_id            Int               @unique
-  full_name          String            @db.VarChar(100)
   national_id        String            @unique @db.VarChar(20)
   birth_date         DateTime          @db.Date
   gender             String            @db.VarChar(10)
@@ -93,7 +92,6 @@ model donors {
 
 model hospitalstaff {
   staff_id      Int             @id @default(autoincrement())
-  hospital_name String          @db.VarChar(100)
   user_id       Int             @unique
   address       String          @db.VarChar(255)
   bloodrequests bloodrequests[]
@@ -115,6 +113,7 @@ model users {
   email         String         @unique @db.VarChar(100)
   contact_phone String         @db.VarChar(20)
   role          String         @db.VarChar(20)
+  name          String         @db.VarChar(100)
   admins        admins?
   donors        donors?
   hospitalstaff hospitalstaff?

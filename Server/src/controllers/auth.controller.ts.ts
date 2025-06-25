@@ -95,7 +95,7 @@ export const donorRegister = async (req: Request, res: Response, next: NextFunct
     // Insert user and get inserted user_id
     const user = await prisma.users.create({
       data: {
-        // missing the name
+        name:full_name,
        email: email,
         password: hashedPassword,
         contact_phone: phone_number,
