@@ -1,6 +1,6 @@
 // middleware/validateTokenPayload.ts
 import { body } from 'express-validator';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../../generated/prisma';
 
 const prisma = new PrismaClient();
 
@@ -27,7 +27,7 @@ export const validateSubAdmin = [
   body('email')
     .isEmail().withMessage('Email must be valid')
     .custom(async (email) => {
-      const existing = await prisma.user.findUnique({ where: { email } });
+      const existing = await prisma.users.findUnique({ where: { email } });
       if (existing) {
         throw new Error('Email already in use');
       }
