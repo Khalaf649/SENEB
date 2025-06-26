@@ -31,7 +31,7 @@ export const getDonorProfile = async (req: AuthRequest, res: Response, next: Nex
         }
        const donorProfile={
             id:user.user_id,
-            name:user.name,
+            full_name:user.name,
             email:user.email,
             contact_phone:user.contact_phone,
             address:donor.address,

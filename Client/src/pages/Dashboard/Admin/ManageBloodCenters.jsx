@@ -1,85 +1,69 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import { createBloodCenter, getBloodCenters, updateBloodCenter, deleteBloodCenter } from "../../../api/admin/admin";
 export default function ManageBloodCenters() {
-  const [bloodCenters, setBloodCenters] = useState([
-    {
-      id: 1,
-      name: "Cairo Blood Center",
-      address: "123 Nile Street, Cairo",
-      contact: "01012345678",
-    },
-    {
-      id: 2,
-      name: "Alexandria Blood Center",
-      address: "45 Sea Road, Alexandria",
-      contact: "01234567890",
-    },
-    {
-      id: 3,
-      name: "Nasr City Blood Center",
-      address: "18 Abbas El Akkad Street, Nasr City",
-      contact: "01099887766",
-    },
-    {
-      id: 4,
-      name: "Heliopolis Blood Center",
-      address: "56 El Merghany Street, Heliopolis",
-      contact: "01111222333",
-    },
-    {
-      id: 5,
-      name: "Maadi Blood Center",
-      address: "22 Road 9, Maadi",
-      contact: "01223334455",
-    },
-    {
-      id: 6,
-      name: "Zamalek Blood Center",
-      address: "15 Brazil Street, Zamalek",
-      contact: "01055667788",
-    },
-  ]);
-
+  const [bloodCenters, setBloodCenters] = useState([]);
   const [editId, setEditId] = useState(null);
-
   const [newCenter, setNewCenter] = useState({
     name: "",
     address: "",
     contact: "",
   });
 
-  const handleAddCenter = () => {
-    if (!newCenter.name || !newCenter.address || !newCenter.contact) {
+  // 🔁 Load centers from backend
+  useEffect(() => {
+    const fetchCenters = async () => {
+      const data = await getBloodCenters();
+      console.log(data)
+      if (data) setBloodCenters(data);
+    };
+    fetchCenters();
+  }, []);
+
+  const handleAddCenter = async () => {
+    const { name, address, contact } = newCenter;
+
+    if (!name || !address || !contact) {
       alert("Please fill in all fields.");
       return;
     }
 
     if (editId) {
-      const updated = bloodCenters.map((center) =>
-        center.id === editId ? { ...center, ...newCenter } : center
-      );
-      setBloodCenters(updated);
+      // 🔁 Call update API
+      const result = await updateBloodCenter(editId, newCenter);
+      if (result) {
+        // Update local state
+        const updatedList = bloodCenters.map((center) =>
+          center.center_id === editId ? result : center
+        );
+        setBloodCenters(updatedList);
+        alert("Center updated successfully!");
+         window.location.reload(); // 🔁 Reload after successful update
+      }
       setEditId(null);
     } else {
-      const newEntry = {
-        id: Date.now(),
-        ...newCenter,
-      };
-      setBloodCenters([...bloodCenters, newEntry]);
-      alert(
-        editId ? "Center updated successfully!" : "Center added successfully!"
-      );
+      // ➕ Call create API
+      const result = await createBloodCenter(newCenter);
+      if (result) {
+        setBloodCenters([...bloodCenters, result]);
+        alert("Center added successfully!");
+        window.location.reload(); // 🔁 Reload after successful add
+      }
     }
 
-    // Clear form
+    // Reset form
     setNewCenter({ name: "", address: "", contact: "" });
   };
-  const handleDelete = (id) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this center?"
-    );
-    if (confirmed) {
-      setBloodCenters(bloodCenters.filter((center) => center.id !== id));
+
+  const handleDelete = async (id) => {
+    const confirmed = window.confirm("Are you sure you want to delete this center?");
+    if (!confirmed) return;
+
+    const result = await deleteBloodCenter(id);
+
+    if (result) {
+      setBloodCenters((prev) => prev.filter((center) => center.id !== id));
+      alert("Center deleted successfully.");
+      window.location.reload(); // 🔁 Reload after successful add
     }
   };
 
@@ -146,15 +130,15 @@ export default function ManageBloodCenters() {
       {/* Preview Cards */}
       <div className="row">
         {bloodCenters.map((center) => (
-          <div key={center.id} className="col-md-4 mb-3">
+          <div key={center.center_id} className="col-md-4 mb-3">
             <div className="blood-center-card d-flex flex-column justify-content-between h-100">
               <div>
-                <h5>{center.name}</h5>
+                <h5>{center.center_name}</h5>
                 <p className="mb-1">
                   <strong>Address:</strong> {center.address}
                 </p>
                 <p>
-                  <strong>Contact:</strong> {center.contact}
+                  <strong>Contact:</strong> {center.contact_info}
                 </p>
               </div>
               <div className="d-flex justify-content-end mt-3">
@@ -162,18 +146,18 @@ export default function ManageBloodCenters() {
                   className="btn btn-sm btn-edit me-2"
                   onClick={() => {
                     setNewCenter({
-                      name: center.name,
+                      name: center.center_name,
                       address: center.address,
-                      contact: center.contact,
+                      contact: center.contact_info,
                     });
-                    setEditId(center.id);
+                    setEditId(center.center_id);
                   }}
                 >
                   Edit
                 </button>
                 <button
                   className="btn btn-sm btn-delete"
-                  onClick={() => handleDelete(center.id)}
+                  onClick={() => handleDelete(center.center_id)}
                 >
                   Delete
                 </button>
