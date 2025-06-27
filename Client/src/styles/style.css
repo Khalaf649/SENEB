@@ -872,6 +872,106 @@ body {
 }
 
 /*start of manage subadmins*/
+.operation-btn {
+  background-color: var(--darkred);
+  color: var(--white);
+  font-weight: 600;
+  border: none;
+  padding: 0.45rem 1.2rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover State */
+.operation-btn:hover {
+  background-color: #6f2115;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Active State (Click) */
+.operation-btn:active {
+  background-color: #b9230c;
+  /* slightly lighter/different shade */
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Dark background overlay */
+.custom-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1040;
+}
+
+/* Centered modal with fixed height and width */
+.custom-modal .modal-dialog {
+  max-width: 600px;
+  margin: auto;
+}
+
+.custom-modal .modal-content {
+  border-radius: 10px;
+  padding: 20px;
+  max-height: 90vh;
+  overflow: hidden;
+}
+
+/* Horizontally arranged form inputs */
+.modal-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+/* Ensure consistent width for inputs */
+.modal-body .form-group,
+.modal-body .form-control,
+.modal-body .form-select {
+  flex: 1 1 48%;
+}
+
+/* Stretch full width on small screens */
+@media (max-width: 576px) {
+
+  .modal-body .form-group,
+  .modal-body .form-control,
+  .modal-body .form-select {
+    flex: 1 1 100%;
+  }
+}
+
+/* Optional: add smoother modal animation */
+.custom-modal .modal-content {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
+
 .add-subadmin-btn {
   background-color: #7a2617;
   color: var(--white);
@@ -1089,6 +1189,14 @@ body {
   border-color: #a73321 !important;
   box-shadow: 0 0 0 0.2rem rgba(167, 51, 33, 0.25) !important;
   outline: none !important;
+}
+
+.select-center {
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid var(--darkgrey);
+  width: 100%;
 }
 
 .cancel-btn {

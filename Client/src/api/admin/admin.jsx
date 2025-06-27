@@ -1,3 +1,4 @@
+/* Create Blood Center */
 export const createBloodCenter = async (credentials) => {
   try {
     const token = localStorage.getItem('token'); // or get it from props/context
@@ -51,6 +52,8 @@ export const getBloodCenters = async () => {
     return null;
   }
 };
+
+/* Update Blood Center */
 export const updateBloodCenter = async (id, updatedData) => {
   try {
     const token = localStorage.getItem('token');
@@ -102,5 +105,31 @@ export const deleteBloodCenter = async (id) => {
     console.error('Error during deleteBloodCenter:', error);
     alert("Something went wrong. Please try again later.");
     return null;
+  }
+};
+
+/* Create Sub Admin */
+
+export const createSubadmin = async (formData) => {
+  try {
+    const token = localStorage.getItem("token");
+    const res = await fetch("http://localhost:3000/admin/createSubadmin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      return { success: false, error: data?.error || data?.message || "Request failed." };
+    }
+
+    return { success: true, message: data.message };
+  } catch {
+    return { success: false, error: "Server error. Please try again." };
   }
 };
