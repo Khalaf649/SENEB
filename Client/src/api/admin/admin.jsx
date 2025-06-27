@@ -26,14 +26,20 @@ export const createBloodCenter = async (credentials) => {
     return null;
   }
 };
-export const getBloodCenters = async () => {
+export const getBloodCenters = async (filter = "all") => {
   try {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
 
-    const response = await fetch('http://localhost:3000/admin/getCenters', {
-      method: 'GET',
+    // Build URL with query param if needed
+    let url = "http://localhost:3000/admin/getCenters";
+    if (filter === "with" || filter === "without") {
+      url += `?subadmin=${filter}`;
+    }
+
+    const response = await fetch(url, {
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
@@ -47,11 +53,12 @@ export const getBloodCenters = async () => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('Error during getBloodCenters:', error);
+    console.error("Error during getBloodCenters:", error);
     alert("Something went wrong. Please try again later.");
     return null;
   }
 };
+
 
 /* Update Blood Center */
 export const updateBloodCenter = async (id, updatedData) => {
@@ -110,7 +117,7 @@ export const deleteBloodCenter = async (id) => {
 
 /* Create Sub Admin */
 
-export const createSubadmin = async (formData) => {
+export const createSubadmin = async (credentials) => {
   try {
     const token = localStorage.getItem("token");
     const res = await fetch("http://localhost:3000/admin/createSubadmin", {
@@ -119,7 +126,7 @@ export const createSubadmin = async (formData) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(credentials),
     });
 
     const data = await res.json();
@@ -133,3 +140,48 @@ export const createSubadmin = async (formData) => {
     return { success: false, error: "Server error. Please try again." };
   }
 };
+export const getAllSubadmins = async () => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch("http://localhost:3000/admin/getSubAdmins", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      return { success: false, error: data?.error || data?.message || "Request failed." };
+    }
+
+    return { success: true, data }; // returns the list of subadmins
+  } catch {
+    return { success: false, error: "Server error. Please try again." };
+  }
+};
+export const deleteSubadmin = async (userId) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(`http://localhost:3000/admin/deleteSubadmin/${userId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      return { success: false, error: data?.error || data?.message || "Request failed." };
+    }
+
+    return { success: true, message: data.message };
+  } catch {
+    return { success: false, error: "Server error. Please try again." };
+  }
+};
+

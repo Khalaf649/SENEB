@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { createSubadmin, getBloodCenters } from "../../../api/admin/admin";
+import { createSubadmin, getBloodCenters,getAllSubadmins,deleteSubadmin } from "../../../api/admin/admin";
 import TextInput from "../../../components/Auth/TextInput";
 import PasswordInput from "../../../components/Auth/PasswordInput";
 
@@ -22,17 +22,39 @@ export default function ManageSubadmins() {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchCenters = async () => {
-      const centers = await getBloodCenters();
-      if (centers) {
-        setBloodCentersList(centers);
-      } else {
-        setError("Failed to load blood centers.");
-      }
-    };
-    fetchCenters();
-  }, []);
+useEffect(() => {
+  const fetchInitialData = async () => {
+    // Fetch blood centers
+    const centers = await getBloodCenters("without");
+    if (centers) {
+      setBloodCentersList(centers);
+    } else {
+      setError("Failed to load blood centers.");
+    }
+
+    // Fetch sub-admins
+    const subadminRes = await getAllSubadmins();
+    if (subadminRes.success) {
+      setSubadmins(
+        subadminRes.data.map((s) => ({
+          id: s.id,
+          user: {
+            name: s.name,
+            email: s.email,
+            contact: s.contact,
+          },
+          bloodcenter: {
+            center_name: s.center_name,
+          },
+        }))
+      );
+    } else {
+      setError("Failed to load sub-admins.");
+    }
+  };
+
+  fetchInitialData();
+}, []);
 
   const handleSubmit = async () => {
     setError("");
@@ -85,6 +107,7 @@ export default function ManageSubadmins() {
         password: newSubadmin.password,
         contact: newSubadmin.contact,
         center_id: newSubadmin.bloodcenterId,
+        confirm_password:newSubadmin.confirmPassword
       };
 
       try {
@@ -138,12 +161,29 @@ export default function ManageSubadmins() {
     setLoading(false);
   };
 
-  const handleDelete = (id) => {
-    const confirmed = window.confirm("Are you sure you want to delete this subadmin?");
-    if (confirmed) {
-      setSubadmins(subadmins.filter((subadmin) => subadmin.sub_admin_id !== id));
+const handleDelete = async (userId) => {
+  const confirmed = window.confirm("Are you sure you want to delete this subadmin?");
+  if (!confirmed) return;
+
+  setError("");
+  setSuccess("");
+
+  try {
+    const res = await deleteSubadmin(userId);
+
+    if (res.success) {
+      setSubadmins((prev) =>
+        prev.filter((s) => s.id !== userId) // match the `id` you used from backend
+      );
+      setSuccess("Subadmin deleted successfully.");
+    } else {
+      setError(res.error || "Failed to delete subadmin.");
     }
-  };
+  } catch (err) {
+    setError("Something went wrong while deleting.");
+  }
+};
+
 
   return (
   <div>
@@ -183,7 +223,7 @@ export default function ManageSubadmins() {
               subadmin.user.email.toLowerCase().includes(searchTerm.toLowerCase())
           )
           .map((subadmin, index) => (
-            <tr key={subadmin.sub_admin_id}>
+            <tr key={subadmin.id}>
               <td>{index + 1}</td>
               <td>{subadmin.user.name}</td>
               <td>{subadmin.user.email}</td>
@@ -209,7 +249,7 @@ export default function ManageSubadmins() {
                 </button>
                 <button
                   className="btn btn-secondary"
-                  onClick={() => handleDelete(subadmin.sub_admin_id)}
+                  onClick={() => handleDelete(subadmin.id)}
                 >
                   Delete
                 </button>
