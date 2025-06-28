@@ -18,7 +18,6 @@ export default function Login() {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-
   const navigate = useNavigate();
 
   const handleRoleSelect = (role) => {
@@ -40,28 +39,35 @@ export default function Login() {
     setErrorMessage('');
     setSuccessMessage('');
 
+    // Client-side validation
+    if (!email || !password) {
+      setErrorMessage("Please enter both email and password.");
+      setLoading(false);
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setErrorMessage("Please enter a valid email address.");
+      setLoading(false);
+      return;
+    }
+
     try {
-      // Prepare the credentials object
       const credentials = {
         email,
         password,
         role: loginRole,
       };
-      let result;
 
-      result=await login(credentials);
+      const result = await login(credentials);
 
       if (result?.token) {
-        console.log('Login successful:', result);
-        // Store the JWT token in localStorage
         localStorage.setItem('token', result.token);
         localStorage.setItem('loginRole', result.role);
-        setSuccessMessage('Login successful!');
+        setSuccessMessage('Login successful! Redirecting...');
 
-
-        // Redirect based on role
-
-        const role= localStorage.getItem('loginRole');
+        const role = result.role;
         setTimeout(() => {
           if (role === 'donor') {
             navigate('/donorProfile');
@@ -73,14 +79,9 @@ export default function Login() {
             navigate('/healthFacilityDashboard');
           }
         }, 1000);
-        // Give time to show the message before navigating
-      }
-      else {
-        setErrorMessage('Login failed. Please check your credentials.');
       }
     } catch (error) {
-      console.error('Login error:', error);
-      setErrorMessage('An error occurred during login. Please try again.');
+      setErrorMessage(error.message);
     } finally {
       setLoading(false);
     }
@@ -103,11 +104,12 @@ export default function Login() {
                 <p className='welcome-text'>Welcome to SENEB</p>
                 <h2 id='login-title'>{handleLoginRole()}</h2>
 
-                {/* Display error message if any */}
+                {/* Display error message */}
                 {errorMessage && (
                   <div className="alert alert-danger">{errorMessage}</div>
                 )}
-                {/* Display success message if any */}
+
+                {/* Display success message */}
                 {successMessage && (
                   <div className="alert alert-success">{successMessage}</div>
                 )}

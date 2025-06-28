@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { createBloodCenter, getBloodCenters, updateBloodCenter, deleteBloodCenter } from "../../../api/admin/admin";
+import {
+  createBloodCenter,
+  getBloodCenters,
+  updateBloodCenter,
+  deleteBloodCenter,
+} from "../../../api/admin/admin";
+
 export default function ManageBloodCenters() {
   const [bloodCenters, setBloodCenters] = useState([]);
   const [editId, setEditId] = useState(null);
@@ -8,62 +14,84 @@ export default function ManageBloodCenters() {
     address: "",
     contact: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
-  // 🔁 Load centers from backend
+  // Fetch blood centers on mount
   useEffect(() => {
     const fetchCenters = async () => {
-      const data = await getBloodCenters();
-      console.log(data)
-      if (data) setBloodCenters(data);
+      try {
+        const data = await getBloodCenters();
+        if (data) setBloodCenters(data);
+      } catch (error) {
+        setErrorMessage(error.message || "Failed to load blood centers.");
+      }
     };
     fetchCenters();
   }, []);
 
+  // Auto-dismiss messages after 4 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setErrorMessage("");
+      setSuccessMessage("");
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, [errorMessage, successMessage]);
+
+  const resetForm = () => {
+    setNewCenter({ name: "", address: "", contact: "" });
+    setEditId(null);
+  };
+
   const handleAddCenter = async () => {
+    setErrorMessage("");
+    setSuccessMessage("");
+
     const { name, address, contact } = newCenter;
 
     if (!name || !address || !contact) {
-      alert("Please fill in all fields.");
+      setErrorMessage("Please fill in all fields.");
       return;
     }
 
-    if (editId) {
-      // 🔁 Call update API
-      const result = await updateBloodCenter(editId, newCenter);
-      if (result) {
-        // Update local state
-        const updatedList = bloodCenters.map((center) =>
-          center.center_id === editId ? result : center
-        );
-        setBloodCenters(updatedList);
-        alert("Center updated successfully!");
-         window.location.reload(); // 🔁 Reload after successful update
+    try {
+      if (editId) {
+        const updated = await updateBloodCenter(editId, newCenter);
+        if (updated) {
+          const updatedList = bloodCenters.map((center) =>
+            center.center_id === editId ? updated : center
+          );
+          setBloodCenters(updatedList);
+          setSuccessMessage("Center updated successfully.");
+        }
+      } else {
+        const created = await createBloodCenter(newCenter);
+        if (created) {
+          setBloodCenters([...bloodCenters, created]);
+          setSuccessMessage("Center added successfully.");
+        }
       }
-      setEditId(null);
-    } else {
-      // ➕ Call create API
-      const result = await createBloodCenter(newCenter);
-      if (result) {
-        setBloodCenters([...bloodCenters, result]);
-        alert("Center added successfully!");
-        window.location.reload(); // 🔁 Reload after successful add
-      }
+      resetForm();
+    } catch (error) {
+      setErrorMessage(error.message || "Failed to save center.");
     }
-
-    // Reset form
-    setNewCenter({ name: "", address: "", contact: "" });
   };
 
   const handleDelete = async (id) => {
     const confirmed = window.confirm("Are you sure you want to delete this center?");
     if (!confirmed) return;
 
-    const result = await deleteBloodCenter(id);
+    setErrorMessage("");
+    setSuccessMessage("");
 
-    if (result) {
-      setBloodCenters((prev) => prev.filter((center) => center.id !== id));
-      alert("Center deleted successfully.");
-      window.location.reload(); // 🔁 Reload after successful add
+    try {
+      await deleteBloodCenter(id);
+      setBloodCenters((prev) => prev.filter((center) => center.center_id !== id));
+      setSuccessMessage("Center deleted successfully.");
+    } catch (error) {
+      setErrorMessage(error.message || "Failed to delete center.");
     }
   };
 
@@ -71,7 +99,11 @@ export default function ManageBloodCenters() {
     <div className="manage-blood-centers">
       <h2 className="mb-4">Manage Blood Centers</h2>
 
-      {/* Add Center Form */}
+      {/* Status Messages */}
+      {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+      {successMessage && <div className="alert alert-success">{successMessage}</div>}
+
+      {/* Add/Edit Center Form */}
       <div className="blood-center-form card p-4 shadow-sm mb-4">
         <h5 className="form-title mb-3">
           {editId ? "Edit Blood Center" : "Add New Blood Center"}
@@ -111,23 +143,17 @@ export default function ManageBloodCenters() {
             />
           </div>
           <div className="col-md-12 text-end mt-3">
-            <button className="addCenter-btn" onClick={handleAddCenter}>
+            <button className="addCenter-btn me-2" onClick={handleAddCenter}>
               {editId ? "Save Changes" : "Add Center"}
             </button>
-            <button
-              className="cancel-btn"
-              onClick={() => {
-                setNewCenter({ name: "", address: "", contact: "" });
-                setEditId(null);
-              }}
-            >
+            <button className="cancel-btn" onClick={resetForm}>
               Cancel
             </button>
           </div>
         </div>
       </div>
 
-      {/* Preview Cards */}
+      {/* Blood Center Cards */}
       <div className="row">
         {bloodCenters.map((center) => (
           <div key={center.center_id} className="col-md-4 mb-3">

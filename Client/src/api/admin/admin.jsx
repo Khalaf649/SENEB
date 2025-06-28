@@ -1,36 +1,53 @@
 /* Create Blood Center */
 export const createBloodCenter = async (credentials) => {
   try {
-    const token = localStorage.getItem('token'); // or get it from props/context
+    const token = localStorage.getItem('token');
 
     const response = await fetch('http://localhost:3000/admin/createCenter', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`, 
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(credentials),
     });
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      alert(errorData.message || "Failed to create blood center.");
-      return null;
+
+      let message = "Failed to create blood center.";
+      switch (response.status) {
+        case 400:
+          message = errorData.message || "Please fill all required fields.";
+          break;
+        case 401:
+          message = "Unauthorized. Please log in again.";
+          break;
+        case 409:
+          message = errorData.message || "A blood center with this name or location already exists.";
+          break;
+        case 500:
+        default:
+          message = errorData.message || "Server error. Please try again later.";
+          break;
+      }
+
+      throw new Error(message);
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
   } catch (error) {
     console.error('Error during createBloodCenter:', error);
-    alert("Something went wrong. Please try again later.");
-    return null;
+    throw new Error(error.message);
   }
 };
+
+
+/* Get Blood Centers */
 export const getBloodCenters = async (filter = "all") => {
   try {
     const token = localStorage.getItem("token");
 
-    // Build URL with query param if needed
     let url = "http://localhost:3000/admin/getCenters";
     if (filter === "with" || filter === "without") {
       url += `?subadmin=${filter}`;
@@ -46,16 +63,13 @@ export const getBloodCenters = async (filter = "all") => {
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      alert(errorData.message || "Failed to fetch blood centers.");
-      return null;
+      throw new Error(errorData.message || "Unable to fetch blood centers. Please try again.");
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
   } catch (error) {
     console.error("Error during getBloodCenters:", error);
-    alert("Something went wrong. Please try again later.");
-    return null;
+    throw new Error(error.message);
   }
 };
 
@@ -76,18 +90,36 @@ export const updateBloodCenter = async (id, updatedData) => {
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      alert(errorData.message || "Failed to update blood center.");
-      return null;
+
+      let message = "Failed to update blood center.";
+      switch (response.status) {
+        case 400:
+          message = errorData.message || "Invalid data. Please check your input.";
+          break;
+        case 404:
+          message = "Blood center not found.";
+          break;
+        case 401:
+          message = "Unauthorized. Please log in again.";
+          break;
+        case 500:
+        default:
+          message = errorData.message || "Server error. Please try again later.";
+          break;
+      }
+
+      throw new Error(message);
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
   } catch (error) {
     console.error('Error during updateBloodCenter:', error);
-    alert("Something went wrong. Please try again later.");
-    return null;
+    throw new Error(error.message);
   }
 };
+
+
+/* Delete Blood Center */
 export const deleteBloodCenter = async (id) => {
   try {
     const token = localStorage.getItem('token');
@@ -102,24 +134,37 @@ export const deleteBloodCenter = async (id) => {
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      alert(errorData.message || "Failed to delete blood center.");
-      return null;
+
+      let message = "Failed to delete blood center.";
+      switch (response.status) {
+        case 404:
+          message = "Blood center not found.";
+          break;
+        case 401:
+          message = "Unauthorized action.";
+          break;
+        case 500:
+        default:
+          message = errorData.message || "Server error. Please try again later.";
+          break;
+      }
+
+      throw new Error(message);
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
   } catch (error) {
     console.error('Error during deleteBloodCenter:', error);
-    alert("Something went wrong. Please try again later.");
-    return null;
+    throw new Error(error.message);
   }
 };
 
-/* Create Sub Admin */
 
+/* Create Sub Admin */
 export const createSubadmin = async (credentials) => {
   try {
     const token = localStorage.getItem("token");
+
     const res = await fetch("http://localhost:3000/admin/createSubadmin", {
       method: "POST",
       headers: {
@@ -132,14 +177,33 @@ export const createSubadmin = async (credentials) => {
     const data = await res.json();
 
     if (!res.ok) {
-      return { success: false, error: data?.error || data?.message || "Request failed." };
+      let message = "Failed to create subadmin.";
+      switch (res.status) {
+        case 400:
+          message = data?.message || "Please fill all required fields.";
+          break;
+        case 409:
+          message = data?.message || "A subadmin with this email already exists.";
+          break;
+        case 401:
+          message = "Unauthorized. Please log in again.";
+          break;
+        default:
+          message = data?.message || "Server error. Please try again.";
+          break;
+      }
+
+      return { success: false, error: message };
     }
 
     return { success: true, message: data.message };
   } catch {
-    return { success: false, error: "Server error. Please try again." };
+    return { success: false, error: "Network or server error. Please try again." };
   }
 };
+
+
+/* Get All Subadmins */
 export const getAllSubadmins = async () => {
   try {
     const token = localStorage.getItem("token");
@@ -154,14 +218,20 @@ export const getAllSubadmins = async () => {
     const data = await res.json();
 
     if (!res.ok) {
-      return { success: false, error: data?.error || data?.message || "Request failed." };
+      return {
+        success: false,
+        error: data?.message || "Unable to fetch subadmins. Please try again later.",
+      };
     }
 
-    return { success: true, data }; // returns the list of subadmins
+    return { success: true, data };
   } catch {
-    return { success: false, error: "Server error. Please try again." };
+    return { success: false, error: "Network or server error. Please try again." };
   }
 };
+
+
+/* Delete Subadmin */
 export const deleteSubadmin = async (userId) => {
   try {
     const token = localStorage.getItem("token");
@@ -176,12 +246,24 @@ export const deleteSubadmin = async (userId) => {
     const data = await res.json();
 
     if (!res.ok) {
-      return { success: false, error: data?.error || data?.message || "Request failed." };
+      let message = data?.message || "Failed to delete subadmin.";
+      switch (res.status) {
+        case 404:
+          message = "Subadmin not found.";
+          break;
+        case 401:
+          message = "Unauthorized action.";
+          break;
+        default:
+          message = data?.message || "Server error. Please try again.";
+          break;
+      }
+
+      return { success: false, error: message };
     }
 
     return { success: true, message: data.message };
   } catch {
-    return { success: false, error: "Server error. Please try again." };
+    return { success: false, error: "Network or server error. Please try again." };
   }
 };
-
