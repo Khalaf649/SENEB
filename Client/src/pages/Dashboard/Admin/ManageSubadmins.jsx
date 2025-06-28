@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { createSubadmin, getBloodCenters, getAllSubadmins, deleteSubadmin } from "../../../api/admin/admin";
+import {
+  createSubadmin,
+  getBloodCenters,
+  getAllSubadmins,
+  deleteSubadmin,
+} from "../../../api/admin/admin";
 import TextInput from "../../../components/Auth/TextInput";
 import PasswordInput from "../../../components/Auth/PasswordInput";
 
@@ -16,6 +21,9 @@ export default function ManageSubadmins() {
   });
 
   const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [subadminToDelete, setSubadminToDelete] = useState(null);
+
   const [editId, setEditId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState("");
@@ -23,19 +31,22 @@ export default function ManageSubadmins() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => setSuccess(""), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [success]);
+
+  useEffect(() => {
     const fetchInitialData = async () => {
       const centers = await getBloodCenters("without");
-      if (centers) {
-        setBloodCentersList(centers);
-      } else {
-        setError("Failed to load blood centers.");
-      }
-
+      if (centers) setBloodCentersList(centers);
       const subadminRes = await getAllSubadmins();
       if (subadminRes.success) {
         setSubadmins(
           subadminRes.data.map((s) => ({
             id: s.id,
+            sub_admin_id: s.sub_admin_id,
             user: {
               name: s.name,
               email: s.email,
@@ -47,11 +58,8 @@ export default function ManageSubadmins() {
             },
           }))
         );
-      } else {
-        setError("Failed to load sub-admins.");
       }
     };
-
     fetchInitialData();
   }, []);
 
@@ -111,22 +119,14 @@ export default function ManageSubadmins() {
 
       try {
         const res = await createSubadmin(payload);
-
         if (res.success) {
           const center = bloodCentersList.find(
             (c) => c.center_id === newSubadmin.bloodcenterId
           );
-
-          if (!center) {
-            setError("Selected blood center not found.");
-            setLoading(false);
-            return;
-          }
-
           const newEntry = {
             sub_admin_id: Date.now(),
+            id: Date.now(),
             user: {
-              id: Date.now() + 1,
               name: newSubadmin.name,
               email: newSubadmin.email,
               contact: newSubadmin.contact,
@@ -136,7 +136,6 @@ export default function ManageSubadmins() {
               center_name: center.center_name,
             },
           };
-
           setSubadmins([...subadmins, newEntry]);
           setSuccess("Subadmin created successfully.");
           setShowModal(false);
@@ -160,25 +159,21 @@ export default function ManageSubadmins() {
     setLoading(false);
   };
 
-  const handleDelete = async (userId) => {
-    const confirmed = window.confirm("Are you sure you want to delete this subadmin?");
-    if (!confirmed) return;
-
-    setError("");
-    setSuccess("");
-
+  const confirmDelete = async () => {
+    if (!subadminToDelete) return;
     try {
-      const res = await deleteSubadmin(userId);
-
+      const res = await deleteSubadmin(subadminToDelete);
       if (res.success) {
-        setSubadmins((prev) => prev.filter((s) => s.id !== userId));
+        setSubadmins((prev) => prev.filter((s) => s.id !== subadminToDelete));
         setSuccess("Subadmin deleted successfully.");
       } else {
         setError(res.error || "Failed to delete subadmin.");
       }
-    } catch (err) {
+    } catch {
       setError("Something went wrong while deleting.");
     }
+    setShowDeleteModal(false);
+    setSubadminToDelete(null);
   };
 
   return (
@@ -200,6 +195,12 @@ export default function ManageSubadmins() {
         />
       </div>
 
+      {success && (
+        <div className="mb-3 text-center">
+          <div className="text-success">{success}</div>
+        </div>
+      )}
+
       <table className="table table-hover table-bordered align-middle text-center shadow-sm">
         <thead className="subadmin-header">
           <tr>
@@ -214,9 +215,9 @@ export default function ManageSubadmins() {
         <tbody>
           {subadmins
             .filter(
-              (subadmin) =>
-                subadmin.user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                subadmin.user.email.toLowerCase().includes(searchTerm.toLowerCase())
+              (s) =>
+                s.user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                s.user.email.toLowerCase().includes(searchTerm.toLowerCase())
             )
             .map((subadmin, index) => (
               <tr key={subadmin.id}>
@@ -225,7 +226,7 @@ export default function ManageSubadmins() {
                 <td>{subadmin.user.email}</td>
                 <td>{subadmin.user.contact || "-"}</td>
                 <td>{subadmin.bloodcenter?.center_name || "-"}</td>
-                <td className="manage-subadmin-actions d-flex justify-content-center gap-2">
+                <td className="d-flex justify-content-center gap-2">
                   <button
                     className="operation-btn"
                     onClick={() => {
@@ -245,7 +246,10 @@ export default function ManageSubadmins() {
                   </button>
                   <button
                     className="btn btn-secondary"
-                    onClick={() => handleDelete(subadmin.id)}
+                    onClick={() => {
+                      setSubadminToDelete(subadmin.id);
+                      setShowDeleteModal(true);
+                    }}
                   >
                     Delete
                   </button>
@@ -255,114 +259,117 @@ export default function ManageSubadmins() {
         </tbody>
       </table>
 
+      {/* Modal for Add/Edit */}
       {showModal && (
+  <>
+    <div className="custom-modal-backdrop"></div>
+    <div className="modal fade show d-block custom-modal">
+      <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title">{editId ? "Edit Subadmin" : "Add New Subadmin"}</h5>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={() => {
+                setShowModal(false);
+                setError("");
+                setSuccess("");
+              }}
+            ></button>
+          </div>
+
+          <div className="modal-body">
+            <TextInput
+              label="Name"
+              value={newSubadmin.name}
+              onChange={(e) => setNewSubadmin({ ...newSubadmin, name: e.target.value })}
+            />
+            <TextInput
+              label="Email"
+              type="email"
+              value={newSubadmin.email}
+              onChange={(e) => setNewSubadmin({ ...newSubadmin, email: e.target.value })}
+            />
+            {!editId && (
+              <>
+                <PasswordInput
+                  label="Password"
+                  value={newSubadmin.password}
+                  onChange={(e) => setNewSubadmin({ ...newSubadmin, password: e.target.value })}
+                />
+                <PasswordInput
+                  label="Confirm Password"
+                  value={newSubadmin.confirmPassword}
+                  onChange={(e) =>
+                    setNewSubadmin({ ...newSubadmin, confirmPassword: e.target.value })
+                  }
+                />
+              </>
+            )}
+            <TextInput
+              label="Contact Info"
+              value={newSubadmin.contact}
+              onChange={(e) => setNewSubadmin({ ...newSubadmin, contact: e.target.value })}
+            />
+            <div className="form-group mb-3">
+              <label>Blood Center</label>
+              <select
+                className="form-select"
+                value={newSubadmin.bloodcenterId}
+                onChange={(e) =>
+                  setNewSubadmin({ ...newSubadmin, bloodcenterId: parseInt(e.target.value) })
+                }
+              >
+                <option value="">Select a center</option>
+                {bloodCentersList.map((c) => (
+                  <option key={c.center_id} value={c.center_id}>
+                    {c.center_name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="modal-footer flex-column align-items-stretch gap-2">
+            {error && (
+              <div className="text-danger text-center w-100 small" style={{ marginTop: "-8px" }}>
+                {error}
+              </div>
+            )}
+            <div className="d-flex justify-content-end gap-2 w-100">
+              <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
+                Cancel
+              </button>
+              <button className="operation-btn" onClick={handleSubmit} disabled={loading}>
+                {loading ? "Submitting..." : editId ? "Save Changes" : "Add"}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </>
+)}
+
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
         <>
           <div className="custom-modal-backdrop"></div>
-          <div className="modal fade show d-block custom-modal" tabIndex="-1" role="dialog">
+          <div className="modal fade show d-block custom-modal">
             <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title">
-                    {editId ? "Edit Subadmin" : "Add New Subadmin"}
-                  </h5>
-                  <button
-                    type="button"
-                    className="btn-close"
-                    onClick={() => {
-                      setShowModal(false);
-                      setError("");
-                      setSuccess("");
-                    }}
-                  ></button>
+              <div className="modal-content p-3">
+                <h5 className="mb-3">Confirm Deletion</h5>
+                <p>Are you sure you want to delete this subadmin?</p>
+                <div className="d-flex justify-content-end gap-2">
+                  <button className="btn btn-secondary" onClick={() => setShowDeleteModal(false)}>
+                    Cancel
+                  </button>
+                  <button className="btn btn-danger" onClick={confirmDelete}>
+                    Delete
+                  </button>
                 </div>
-
-                <div className="modal-body">
-                  <TextInput
-                    label="Name"
-                    type="text"
-                    value={newSubadmin.name}
-                    onChange={(e) => setNewSubadmin({ ...newSubadmin, name: e.target.value })}
-                  />
-
-                  <TextInput
-                    label="Email"
-                    type="email"
-                    value={newSubadmin.email}
-                    onChange={(e) => setNewSubadmin({ ...newSubadmin, email: e.target.value })}
-                  />
-
-                  {!editId && (
-                    <>
-                      <PasswordInput
-                        label="Password"
-                        value={newSubadmin.password}
-                        onChange={(e) =>
-                          setNewSubadmin({ ...newSubadmin, password: e.target.value })
-                        }
-                      />
-                      <PasswordInput
-                        label="Confirm Password"
-                        value={newSubadmin.confirmPassword || ""}
-                        onChange={(e) =>
-                          setNewSubadmin({ ...newSubadmin, confirmPassword: e.target.value })
-                        }
-                      />
-                    </>
-                  )}
-
-                  <TextInput
-                    label="Contact Info"
-                    type="text"
-                    value={newSubadmin.contact}
-                    onChange={(e) => setNewSubadmin({ ...newSubadmin, contact: e.target.value })}
-                  />
-
-                  <div className="mb-3 form-group">
-                    <label className="form-label">Blood Center</label>
-                    <select
-                      className="form-select select-center"
-                      value={newSubadmin.bloodcenterId}
-                      onChange={(e) =>
-                        setNewSubadmin({
-                          ...newSubadmin,
-                          bloodcenterId: parseInt(e.target.value),
-                        })
-                      }
-                    >
-                      <option value="">Select a center</option>
-                      {bloodCentersList.map((center) => (
-                        <option key={center.center_id} value={center.center_id}>
-                          {center.center_name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div className="modal-footer flex-column align-items-stretch gap-2">
-                  {(error || success) && (
-                    <div className="text-center w-100">
-                      {error && <div className="text-danger">{error}</div>}
-                      {success && <div className="text-success">{success}</div>}
-                    </div>
-                  )}
-                  <div className="d-flex justify-content-end gap-2">
-                    <button
-                      className="btn btn-secondary"
-                      onClick={() => {
-                        setShowModal(false);
-                        setError("");
-                        setSuccess("");
-                      }}
-                    >
-                      Cancel
-                    </button>
-                    <button className="operation-btn" onClick={handleSubmit} disabled={loading}>
-                      {loading ? "Submitting..." : editId ? "Save Changes" : "Add"}
-                    </button>
-                  </div>
-                </div>
-
               </div>
             </div>
           </div>
