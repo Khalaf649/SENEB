@@ -1,14 +1,20 @@
-import React from "react";
+import React, { use, useEffect, useState } from "react";
 import logo from "../../src/assets/images/seneb.png";
 import LoginLogoutButton from "../components/LoginLogoutButton";
 import "../styles/bootstrap.min.css";
 import "../styles/all.min.css";
 import "../styles/style.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function Navbar() {
-    const token = localStorage.getItem('token');
-    const loginRole = localStorage.getItem('loginRole');
+    const location = useLocation();
+    const [token, setToken] = useState(localStorage.getItem('token'));
+    const [loginRole, setLoginRole] = useState(localStorage.getItem('loginRole'));
+
+    useEffect(() => {
+        setToken(localStorage.getItem("token"));
+        setLoginRole(localStorage.getItem("loginRole"));
+    }, [location])
 
     return (
         <nav className="navbar navbar-expand-lg sticky-top">
@@ -27,32 +33,58 @@ export default function Navbar() {
 
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav ms-auto">
-                    <li className="nav-item mx-2">
-                        <Link
-                            to="/"
-                            className="nav-link"
-                            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                        >
-                            Home
-                        </Link>
+                    {token && loginRole === "sub_admin" ? (
+                        <>
+                            <li className="nav-item mx-2">
+                                <Link to="/subAdminDashboard/center-data" className="nav-link">
+                                    My Center
+                                </Link>
+                            </li>
+                            <li className="nav-item mx-2">
+                                <Link to="/subAdminDashboard/appointments" className="nav-link">
+                                    Appointments
+                                </Link>
+                            </li>
+                            <li className="nav-item mx-2">
+                                <Link to="/subAdminDashboard/approve-requests" className="nav-link">
+                                    Approve Requests
+                                </Link>
+                            </li>
+                            <li className="nav-item mx-2">
+                                <Link to="/subAdminDashboard/profile" className="nav-link">
+                                    Profile
+                                </Link>
+                            </li>
+                        </>
+                    ) : (
+                        <>
 
-
-                    </li>
-                    <li className="nav-item mx-2">
-                        <Link to={{ pathname: "/", hash: "#why-donate" }} className="nav-link">
-                            Why Donate Blood
-                        </Link>
-                    </li>
-                    <li className="nav-item mx-2">
-                        <Link to={{ pathname: "/", hash: "#donate-process" }} className="nav-link">
-                            Donate Process
-                        </Link>
-                    </li>
-                    <li className="nav-item mx-2">
-                        <Link to={{ pathname: "/", hash: "#contact-us" }} className="nav-link">
-                            Contact Us
-                        </Link>
-                    </li>
+                            <li className="nav-item mx-2">
+                                <Link
+                                    to="/"
+                                    className="nav-link"
+                                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                                >
+                                    Home
+                                </Link>
+                            </li>
+                            <li className="nav-item mx-2">
+                                <Link to={{ pathname: "/", hash: "#why-donate" }} className="nav-link">
+                                    Why Donate Blood
+                                </Link>
+                            </li>
+                            <li className="nav-item mx-2">
+                                <Link to={{ pathname: "/", hash: "#donate-process" }} className="nav-link">
+                                    Donate Process
+                                </Link>
+                            </li>
+                            <li className="nav-item mx-2">
+                                <Link to={{ pathname: "/", hash: "#contact-us" }} className="nav-link">
+                                    Contact Us
+                                </Link>
+                            </li>
+                        </>
+                    )}
                 </ul>
                 {/* Conditionally render Login/Logout button */}
                 <LoginLogoutButton className="ms-3" />
