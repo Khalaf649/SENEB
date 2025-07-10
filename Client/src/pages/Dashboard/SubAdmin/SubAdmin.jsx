@@ -4,11 +4,15 @@ import "../../../styles/bootstrap.min.css";
 import LoginLogoutButton from "../../../components/LoginLogoutButton";
 import { Link, Outlet } from "react-router-dom";
 import Logo from "../../../assets/images/sidebar-logo.png";
+import Navbar from "../../../components/NavigationBar";
+
 export default function SubAdmin() {
     return (
         <>
-            <div className="d-flex">
-                
+        <Navbar/>
+        {/* Main Content */}
+            <div className="container-fluid mt-4 px-4">
+                <Outlet />
             </div>
         </>
     );
