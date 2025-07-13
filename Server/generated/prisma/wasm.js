@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.7.0
- * Query Engine version: 3cff47a7f5d65c3ea74883f1d736e41d68ce91ed
+ * Prisma Client JS version: 6.10.1
+ * Query Engine version: 9b628578b3b7cae625e8c927178f15a170e74a9c
  */
 Prisma.prismaVersion = {
-  client: "6.7.0",
-  engine: "3cff47a7f5d65c3ea74883f1d736e41d68ce91ed"
+  client: "6.10.1",
+  engine: "9b628578b3b7cae625e8c927178f15a170e74a9c"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -172,7 +172,6 @@ exports.Prisma.DonationhistoryScalarFieldEnum = {
 exports.Prisma.DonorsScalarFieldEnum = {
   donor_id: 'donor_id',
   user_id: 'user_id',
-  full_name: 'full_name',
   national_id: 'national_id',
   birth_date: 'birth_date',
   gender: 'gender',
@@ -187,7 +186,6 @@ exports.Prisma.DonorsScalarFieldEnum = {
 
 exports.Prisma.HospitalstaffScalarFieldEnum = {
   staff_id: 'staff_id',
-  hospital_name: 'hospital_name',
   user_id: 'user_id',
   address: 'address'
 };
@@ -203,7 +201,8 @@ exports.Prisma.UsersScalarFieldEnum = {
   password: 'password',
   email: 'email',
   contact_phone: 'contact_phone',
-  role: 'role'
+  role: 'role',
+  name: 'name'
 };
 
 exports.Prisma.SortOrder = {

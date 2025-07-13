@@ -5,6 +5,8 @@ import LoginLogoutButton from "../../../components/LoginLogoutButton";
 import { Link, Outlet } from "react-router-dom";
 import Logo from "../../../assets/images/sidebar-logo.png";
 export default function Admin() {
+  
+
   return (
     <>
       <div className="d-flex admin-page">
@@ -12,18 +14,17 @@ export default function Admin() {
         <div className="sidebar p-3">
           <div className="sidebar-logo d-flex align-items-center justify-content-center">
             <Link
-              to="/"
+              to=""
               className="d-flex align-items-center text-decoration-none"
             >
               <img className="logo" src={Logo} alt="Logo" width="50" />
-              <h4 className="fx-semibold text-center mt-2 ms-2">SENEB</h4>
+              <h4 className="fx-semibold text-center mt-2 ms-2">Dashboard</h4>
             </Link>
           </div>
-
           <hr className="sidebar-divider" />
-          <ul className="nav flex-column mt-3 mb-3">
+          <ul className="nav flex-column mt-4 mb-4">
             <div className="sidebar-section">
-              <li className="text-uppercase small ">User & Staff Management</li>
+              <li className="text-uppercase small mb-2">User & Staff Management</li>
 
               <li className="nav-item">
                 <Link className="nav-link sidebar-link" to="manage-subadmins">
@@ -51,7 +52,7 @@ export default function Admin() {
             <hr className="sidebar-divider" />
 
             <div className="sidebar-section ">
-              <li className="text-uppercase small">Operations</li>
+              <li className="text-uppercase small mb-2 mt-2">Operations</li>
 
               <li className="nav-item">
                 <Link className="nav-link sidebar-link" to="view-donations">
@@ -73,7 +74,7 @@ export default function Admin() {
             </div>
             <hr className="sidebar-divider" />
             <div className="sidebar-section">
-              <li className="text-uppercase small ">Other</li>
+              <li className="text-uppercase small mb-2 mt-2">Other</li>
 
               <li className="nav-item">
                 <Link className="nav-link sidebar-link" to="profile">
@@ -82,7 +83,10 @@ export default function Admin() {
               </li>
             </div>
           </ul>
-          <LoginLogoutButton />
+
+          <div className="sidebar-logout">
+            <LoginLogoutButton />
+          </div>
         </div>
 
         {/* Main content */}

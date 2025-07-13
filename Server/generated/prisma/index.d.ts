@@ -346,8 +346,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.7.0
-   * Query Engine version: 3cff47a7f5d65c3ea74883f1d736e41d68ce91ed
+   * Prisma Client JS version: 6.10.1
+   * Query Engine version: 9b628578b3b7cae625e8c927178f15a170e74a9c
    */
   export type PrismaVersion = {
     client: string
@@ -8560,7 +8560,6 @@ export namespace Prisma {
   export type DonorsMinAggregateOutputType = {
     donor_id: number | null
     user_id: number | null
-    full_name: string | null
     national_id: string | null
     birth_date: Date | null
     gender: string | null
@@ -8576,7 +8575,6 @@ export namespace Prisma {
   export type DonorsMaxAggregateOutputType = {
     donor_id: number | null
     user_id: number | null
-    full_name: string | null
     national_id: string | null
     birth_date: Date | null
     gender: string | null
@@ -8592,7 +8590,6 @@ export namespace Prisma {
   export type DonorsCountAggregateOutputType = {
     donor_id: number
     user_id: number
-    full_name: number
     national_id: number
     birth_date: number
     gender: number
@@ -8622,7 +8619,6 @@ export namespace Prisma {
   export type DonorsMinAggregateInputType = {
     donor_id?: true
     user_id?: true
-    full_name?: true
     national_id?: true
     birth_date?: true
     gender?: true
@@ -8638,7 +8634,6 @@ export namespace Prisma {
   export type DonorsMaxAggregateInputType = {
     donor_id?: true
     user_id?: true
-    full_name?: true
     national_id?: true
     birth_date?: true
     gender?: true
@@ -8654,7 +8649,6 @@ export namespace Prisma {
   export type DonorsCountAggregateInputType = {
     donor_id?: true
     user_id?: true
-    full_name?: true
     national_id?: true
     birth_date?: true
     gender?: true
@@ -8757,7 +8751,6 @@ export namespace Prisma {
   export type DonorsGroupByOutputType = {
     donor_id: number
     user_id: number
-    full_name: string
     national_id: string
     birth_date: Date
     gender: string
@@ -8792,7 +8785,6 @@ export namespace Prisma {
   export type donorsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     donor_id?: boolean
     user_id?: boolean
-    full_name?: boolean
     national_id?: boolean
     birth_date?: boolean
     gender?: boolean
@@ -8812,7 +8804,6 @@ export namespace Prisma {
   export type donorsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     donor_id?: boolean
     user_id?: boolean
-    full_name?: boolean
     national_id?: boolean
     birth_date?: boolean
     gender?: boolean
@@ -8829,7 +8820,6 @@ export namespace Prisma {
   export type donorsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     donor_id?: boolean
     user_id?: boolean
-    full_name?: boolean
     national_id?: boolean
     birth_date?: boolean
     gender?: boolean
@@ -8846,7 +8836,6 @@ export namespace Prisma {
   export type donorsSelectScalar = {
     donor_id?: boolean
     user_id?: boolean
-    full_name?: boolean
     national_id?: boolean
     birth_date?: boolean
     gender?: boolean
@@ -8859,7 +8848,7 @@ export namespace Prisma {
     donor_image?: boolean
   }
 
-  export type donorsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"donor_id" | "user_id" | "full_name" | "national_id" | "birth_date" | "gender" | "address" | "blood_type" | "last_donation_date" | "medications" | "medical_conditions" | "weight" | "donor_image", ExtArgs["result"]["donors"]>
+  export type donorsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"donor_id" | "user_id" | "national_id" | "birth_date" | "gender" | "address" | "blood_type" | "last_donation_date" | "medications" | "medical_conditions" | "weight" | "donor_image", ExtArgs["result"]["donors"]>
   export type donorsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     appointments?: boolean | donors$appointmentsArgs<ExtArgs>
     donationhistory?: boolean | donors$donationhistoryArgs<ExtArgs>
@@ -8883,7 +8872,6 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       donor_id: number
       user_id: number
-      full_name: string
       national_id: string
       birth_date: Date
       gender: string
@@ -9322,7 +9310,6 @@ export namespace Prisma {
   interface donorsFieldRefs {
     readonly donor_id: FieldRef<"donors", 'Int'>
     readonly user_id: FieldRef<"donors", 'Int'>
-    readonly full_name: FieldRef<"donors", 'String'>
     readonly national_id: FieldRef<"donors", 'String'>
     readonly birth_date: FieldRef<"donors", 'DateTime'>
     readonly gender: FieldRef<"donors", 'String'>
@@ -9819,21 +9806,18 @@ export namespace Prisma {
 
   export type HospitalstaffMinAggregateOutputType = {
     staff_id: number | null
-    hospital_name: string | null
     user_id: number | null
     address: string | null
   }
 
   export type HospitalstaffMaxAggregateOutputType = {
     staff_id: number | null
-    hospital_name: string | null
     user_id: number | null
     address: string | null
   }
 
   export type HospitalstaffCountAggregateOutputType = {
     staff_id: number
-    hospital_name: number
     user_id: number
     address: number
     _all: number
@@ -9852,21 +9836,18 @@ export namespace Prisma {
 
   export type HospitalstaffMinAggregateInputType = {
     staff_id?: true
-    hospital_name?: true
     user_id?: true
     address?: true
   }
 
   export type HospitalstaffMaxAggregateInputType = {
     staff_id?: true
-    hospital_name?: true
     user_id?: true
     address?: true
   }
 
   export type HospitalstaffCountAggregateInputType = {
     staff_id?: true
-    hospital_name?: true
     user_id?: true
     address?: true
     _all?: true
@@ -9960,7 +9941,6 @@ export namespace Prisma {
 
   export type HospitalstaffGroupByOutputType = {
     staff_id: number
-    hospital_name: string
     user_id: number
     address: string
     _count: HospitalstaffCountAggregateOutputType | null
@@ -9986,7 +9966,6 @@ export namespace Prisma {
 
   export type hospitalstaffSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     staff_id?: boolean
-    hospital_name?: boolean
     user_id?: boolean
     address?: boolean
     bloodrequests?: boolean | hospitalstaff$bloodrequestsArgs<ExtArgs>
@@ -9996,7 +9975,6 @@ export namespace Prisma {
 
   export type hospitalstaffSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     staff_id?: boolean
-    hospital_name?: boolean
     user_id?: boolean
     address?: boolean
     users?: boolean | usersDefaultArgs<ExtArgs>
@@ -10004,7 +9982,6 @@ export namespace Prisma {
 
   export type hospitalstaffSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     staff_id?: boolean
-    hospital_name?: boolean
     user_id?: boolean
     address?: boolean
     users?: boolean | usersDefaultArgs<ExtArgs>
@@ -10012,12 +9989,11 @@ export namespace Prisma {
 
   export type hospitalstaffSelectScalar = {
     staff_id?: boolean
-    hospital_name?: boolean
     user_id?: boolean
     address?: boolean
   }
 
-  export type hospitalstaffOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"staff_id" | "hospital_name" | "user_id" | "address", ExtArgs["result"]["hospitalstaff"]>
+  export type hospitalstaffOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"staff_id" | "user_id" | "address", ExtArgs["result"]["hospitalstaff"]>
   export type hospitalstaffInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bloodrequests?: boolean | hospitalstaff$bloodrequestsArgs<ExtArgs>
     users?: boolean | usersDefaultArgs<ExtArgs>
@@ -10038,7 +10014,6 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       staff_id: number
-      hospital_name: string
       user_id: number
       address: string
     }, ExtArgs["result"]["hospitalstaff"]>
@@ -10467,7 +10442,6 @@ export namespace Prisma {
    */
   interface hospitalstaffFieldRefs {
     readonly staff_id: FieldRef<"hospitalstaff", 'Int'>
-    readonly hospital_name: FieldRef<"hospitalstaff", 'String'>
     readonly user_id: FieldRef<"hospitalstaff", 'Int'>
     readonly address: FieldRef<"hospitalstaff", 'String'>
   }
@@ -12016,6 +11990,7 @@ export namespace Prisma {
     email: string | null
     contact_phone: string | null
     role: string | null
+    name: string | null
   }
 
   export type UsersMaxAggregateOutputType = {
@@ -12024,6 +11999,7 @@ export namespace Prisma {
     email: string | null
     contact_phone: string | null
     role: string | null
+    name: string | null
   }
 
   export type UsersCountAggregateOutputType = {
@@ -12032,6 +12008,7 @@ export namespace Prisma {
     email: number
     contact_phone: number
     role: number
+    name: number
     _all: number
   }
 
@@ -12050,6 +12027,7 @@ export namespace Prisma {
     email?: true
     contact_phone?: true
     role?: true
+    name?: true
   }
 
   export type UsersMaxAggregateInputType = {
@@ -12058,6 +12036,7 @@ export namespace Prisma {
     email?: true
     contact_phone?: true
     role?: true
+    name?: true
   }
 
   export type UsersCountAggregateInputType = {
@@ -12066,6 +12045,7 @@ export namespace Prisma {
     email?: true
     contact_phone?: true
     role?: true
+    name?: true
     _all?: true
   }
 
@@ -12161,6 +12141,7 @@ export namespace Prisma {
     email: string
     contact_phone: string
     role: string
+    name: string
     _count: UsersCountAggregateOutputType | null
     _avg: UsersAvgAggregateOutputType | null
     _sum: UsersSumAggregateOutputType | null
@@ -12188,6 +12169,7 @@ export namespace Prisma {
     email?: boolean
     contact_phone?: boolean
     role?: boolean
+    name?: boolean
     admins?: boolean | users$adminsArgs<ExtArgs>
     donors?: boolean | users$donorsArgs<ExtArgs>
     hospitalstaff?: boolean | users$hospitalstaffArgs<ExtArgs>
@@ -12200,6 +12182,7 @@ export namespace Prisma {
     email?: boolean
     contact_phone?: boolean
     role?: boolean
+    name?: boolean
   }, ExtArgs["result"]["users"]>
 
   export type usersSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -12208,6 +12191,7 @@ export namespace Prisma {
     email?: boolean
     contact_phone?: boolean
     role?: boolean
+    name?: boolean
   }, ExtArgs["result"]["users"]>
 
   export type usersSelectScalar = {
@@ -12216,9 +12200,10 @@ export namespace Prisma {
     email?: boolean
     contact_phone?: boolean
     role?: boolean
+    name?: boolean
   }
 
-  export type usersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"user_id" | "password" | "email" | "contact_phone" | "role", ExtArgs["result"]["users"]>
+  export type usersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"user_id" | "password" | "email" | "contact_phone" | "role" | "name", ExtArgs["result"]["users"]>
   export type usersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     admins?: boolean | users$adminsArgs<ExtArgs>
     donors?: boolean | users$donorsArgs<ExtArgs>
@@ -12242,6 +12227,7 @@ export namespace Prisma {
       email: string
       contact_phone: string
       role: string
+      name: string
     }, ExtArgs["result"]["users"]>
     composites: {}
   }
@@ -12674,6 +12660,7 @@ export namespace Prisma {
     readonly email: FieldRef<"users", 'String'>
     readonly contact_phone: FieldRef<"users", 'String'>
     readonly role: FieldRef<"users", 'String'>
+    readonly name: FieldRef<"users", 'String'>
   }
     
 
@@ -13240,7 +13227,6 @@ export namespace Prisma {
   export const DonorsScalarFieldEnum: {
     donor_id: 'donor_id',
     user_id: 'user_id',
-    full_name: 'full_name',
     national_id: 'national_id',
     birth_date: 'birth_date',
     gender: 'gender',
@@ -13258,7 +13244,6 @@ export namespace Prisma {
 
   export const HospitalstaffScalarFieldEnum: {
     staff_id: 'staff_id',
-    hospital_name: 'hospital_name',
     user_id: 'user_id',
     address: 'address'
   };
@@ -13280,7 +13265,8 @@ export namespace Prisma {
     password: 'password',
     email: 'email',
     contact_phone: 'contact_phone',
-    role: 'role'
+    role: 'role',
+    name: 'name'
   };
 
   export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
@@ -13756,7 +13742,6 @@ export namespace Prisma {
     NOT?: donorsWhereInput | donorsWhereInput[]
     donor_id?: IntFilter<"donors"> | number
     user_id?: IntFilter<"donors"> | number
-    full_name?: StringFilter<"donors"> | string
     national_id?: StringFilter<"donors"> | string
     birth_date?: DateTimeFilter<"donors"> | Date | string
     gender?: StringFilter<"donors"> | string
@@ -13775,7 +13760,6 @@ export namespace Prisma {
   export type donorsOrderByWithRelationInput = {
     donor_id?: SortOrder
     user_id?: SortOrder
-    full_name?: SortOrder
     national_id?: SortOrder
     birth_date?: SortOrder
     gender?: SortOrder
@@ -13798,7 +13782,6 @@ export namespace Prisma {
     AND?: donorsWhereInput | donorsWhereInput[]
     OR?: donorsWhereInput[]
     NOT?: donorsWhereInput | donorsWhereInput[]
-    full_name?: StringFilter<"donors"> | string
     birth_date?: DateTimeFilter<"donors"> | Date | string
     gender?: StringFilter<"donors"> | string
     address?: StringFilter<"donors"> | string
@@ -13816,7 +13799,6 @@ export namespace Prisma {
   export type donorsOrderByWithAggregationInput = {
     donor_id?: SortOrder
     user_id?: SortOrder
-    full_name?: SortOrder
     national_id?: SortOrder
     birth_date?: SortOrder
     gender?: SortOrder
@@ -13840,7 +13822,6 @@ export namespace Prisma {
     NOT?: donorsScalarWhereWithAggregatesInput | donorsScalarWhereWithAggregatesInput[]
     donor_id?: IntWithAggregatesFilter<"donors"> | number
     user_id?: IntWithAggregatesFilter<"donors"> | number
-    full_name?: StringWithAggregatesFilter<"donors"> | string
     national_id?: StringWithAggregatesFilter<"donors"> | string
     birth_date?: DateTimeWithAggregatesFilter<"donors"> | Date | string
     gender?: StringWithAggregatesFilter<"donors"> | string
@@ -13858,7 +13839,6 @@ export namespace Prisma {
     OR?: hospitalstaffWhereInput[]
     NOT?: hospitalstaffWhereInput | hospitalstaffWhereInput[]
     staff_id?: IntFilter<"hospitalstaff"> | number
-    hospital_name?: StringFilter<"hospitalstaff"> | string
     user_id?: IntFilter<"hospitalstaff"> | number
     address?: StringFilter<"hospitalstaff"> | string
     bloodrequests?: BloodrequestsListRelationFilter
@@ -13867,7 +13847,6 @@ export namespace Prisma {
 
   export type hospitalstaffOrderByWithRelationInput = {
     staff_id?: SortOrder
-    hospital_name?: SortOrder
     user_id?: SortOrder
     address?: SortOrder
     bloodrequests?: bloodrequestsOrderByRelationAggregateInput
@@ -13880,7 +13859,6 @@ export namespace Prisma {
     AND?: hospitalstaffWhereInput | hospitalstaffWhereInput[]
     OR?: hospitalstaffWhereInput[]
     NOT?: hospitalstaffWhereInput | hospitalstaffWhereInput[]
-    hospital_name?: StringFilter<"hospitalstaff"> | string
     address?: StringFilter<"hospitalstaff"> | string
     bloodrequests?: BloodrequestsListRelationFilter
     users?: XOR<UsersScalarRelationFilter, usersWhereInput>
@@ -13888,7 +13866,6 @@ export namespace Prisma {
 
   export type hospitalstaffOrderByWithAggregationInput = {
     staff_id?: SortOrder
-    hospital_name?: SortOrder
     user_id?: SortOrder
     address?: SortOrder
     _count?: hospitalstaffCountOrderByAggregateInput
@@ -13903,7 +13880,6 @@ export namespace Prisma {
     OR?: hospitalstaffScalarWhereWithAggregatesInput[]
     NOT?: hospitalstaffScalarWhereWithAggregatesInput | hospitalstaffScalarWhereWithAggregatesInput[]
     staff_id?: IntWithAggregatesFilter<"hospitalstaff"> | number
-    hospital_name?: StringWithAggregatesFilter<"hospitalstaff"> | string
     user_id?: IntWithAggregatesFilter<"hospitalstaff"> | number
     address?: StringWithAggregatesFilter<"hospitalstaff"> | string
   }
@@ -13967,6 +13943,7 @@ export namespace Prisma {
     email?: StringFilter<"users"> | string
     contact_phone?: StringFilter<"users"> | string
     role?: StringFilter<"users"> | string
+    name?: StringFilter<"users"> | string
     admins?: XOR<AdminsNullableScalarRelationFilter, adminsWhereInput> | null
     donors?: XOR<DonorsNullableScalarRelationFilter, donorsWhereInput> | null
     hospitalstaff?: XOR<HospitalstaffNullableScalarRelationFilter, hospitalstaffWhereInput> | null
@@ -13979,6 +13956,7 @@ export namespace Prisma {
     email?: SortOrder
     contact_phone?: SortOrder
     role?: SortOrder
+    name?: SortOrder
     admins?: adminsOrderByWithRelationInput
     donors?: donorsOrderByWithRelationInput
     hospitalstaff?: hospitalstaffOrderByWithRelationInput
@@ -13994,6 +13972,7 @@ export namespace Prisma {
     password?: StringFilter<"users"> | string
     contact_phone?: StringFilter<"users"> | string
     role?: StringFilter<"users"> | string
+    name?: StringFilter<"users"> | string
     admins?: XOR<AdminsNullableScalarRelationFilter, adminsWhereInput> | null
     donors?: XOR<DonorsNullableScalarRelationFilter, donorsWhereInput> | null
     hospitalstaff?: XOR<HospitalstaffNullableScalarRelationFilter, hospitalstaffWhereInput> | null
@@ -14006,6 +13985,7 @@ export namespace Prisma {
     email?: SortOrder
     contact_phone?: SortOrder
     role?: SortOrder
+    name?: SortOrder
     _count?: usersCountOrderByAggregateInput
     _avg?: usersAvgOrderByAggregateInput
     _max?: usersMaxOrderByAggregateInput
@@ -14022,6 +14002,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"users"> | string
     contact_phone?: StringWithAggregatesFilter<"users"> | string
     role?: StringWithAggregatesFilter<"users"> | string
+    name?: StringWithAggregatesFilter<"users"> | string
   }
 
   export type adminsCreateInput = {
@@ -14359,7 +14340,6 @@ export namespace Prisma {
   }
 
   export type donorsCreateInput = {
-    full_name: string
     national_id: string
     birth_date: Date | string
     gender: string
@@ -14378,7 +14358,6 @@ export namespace Prisma {
   export type donorsUncheckedCreateInput = {
     donor_id?: number
     user_id: number
-    full_name: string
     national_id: string
     birth_date: Date | string
     gender: string
@@ -14394,7 +14373,6 @@ export namespace Prisma {
   }
 
   export type donorsUpdateInput = {
-    full_name?: StringFieldUpdateOperationsInput | string
     national_id?: StringFieldUpdateOperationsInput | string
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     gender?: StringFieldUpdateOperationsInput | string
@@ -14413,7 +14391,6 @@ export namespace Prisma {
   export type donorsUncheckedUpdateInput = {
     donor_id?: IntFieldUpdateOperationsInput | number
     user_id?: IntFieldUpdateOperationsInput | number
-    full_name?: StringFieldUpdateOperationsInput | string
     national_id?: StringFieldUpdateOperationsInput | string
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     gender?: StringFieldUpdateOperationsInput | string
@@ -14431,7 +14408,6 @@ export namespace Prisma {
   export type donorsCreateManyInput = {
     donor_id?: number
     user_id: number
-    full_name: string
     national_id: string
     birth_date: Date | string
     gender: string
@@ -14445,7 +14421,6 @@ export namespace Prisma {
   }
 
   export type donorsUpdateManyMutationInput = {
-    full_name?: StringFieldUpdateOperationsInput | string
     national_id?: StringFieldUpdateOperationsInput | string
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     gender?: StringFieldUpdateOperationsInput | string
@@ -14461,7 +14436,6 @@ export namespace Prisma {
   export type donorsUncheckedUpdateManyInput = {
     donor_id?: IntFieldUpdateOperationsInput | number
     user_id?: IntFieldUpdateOperationsInput | number
-    full_name?: StringFieldUpdateOperationsInput | string
     national_id?: StringFieldUpdateOperationsInput | string
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     gender?: StringFieldUpdateOperationsInput | string
@@ -14475,7 +14449,6 @@ export namespace Prisma {
   }
 
   export type hospitalstaffCreateInput = {
-    hospital_name: string
     address: string
     bloodrequests?: bloodrequestsCreateNestedManyWithoutHospitalstaffInput
     users: usersCreateNestedOneWithoutHospitalstaffInput
@@ -14483,14 +14456,12 @@ export namespace Prisma {
 
   export type hospitalstaffUncheckedCreateInput = {
     staff_id?: number
-    hospital_name: string
     user_id: number
     address: string
     bloodrequests?: bloodrequestsUncheckedCreateNestedManyWithoutHospitalstaffInput
   }
 
   export type hospitalstaffUpdateInput = {
-    hospital_name?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     bloodrequests?: bloodrequestsUpdateManyWithoutHospitalstaffNestedInput
     users?: usersUpdateOneRequiredWithoutHospitalstaffNestedInput
@@ -14498,7 +14469,6 @@ export namespace Prisma {
 
   export type hospitalstaffUncheckedUpdateInput = {
     staff_id?: IntFieldUpdateOperationsInput | number
-    hospital_name?: StringFieldUpdateOperationsInput | string
     user_id?: IntFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
     bloodrequests?: bloodrequestsUncheckedUpdateManyWithoutHospitalstaffNestedInput
@@ -14506,19 +14476,16 @@ export namespace Prisma {
 
   export type hospitalstaffCreateManyInput = {
     staff_id?: number
-    hospital_name: string
     user_id: number
     address: string
   }
 
   export type hospitalstaffUpdateManyMutationInput = {
-    hospital_name?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
   }
 
   export type hospitalstaffUncheckedUpdateManyInput = {
     staff_id?: IntFieldUpdateOperationsInput | number
-    hospital_name?: StringFieldUpdateOperationsInput | string
     user_id?: IntFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
   }
@@ -14566,6 +14533,7 @@ export namespace Prisma {
     email: string
     contact_phone: string
     role: string
+    name: string
     admins?: adminsCreateNestedOneWithoutUsersInput
     donors?: donorsCreateNestedOneWithoutUsersInput
     hospitalstaff?: hospitalstaffCreateNestedOneWithoutUsersInput
@@ -14578,6 +14546,7 @@ export namespace Prisma {
     email: string
     contact_phone: string
     role: string
+    name: string
     admins?: adminsUncheckedCreateNestedOneWithoutUsersInput
     donors?: donorsUncheckedCreateNestedOneWithoutUsersInput
     hospitalstaff?: hospitalstaffUncheckedCreateNestedOneWithoutUsersInput
@@ -14589,6 +14558,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     contact_phone?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     admins?: adminsUpdateOneWithoutUsersNestedInput
     donors?: donorsUpdateOneWithoutUsersNestedInput
     hospitalstaff?: hospitalstaffUpdateOneWithoutUsersNestedInput
@@ -14601,6 +14571,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     contact_phone?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     admins?: adminsUncheckedUpdateOneWithoutUsersNestedInput
     donors?: donorsUncheckedUpdateOneWithoutUsersNestedInput
     hospitalstaff?: hospitalstaffUncheckedUpdateOneWithoutUsersNestedInput
@@ -14613,6 +14584,7 @@ export namespace Prisma {
     email: string
     contact_phone: string
     role: string
+    name: string
   }
 
   export type usersUpdateManyMutationInput = {
@@ -14620,6 +14592,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     contact_phone?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
   }
 
   export type usersUncheckedUpdateManyInput = {
@@ -14628,6 +14601,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     contact_phone?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -15083,7 +15057,6 @@ export namespace Prisma {
   export type donorsCountOrderByAggregateInput = {
     donor_id?: SortOrder
     user_id?: SortOrder
-    full_name?: SortOrder
     national_id?: SortOrder
     birth_date?: SortOrder
     gender?: SortOrder
@@ -15105,7 +15078,6 @@ export namespace Prisma {
   export type donorsMaxOrderByAggregateInput = {
     donor_id?: SortOrder
     user_id?: SortOrder
-    full_name?: SortOrder
     national_id?: SortOrder
     birth_date?: SortOrder
     gender?: SortOrder
@@ -15121,7 +15093,6 @@ export namespace Prisma {
   export type donorsMinOrderByAggregateInput = {
     donor_id?: SortOrder
     user_id?: SortOrder
-    full_name?: SortOrder
     national_id?: SortOrder
     birth_date?: SortOrder
     gender?: SortOrder
@@ -15152,7 +15123,6 @@ export namespace Prisma {
 
   export type hospitalstaffCountOrderByAggregateInput = {
     staff_id?: SortOrder
-    hospital_name?: SortOrder
     user_id?: SortOrder
     address?: SortOrder
   }
@@ -15164,14 +15134,12 @@ export namespace Prisma {
 
   export type hospitalstaffMaxOrderByAggregateInput = {
     staff_id?: SortOrder
-    hospital_name?: SortOrder
     user_id?: SortOrder
     address?: SortOrder
   }
 
   export type hospitalstaffMinOrderByAggregateInput = {
     staff_id?: SortOrder
-    hospital_name?: SortOrder
     user_id?: SortOrder
     address?: SortOrder
   }
@@ -15237,6 +15205,7 @@ export namespace Prisma {
     email?: SortOrder
     contact_phone?: SortOrder
     role?: SortOrder
+    name?: SortOrder
   }
 
   export type usersAvgOrderByAggregateInput = {
@@ -15249,6 +15218,7 @@ export namespace Prisma {
     email?: SortOrder
     contact_phone?: SortOrder
     role?: SortOrder
+    name?: SortOrder
   }
 
   export type usersMinOrderByAggregateInput = {
@@ -15257,6 +15227,7 @@ export namespace Prisma {
     email?: SortOrder
     contact_phone?: SortOrder
     role?: SortOrder
+    name?: SortOrder
   }
 
   export type usersSumOrderByAggregateInput = {
@@ -16064,6 +16035,7 @@ export namespace Prisma {
     email: string
     contact_phone: string
     role: string
+    name: string
     donors?: donorsCreateNestedOneWithoutUsersInput
     hospitalstaff?: hospitalstaffCreateNestedOneWithoutUsersInput
     subadmins?: subadminsCreateNestedOneWithoutUsersInput
@@ -16075,6 +16047,7 @@ export namespace Prisma {
     email: string
     contact_phone: string
     role: string
+    name: string
     donors?: donorsUncheckedCreateNestedOneWithoutUsersInput
     hospitalstaff?: hospitalstaffUncheckedCreateNestedOneWithoutUsersInput
     subadmins?: subadminsUncheckedCreateNestedOneWithoutUsersInput
@@ -16101,6 +16074,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     contact_phone?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     donors?: donorsUpdateOneWithoutUsersNestedInput
     hospitalstaff?: hospitalstaffUpdateOneWithoutUsersNestedInput
     subadmins?: subadminsUpdateOneWithoutUsersNestedInput
@@ -16112,6 +16086,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     contact_phone?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     donors?: donorsUncheckedUpdateOneWithoutUsersNestedInput
     hospitalstaff?: hospitalstaffUncheckedUpdateOneWithoutUsersNestedInput
     subadmins?: subadminsUncheckedUpdateOneWithoutUsersNestedInput
@@ -16142,7 +16117,6 @@ export namespace Prisma {
   }
 
   export type donorsCreateWithoutAppointmentsInput = {
-    full_name: string
     national_id: string
     birth_date: Date | string
     gender: string
@@ -16160,7 +16134,6 @@ export namespace Prisma {
   export type donorsUncheckedCreateWithoutAppointmentsInput = {
     donor_id?: number
     user_id: number
-    full_name: string
     national_id: string
     birth_date: Date | string
     gender: string
@@ -16221,7 +16194,6 @@ export namespace Prisma {
   }
 
   export type donorsUpdateWithoutAppointmentsInput = {
-    full_name?: StringFieldUpdateOperationsInput | string
     national_id?: StringFieldUpdateOperationsInput | string
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     gender?: StringFieldUpdateOperationsInput | string
@@ -16239,7 +16211,6 @@ export namespace Prisma {
   export type donorsUncheckedUpdateWithoutAppointmentsInput = {
     donor_id?: IntFieldUpdateOperationsInput | number
     user_id?: IntFieldUpdateOperationsInput | number
-    full_name?: StringFieldUpdateOperationsInput | string
     national_id?: StringFieldUpdateOperationsInput | string
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     gender?: StringFieldUpdateOperationsInput | string
@@ -16454,14 +16425,12 @@ export namespace Prisma {
   }
 
   export type hospitalstaffCreateWithoutBloodrequestsInput = {
-    hospital_name: string
     address: string
     users: usersCreateNestedOneWithoutHospitalstaffInput
   }
 
   export type hospitalstaffUncheckedCreateWithoutBloodrequestsInput = {
     staff_id?: number
-    hospital_name: string
     user_id: number
     address: string
   }
@@ -16483,14 +16452,12 @@ export namespace Prisma {
   }
 
   export type hospitalstaffUpdateWithoutBloodrequestsInput = {
-    hospital_name?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     users?: usersUpdateOneRequiredWithoutHospitalstaffNestedInput
   }
 
   export type hospitalstaffUncheckedUpdateWithoutBloodrequestsInput = {
     staff_id?: IntFieldUpdateOperationsInput | number
-    hospital_name?: StringFieldUpdateOperationsInput | string
     user_id?: IntFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
   }
@@ -16574,7 +16541,6 @@ export namespace Prisma {
   }
 
   export type donorsCreateWithoutDonationhistoryInput = {
-    full_name: string
     national_id: string
     birth_date: Date | string
     gender: string
@@ -16592,7 +16558,6 @@ export namespace Prisma {
   export type donorsUncheckedCreateWithoutDonationhistoryInput = {
     donor_id?: number
     user_id: number
-    full_name: string
     national_id: string
     birth_date: Date | string
     gender: string
@@ -16653,7 +16618,6 @@ export namespace Prisma {
   }
 
   export type donorsUpdateWithoutDonationhistoryInput = {
-    full_name?: StringFieldUpdateOperationsInput | string
     national_id?: StringFieldUpdateOperationsInput | string
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     gender?: StringFieldUpdateOperationsInput | string
@@ -16671,7 +16635,6 @@ export namespace Prisma {
   export type donorsUncheckedUpdateWithoutDonationhistoryInput = {
     donor_id?: IntFieldUpdateOperationsInput | number
     user_id?: IntFieldUpdateOperationsInput | number
-    full_name?: StringFieldUpdateOperationsInput | string
     national_id?: StringFieldUpdateOperationsInput | string
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     gender?: StringFieldUpdateOperationsInput | string
@@ -16740,6 +16703,7 @@ export namespace Prisma {
     email: string
     contact_phone: string
     role: string
+    name: string
     admins?: adminsCreateNestedOneWithoutUsersInput
     hospitalstaff?: hospitalstaffCreateNestedOneWithoutUsersInput
     subadmins?: subadminsCreateNestedOneWithoutUsersInput
@@ -16751,6 +16715,7 @@ export namespace Prisma {
     email: string
     contact_phone: string
     role: string
+    name: string
     admins?: adminsUncheckedCreateNestedOneWithoutUsersInput
     hospitalstaff?: hospitalstaffUncheckedCreateNestedOneWithoutUsersInput
     subadmins?: subadminsUncheckedCreateNestedOneWithoutUsersInput
@@ -16809,6 +16774,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     contact_phone?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     admins?: adminsUpdateOneWithoutUsersNestedInput
     hospitalstaff?: hospitalstaffUpdateOneWithoutUsersNestedInput
     subadmins?: subadminsUpdateOneWithoutUsersNestedInput
@@ -16820,6 +16786,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     contact_phone?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     admins?: adminsUncheckedUpdateOneWithoutUsersNestedInput
     hospitalstaff?: hospitalstaffUncheckedUpdateOneWithoutUsersNestedInput
     subadmins?: subadminsUncheckedUpdateOneWithoutUsersNestedInput
@@ -16857,6 +16824,7 @@ export namespace Prisma {
     email: string
     contact_phone: string
     role: string
+    name: string
     admins?: adminsCreateNestedOneWithoutUsersInput
     donors?: donorsCreateNestedOneWithoutUsersInput
     subadmins?: subadminsCreateNestedOneWithoutUsersInput
@@ -16868,6 +16836,7 @@ export namespace Prisma {
     email: string
     contact_phone: string
     role: string
+    name: string
     admins?: adminsUncheckedCreateNestedOneWithoutUsersInput
     donors?: donorsUncheckedCreateNestedOneWithoutUsersInput
     subadmins?: subadminsUncheckedCreateNestedOneWithoutUsersInput
@@ -16923,6 +16892,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     contact_phone?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     admins?: adminsUpdateOneWithoutUsersNestedInput
     donors?: donorsUpdateOneWithoutUsersNestedInput
     subadmins?: subadminsUpdateOneWithoutUsersNestedInput
@@ -16934,6 +16904,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     contact_phone?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     admins?: adminsUncheckedUpdateOneWithoutUsersNestedInput
     donors?: donorsUncheckedUpdateOneWithoutUsersNestedInput
     subadmins?: subadminsUncheckedUpdateOneWithoutUsersNestedInput
@@ -16968,6 +16939,7 @@ export namespace Prisma {
     email: string
     contact_phone: string
     role: string
+    name: string
     admins?: adminsCreateNestedOneWithoutUsersInput
     donors?: donorsCreateNestedOneWithoutUsersInput
     hospitalstaff?: hospitalstaffCreateNestedOneWithoutUsersInput
@@ -16979,6 +16951,7 @@ export namespace Prisma {
     email: string
     contact_phone: string
     role: string
+    name: string
     admins?: adminsUncheckedCreateNestedOneWithoutUsersInput
     donors?: donorsUncheckedCreateNestedOneWithoutUsersInput
     hospitalstaff?: hospitalstaffUncheckedCreateNestedOneWithoutUsersInput
@@ -17035,6 +17008,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     contact_phone?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     admins?: adminsUpdateOneWithoutUsersNestedInput
     donors?: donorsUpdateOneWithoutUsersNestedInput
     hospitalstaff?: hospitalstaffUpdateOneWithoutUsersNestedInput
@@ -17046,6 +17020,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     contact_phone?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     admins?: adminsUncheckedUpdateOneWithoutUsersNestedInput
     donors?: donorsUncheckedUpdateOneWithoutUsersNestedInput
     hospitalstaff?: hospitalstaffUncheckedUpdateOneWithoutUsersNestedInput
@@ -17066,7 +17041,6 @@ export namespace Prisma {
   }
 
   export type donorsCreateWithoutUsersInput = {
-    full_name: string
     national_id: string
     birth_date: Date | string
     gender: string
@@ -17083,7 +17057,6 @@ export namespace Prisma {
 
   export type donorsUncheckedCreateWithoutUsersInput = {
     donor_id?: number
-    full_name: string
     national_id: string
     birth_date: Date | string
     gender: string
@@ -17104,14 +17077,12 @@ export namespace Prisma {
   }
 
   export type hospitalstaffCreateWithoutUsersInput = {
-    hospital_name: string
     address: string
     bloodrequests?: bloodrequestsCreateNestedManyWithoutHospitalstaffInput
   }
 
   export type hospitalstaffUncheckedCreateWithoutUsersInput = {
     staff_id?: number
-    hospital_name: string
     address: string
     bloodrequests?: bloodrequestsUncheckedCreateNestedManyWithoutHospitalstaffInput
   }
@@ -17167,7 +17138,6 @@ export namespace Prisma {
   }
 
   export type donorsUpdateWithoutUsersInput = {
-    full_name?: StringFieldUpdateOperationsInput | string
     national_id?: StringFieldUpdateOperationsInput | string
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     gender?: StringFieldUpdateOperationsInput | string
@@ -17184,7 +17154,6 @@ export namespace Prisma {
 
   export type donorsUncheckedUpdateWithoutUsersInput = {
     donor_id?: IntFieldUpdateOperationsInput | number
-    full_name?: StringFieldUpdateOperationsInput | string
     national_id?: StringFieldUpdateOperationsInput | string
     birth_date?: DateTimeFieldUpdateOperationsInput | Date | string
     gender?: StringFieldUpdateOperationsInput | string
@@ -17211,14 +17180,12 @@ export namespace Prisma {
   }
 
   export type hospitalstaffUpdateWithoutUsersInput = {
-    hospital_name?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     bloodrequests?: bloodrequestsUpdateManyWithoutHospitalstaffNestedInput
   }
 
   export type hospitalstaffUncheckedUpdateWithoutUsersInput = {
     staff_id?: IntFieldUpdateOperationsInput | number
-    hospital_name?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     bloodrequests?: bloodrequestsUncheckedUpdateManyWithoutHospitalstaffNestedInput
   }

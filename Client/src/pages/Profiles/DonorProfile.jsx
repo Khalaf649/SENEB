@@ -7,7 +7,7 @@ import Navbar from '../../Components/NavigationBar';
 import TextInput from '../../components/Auth/TextInput';
 import SelectInput from '../../components/Auth/SelectInput';
 import DateInput from '../../components/Auth/DateInput';
-import { fetchDonorProfile,updateDonorProfile } from '../../api/profile/profile';
+import { fetchDonorProfile,updateDonorProfile } from '../../api/donor/profile';
 
 export default function DonorProfile() {
     const [formData, setFormData] = useState({
