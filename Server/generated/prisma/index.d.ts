@@ -7424,14 +7424,14 @@ export namespace Prisma {
     donation_id: number | null
     donor_id: number | null
     center_id: number | null
-    amount_donated: Decimal | null
+    units_donated: number | null
   }
 
   export type DonationhistorySumAggregateOutputType = {
     donation_id: number | null
     donor_id: number | null
     center_id: number | null
-    amount_donated: Decimal | null
+    units_donated: number | null
   }
 
   export type DonationhistoryMinAggregateOutputType = {
@@ -7439,7 +7439,7 @@ export namespace Prisma {
     donor_id: number | null
     center_id: number | null
     donation_date: Date | null
-    amount_donated: Decimal | null
+    units_donated: number | null
     status: string | null
   }
 
@@ -7448,7 +7448,7 @@ export namespace Prisma {
     donor_id: number | null
     center_id: number | null
     donation_date: Date | null
-    amount_donated: Decimal | null
+    units_donated: number | null
     status: string | null
   }
 
@@ -7457,7 +7457,7 @@ export namespace Prisma {
     donor_id: number
     center_id: number
     donation_date: number
-    amount_donated: number
+    units_donated: number
     status: number
     _all: number
   }
@@ -7467,14 +7467,14 @@ export namespace Prisma {
     donation_id?: true
     donor_id?: true
     center_id?: true
-    amount_donated?: true
+    units_donated?: true
   }
 
   export type DonationhistorySumAggregateInputType = {
     donation_id?: true
     donor_id?: true
     center_id?: true
-    amount_donated?: true
+    units_donated?: true
   }
 
   export type DonationhistoryMinAggregateInputType = {
@@ -7482,7 +7482,7 @@ export namespace Prisma {
     donor_id?: true
     center_id?: true
     donation_date?: true
-    amount_donated?: true
+    units_donated?: true
     status?: true
   }
 
@@ -7491,7 +7491,7 @@ export namespace Prisma {
     donor_id?: true
     center_id?: true
     donation_date?: true
-    amount_donated?: true
+    units_donated?: true
     status?: true
   }
 
@@ -7500,7 +7500,7 @@ export namespace Prisma {
     donor_id?: true
     center_id?: true
     donation_date?: true
-    amount_donated?: true
+    units_donated?: true
     status?: true
     _all?: true
   }
@@ -7596,7 +7596,7 @@ export namespace Prisma {
     donor_id: number
     center_id: number
     donation_date: Date
-    amount_donated: Decimal
+    units_donated: number
     status: string | null
     _count: DonationhistoryCountAggregateOutputType | null
     _avg: DonationhistoryAvgAggregateOutputType | null
@@ -7624,7 +7624,7 @@ export namespace Prisma {
     donor_id?: boolean
     center_id?: boolean
     donation_date?: boolean
-    amount_donated?: boolean
+    units_donated?: boolean
     status?: boolean
     bloodcenters?: boolean | bloodcentersDefaultArgs<ExtArgs>
     donors?: boolean | donorsDefaultArgs<ExtArgs>
@@ -7635,7 +7635,7 @@ export namespace Prisma {
     donor_id?: boolean
     center_id?: boolean
     donation_date?: boolean
-    amount_donated?: boolean
+    units_donated?: boolean
     status?: boolean
     bloodcenters?: boolean | bloodcentersDefaultArgs<ExtArgs>
     donors?: boolean | donorsDefaultArgs<ExtArgs>
@@ -7646,7 +7646,7 @@ export namespace Prisma {
     donor_id?: boolean
     center_id?: boolean
     donation_date?: boolean
-    amount_donated?: boolean
+    units_donated?: boolean
     status?: boolean
     bloodcenters?: boolean | bloodcentersDefaultArgs<ExtArgs>
     donors?: boolean | donorsDefaultArgs<ExtArgs>
@@ -7657,11 +7657,11 @@ export namespace Prisma {
     donor_id?: boolean
     center_id?: boolean
     donation_date?: boolean
-    amount_donated?: boolean
+    units_donated?: boolean
     status?: boolean
   }
 
-  export type donationhistoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"donation_id" | "donor_id" | "center_id" | "donation_date" | "amount_donated" | "status", ExtArgs["result"]["donationhistory"]>
+  export type donationhistoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"donation_id" | "donor_id" | "center_id" | "donation_date" | "units_donated" | "status", ExtArgs["result"]["donationhistory"]>
   export type donationhistoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bloodcenters?: boolean | bloodcentersDefaultArgs<ExtArgs>
     donors?: boolean | donorsDefaultArgs<ExtArgs>
@@ -7686,7 +7686,7 @@ export namespace Prisma {
       donor_id: number
       center_id: number
       donation_date: Date
-      amount_donated: Prisma.Decimal
+      units_donated: number
       status: string | null
     }, ExtArgs["result"]["donationhistory"]>
     composites: {}
@@ -8117,7 +8117,7 @@ export namespace Prisma {
     readonly donor_id: FieldRef<"donationhistory", 'Int'>
     readonly center_id: FieldRef<"donationhistory", 'Int'>
     readonly donation_date: FieldRef<"donationhistory", 'DateTime'>
-    readonly amount_donated: FieldRef<"donationhistory", 'Decimal'>
+    readonly units_donated: FieldRef<"donationhistory", 'Int'>
     readonly status: FieldRef<"donationhistory", 'String'>
   }
     
@@ -13217,7 +13217,7 @@ export namespace Prisma {
     donor_id: 'donor_id',
     center_id: 'center_id',
     donation_date: 'donation_date',
-    amount_donated: 'amount_donated',
+    units_donated: 'units_donated',
     status: 'status'
   };
 
@@ -13679,7 +13679,7 @@ export namespace Prisma {
     donor_id?: IntFilter<"donationhistory"> | number
     center_id?: IntFilter<"donationhistory"> | number
     donation_date?: DateTimeFilter<"donationhistory"> | Date | string
-    amount_donated?: DecimalFilter<"donationhistory"> | Decimal | DecimalJsLike | number | string
+    units_donated?: IntFilter<"donationhistory"> | number
     status?: StringNullableFilter<"donationhistory"> | string | null
     bloodcenters?: XOR<BloodcentersScalarRelationFilter, bloodcentersWhereInput>
     donors?: XOR<DonorsScalarRelationFilter, donorsWhereInput>
@@ -13690,7 +13690,7 @@ export namespace Prisma {
     donor_id?: SortOrder
     center_id?: SortOrder
     donation_date?: SortOrder
-    amount_donated?: SortOrder
+    units_donated?: SortOrder
     status?: SortOrderInput | SortOrder
     bloodcenters?: bloodcentersOrderByWithRelationInput
     donors?: donorsOrderByWithRelationInput
@@ -13704,7 +13704,7 @@ export namespace Prisma {
     donor_id?: IntFilter<"donationhistory"> | number
     center_id?: IntFilter<"donationhistory"> | number
     donation_date?: DateTimeFilter<"donationhistory"> | Date | string
-    amount_donated?: DecimalFilter<"donationhistory"> | Decimal | DecimalJsLike | number | string
+    units_donated?: IntFilter<"donationhistory"> | number
     status?: StringNullableFilter<"donationhistory"> | string | null
     bloodcenters?: XOR<BloodcentersScalarRelationFilter, bloodcentersWhereInput>
     donors?: XOR<DonorsScalarRelationFilter, donorsWhereInput>
@@ -13715,7 +13715,7 @@ export namespace Prisma {
     donor_id?: SortOrder
     center_id?: SortOrder
     donation_date?: SortOrder
-    amount_donated?: SortOrder
+    units_donated?: SortOrder
     status?: SortOrderInput | SortOrder
     _count?: donationhistoryCountOrderByAggregateInput
     _avg?: donationhistoryAvgOrderByAggregateInput
@@ -13732,7 +13732,7 @@ export namespace Prisma {
     donor_id?: IntWithAggregatesFilter<"donationhistory"> | number
     center_id?: IntWithAggregatesFilter<"donationhistory"> | number
     donation_date?: DateTimeWithAggregatesFilter<"donationhistory"> | Date | string
-    amount_donated?: DecimalWithAggregatesFilter<"donationhistory"> | Decimal | DecimalJsLike | number | string
+    units_donated?: IntWithAggregatesFilter<"donationhistory"> | number
     status?: StringNullableWithAggregatesFilter<"donationhistory"> | string | null
   }
 
@@ -14283,7 +14283,7 @@ export namespace Prisma {
 
   export type donationhistoryCreateInput = {
     donation_date: Date | string
-    amount_donated: Decimal | DecimalJsLike | number | string
+    units_donated?: number
     status?: string | null
     bloodcenters: bloodcentersCreateNestedOneWithoutDonationhistoryInput
     donors: donorsCreateNestedOneWithoutDonationhistoryInput
@@ -14294,13 +14294,13 @@ export namespace Prisma {
     donor_id: number
     center_id: number
     donation_date: Date | string
-    amount_donated: Decimal | DecimalJsLike | number | string
+    units_donated?: number
     status?: string | null
   }
 
   export type donationhistoryUpdateInput = {
     donation_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    amount_donated?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    units_donated?: IntFieldUpdateOperationsInput | number
     status?: NullableStringFieldUpdateOperationsInput | string | null
     bloodcenters?: bloodcentersUpdateOneRequiredWithoutDonationhistoryNestedInput
     donors?: donorsUpdateOneRequiredWithoutDonationhistoryNestedInput
@@ -14311,7 +14311,7 @@ export namespace Prisma {
     donor_id?: IntFieldUpdateOperationsInput | number
     center_id?: IntFieldUpdateOperationsInput | number
     donation_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    amount_donated?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    units_donated?: IntFieldUpdateOperationsInput | number
     status?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -14320,13 +14320,13 @@ export namespace Prisma {
     donor_id: number
     center_id: number
     donation_date: Date | string
-    amount_donated: Decimal | DecimalJsLike | number | string
+    units_donated?: number
     status?: string | null
   }
 
   export type donationhistoryUpdateManyMutationInput = {
     donation_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    amount_donated?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    units_donated?: IntFieldUpdateOperationsInput | number
     status?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -14335,7 +14335,7 @@ export namespace Prisma {
     donor_id?: IntFieldUpdateOperationsInput | number
     center_id?: IntFieldUpdateOperationsInput | number
     donation_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    amount_donated?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    units_donated?: IntFieldUpdateOperationsInput | number
     status?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -14986,6 +14986,47 @@ export namespace Prisma {
     units_available?: SortOrder
   }
 
+  export type donationhistoryCountOrderByAggregateInput = {
+    donation_id?: SortOrder
+    donor_id?: SortOrder
+    center_id?: SortOrder
+    donation_date?: SortOrder
+    units_donated?: SortOrder
+    status?: SortOrder
+  }
+
+  export type donationhistoryAvgOrderByAggregateInput = {
+    donation_id?: SortOrder
+    donor_id?: SortOrder
+    center_id?: SortOrder
+    units_donated?: SortOrder
+  }
+
+  export type donationhistoryMaxOrderByAggregateInput = {
+    donation_id?: SortOrder
+    donor_id?: SortOrder
+    center_id?: SortOrder
+    donation_date?: SortOrder
+    units_donated?: SortOrder
+    status?: SortOrder
+  }
+
+  export type donationhistoryMinOrderByAggregateInput = {
+    donation_id?: SortOrder
+    donor_id?: SortOrder
+    center_id?: SortOrder
+    donation_date?: SortOrder
+    units_donated?: SortOrder
+    status?: SortOrder
+  }
+
+  export type donationhistorySumOrderByAggregateInput = {
+    donation_id?: SortOrder
+    donor_id?: SortOrder
+    center_id?: SortOrder
+    units_donated?: SortOrder
+  }
+
   export type DecimalFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
@@ -14995,63 +15036,6 @@ export namespace Prisma {
     gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-  }
-
-  export type donationhistoryCountOrderByAggregateInput = {
-    donation_id?: SortOrder
-    donor_id?: SortOrder
-    center_id?: SortOrder
-    donation_date?: SortOrder
-    amount_donated?: SortOrder
-    status?: SortOrder
-  }
-
-  export type donationhistoryAvgOrderByAggregateInput = {
-    donation_id?: SortOrder
-    donor_id?: SortOrder
-    center_id?: SortOrder
-    amount_donated?: SortOrder
-  }
-
-  export type donationhistoryMaxOrderByAggregateInput = {
-    donation_id?: SortOrder
-    donor_id?: SortOrder
-    center_id?: SortOrder
-    donation_date?: SortOrder
-    amount_donated?: SortOrder
-    status?: SortOrder
-  }
-
-  export type donationhistoryMinOrderByAggregateInput = {
-    donation_id?: SortOrder
-    donor_id?: SortOrder
-    center_id?: SortOrder
-    donation_date?: SortOrder
-    amount_donated?: SortOrder
-    status?: SortOrder
-  }
-
-  export type donationhistorySumOrderByAggregateInput = {
-    donation_id?: SortOrder
-    donor_id?: SortOrder
-    center_id?: SortOrder
-    amount_donated?: SortOrder
-  }
-
-  export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedDecimalFilter<$PrismaModel>
-    _sum?: NestedDecimalFilter<$PrismaModel>
-    _min?: NestedDecimalFilter<$PrismaModel>
-    _max?: NestedDecimalFilter<$PrismaModel>
   }
 
   export type donorsCountOrderByAggregateInput = {
@@ -15109,6 +15093,22 @@ export namespace Prisma {
     donor_id?: SortOrder
     user_id?: SortOrder
     weight?: SortOrder
+  }
+
+  export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
   }
 
   export type BloodrequestsListRelationFilter = {
@@ -15508,14 +15508,6 @@ export namespace Prisma {
     connect?: donorsWhereUniqueInput
   }
 
-  export type DecimalFieldUpdateOperationsInput = {
-    set?: Decimal | DecimalJsLike | number | string
-    increment?: Decimal | DecimalJsLike | number | string
-    decrement?: Decimal | DecimalJsLike | number | string
-    multiply?: Decimal | DecimalJsLike | number | string
-    divide?: Decimal | DecimalJsLike | number | string
-  }
-
   export type bloodcentersUpdateOneRequiredWithoutDonationhistoryNestedInput = {
     create?: XOR<bloodcentersCreateWithoutDonationhistoryInput, bloodcentersUncheckedCreateWithoutDonationhistoryInput>
     connectOrCreate?: bloodcentersCreateOrConnectWithoutDonationhistoryInput
@@ -15564,6 +15556,14 @@ export namespace Prisma {
     connectOrCreate?: donationhistoryCreateOrConnectWithoutDonorsInput | donationhistoryCreateOrConnectWithoutDonorsInput[]
     createMany?: donationhistoryCreateManyDonorsInputEnvelope
     connect?: donationhistoryWhereUniqueInput | donationhistoryWhereUniqueInput[]
+  }
+
+  export type DecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
   }
 
   export type appointmentsUpdateManyWithoutDonorsNestedInput = {
@@ -16274,7 +16274,7 @@ export namespace Prisma {
 
   export type donationhistoryCreateWithoutBloodcentersInput = {
     donation_date: Date | string
-    amount_donated: Decimal | DecimalJsLike | number | string
+    units_donated?: number
     status?: string | null
     donors: donorsCreateNestedOneWithoutDonationhistoryInput
   }
@@ -16283,7 +16283,7 @@ export namespace Prisma {
     donation_id?: number
     donor_id: number
     donation_date: Date | string
-    amount_donated: Decimal | DecimalJsLike | number | string
+    units_donated?: number
     status?: string | null
   }
 
@@ -16395,7 +16395,7 @@ export namespace Prisma {
     donor_id?: IntFilter<"donationhistory"> | number
     center_id?: IntFilter<"donationhistory"> | number
     donation_date?: DateTimeFilter<"donationhistory"> | Date | string
-    amount_donated?: DecimalFilter<"donationhistory"> | Decimal | DecimalJsLike | number | string
+    units_donated?: IntFilter<"donationhistory"> | number
     status?: StringNullableFilter<"donationhistory"> | string | null
   }
 
@@ -16675,7 +16675,7 @@ export namespace Prisma {
 
   export type donationhistoryCreateWithoutDonorsInput = {
     donation_date: Date | string
-    amount_donated: Decimal | DecimalJsLike | number | string
+    units_donated?: number
     status?: string | null
     bloodcenters: bloodcentersCreateNestedOneWithoutDonationhistoryInput
   }
@@ -16684,7 +16684,7 @@ export namespace Prisma {
     donation_id?: number
     center_id: number
     donation_date: Date | string
-    amount_donated: Decimal | DecimalJsLike | number | string
+    units_donated?: number
     status?: string | null
   }
 
@@ -17229,7 +17229,7 @@ export namespace Prisma {
     donation_id?: number
     donor_id: number
     donation_date: Date | string
-    amount_donated: Decimal | DecimalJsLike | number | string
+    units_donated?: number
     status?: string | null
   }
 
@@ -17283,7 +17283,7 @@ export namespace Prisma {
 
   export type donationhistoryUpdateWithoutBloodcentersInput = {
     donation_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    amount_donated?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    units_donated?: IntFieldUpdateOperationsInput | number
     status?: NullableStringFieldUpdateOperationsInput | string | null
     donors?: donorsUpdateOneRequiredWithoutDonationhistoryNestedInput
   }
@@ -17292,7 +17292,7 @@ export namespace Prisma {
     donation_id?: IntFieldUpdateOperationsInput | number
     donor_id?: IntFieldUpdateOperationsInput | number
     donation_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    amount_donated?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    units_donated?: IntFieldUpdateOperationsInput | number
     status?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -17300,7 +17300,7 @@ export namespace Prisma {
     donation_id?: IntFieldUpdateOperationsInput | number
     donor_id?: IntFieldUpdateOperationsInput | number
     donation_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    amount_donated?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    units_donated?: IntFieldUpdateOperationsInput | number
     status?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -17330,7 +17330,7 @@ export namespace Prisma {
     donation_id?: number
     center_id: number
     donation_date: Date | string
-    amount_donated: Decimal | DecimalJsLike | number | string
+    units_donated?: number
     status?: string | null
   }
 
@@ -17359,7 +17359,7 @@ export namespace Prisma {
 
   export type donationhistoryUpdateWithoutDonorsInput = {
     donation_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    amount_donated?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    units_donated?: IntFieldUpdateOperationsInput | number
     status?: NullableStringFieldUpdateOperationsInput | string | null
     bloodcenters?: bloodcentersUpdateOneRequiredWithoutDonationhistoryNestedInput
   }
@@ -17368,7 +17368,7 @@ export namespace Prisma {
     donation_id?: IntFieldUpdateOperationsInput | number
     center_id?: IntFieldUpdateOperationsInput | number
     donation_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    amount_donated?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    units_donated?: IntFieldUpdateOperationsInput | number
     status?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -17376,7 +17376,7 @@ export namespace Prisma {
     donation_id?: IntFieldUpdateOperationsInput | number
     center_id?: IntFieldUpdateOperationsInput | number
     donation_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    amount_donated?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    units_donated?: IntFieldUpdateOperationsInput | number
     status?: NullableStringFieldUpdateOperationsInput | string | null
   }
 

@@ -31,7 +31,7 @@ export default function AppRoutes() {
           <Route index element={<MainPage />} />
           <Route path="manage-subadmins" element={<ManageSubadmins />} />
           <Route path="manage-blood-centers" element={<ManageBloodCenters />} />
-          <Route path="ViewDonations" element={<ViewDonations/>}/>
+          <Route path="view-donations" element={<ViewDonations/>}/>
         </Route>
 
         {/* Sub Admin */}

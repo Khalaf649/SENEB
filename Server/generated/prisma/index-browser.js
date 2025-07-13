@@ -165,7 +165,7 @@ exports.Prisma.DonationhistoryScalarFieldEnum = {
   donor_id: 'donor_id',
   center_id: 'center_id',
   donation_date: 'donation_date',
-  amount_donated: 'amount_donated',
+  units_donated: 'units_donated',
   status: 'status'
 };
 

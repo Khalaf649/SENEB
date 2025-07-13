@@ -61,14 +61,14 @@ model bloodstock {
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model donationhistory {
-  donation_id    Int          @id @default(autoincrement())
-  donor_id       Int
-  center_id      Int
-  donation_date  DateTime     @db.Timestamp(6)
-  amount_donated Decimal      @db.Decimal(5, 2)
-  status         String?      @default("successful") @db.VarChar(20)
-  bloodcenters   bloodcenters @relation(fields: [center_id], references: [center_id], onDelete: NoAction, onUpdate: NoAction)
-  donors         donors       @relation(fields: [donor_id], references: [donor_id], onDelete: NoAction, onUpdate: NoAction)
+  donation_id   Int          @id @default(autoincrement())
+  donor_id      Int
+  center_id     Int
+  donation_date DateTime     @db.Timestamp(6)
+  units_donated Int          @default(0) @db.SmallInt
+  status        String?      @default("successful") @db.VarChar(20)
+  bloodcenters  bloodcenters @relation(fields: [center_id], references: [center_id], onDelete: NoAction, onUpdate: NoAction)
+  donors        donors       @relation(fields: [donor_id], references: [donor_id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -87,7 +87,7 @@ model donors {
   donor_image        String
   appointments       appointments[]
   donationhistory    donationhistory[]
-  users              users             @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+  users              users             @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model hospitalstaff {
@@ -102,8 +102,8 @@ model subadmins {
   sub_admin_id Int          @id @default(autoincrement())
   user_id      Int          @unique
   center_id    Int
-  bloodcenters bloodcenters @relation(fields: [center_id], references: [center_id], onDelete: NoAction, onUpdate: NoAction)
-  users        users        @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+  bloodcenters bloodcenters @relation(fields: [center_id], references: [center_id], onDelete: SetNull, onUpdate: NoAction)
+  users        users        @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
