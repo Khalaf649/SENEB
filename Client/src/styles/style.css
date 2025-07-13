@@ -1251,5 +1251,59 @@ body {
 }
 
 /*end of manage blood centers*/
+/*start of View Donations*/
+
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stats-card {
+  background-color: var(--white);
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stats-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px var(--shadow-color);
+}
+
+.stats-card h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--dark-navy);
+  margin-bottom: 0.5rem;
+}
+
+.stats-card p {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--dark-navy);
+  margin: 0;
+}
+
+.stats-card.success {
+  border-top: 5px solid #b1afaf;
+}
+
+.stats-card.failed {
+  border-top: 5px solid #b1afaf;
+}
+
+.stats-card.units {
+  border-top: 5px solid #b1afaf;
+}
+
+.stats-card.total {
+  border-top: 5px solid #b1afaf;
+}
+
+/*end of View Donations*/
 
 /* End dashboard */

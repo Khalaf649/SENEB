@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { login, donorRegister, staffRegister, adminRegister } from "../controllers/auth.controller.ts"; // Assuming you have controllers for each route
+import { login, donorRegister, staffRegister, adminRegister } from "../controllers/auth.controller"; // Assuming you have controllers for each route
 import { loginValidator, donorRegisterValidator, staffRegisterValidator, adminRegisterValidator } from "../validation/auth.validation"; // Assuming you have validation middleware
 const router = Router();
 import validateRequest from "../middlewares/validateRequest.ts.js";
