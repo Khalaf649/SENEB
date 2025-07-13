@@ -8,6 +8,7 @@ import SubAdmin from "../pages/Dashboard/SubAdmin";
 import HealthFacility from "../pages/Dashboard/HealthFacility";
 import ManageSubadmins from "../pages/Dashboard/ManageSubadmins";
 import ManageBloodCenters from "../pages/Dashboard/ManageBloodCenters";
+import ViewDonations from "../pages/Dashboard/ViewDonations";
 
 export default function AppRoutes() {
   return (
@@ -22,6 +23,7 @@ export default function AppRoutes() {
         <Route path="/adminDashboard" element={<Admin />}>
           <Route path="manage-subadmins" element={<ManageSubadmins />} />
           <Route path="manage-blood-centers" element={<ManageBloodCenters />} />
+          <Route path="view-donations" element={<ViewDonations />} />
         </Route>
 
         <Route path="/subAdminDashboard" element={<SubAdmin />} />
