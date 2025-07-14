@@ -3,122 +3,128 @@ import TextInput from "../../components/Auth/TextInput";
 
 export default function SubAdminProfile() {
     const [personalInfo, setPersonalInfo] = useState({
-        name: "Omar Adel",
-        email: "omar.adel@bloodcenter.org",
+        name: "Salma Ali",
+        email: "salma@bloodcenter.org",
         contact: "01065432198",
     });
 
     const [centerInfo, setCenterInfo] = useState({
         name: "Cairo Blood Center",
         address: "123 Tahrir Street, Cairo",
-        contact: "01012345678",
+        contact: "14678",
     });
 
-    const [showEditModal, setShowEditModal] = useState(false);
-    const [editSection, setEditSection] = useState(""); // "personal" or "center"
-    const [formData, setFormData] = useState({});
+    const [isEditing, setIsEditing] = useState(false);
+    const [formData, setFormData] = useState({
+        ...personalInfo,
+        ...centerInfo,
+    });
 
-    const handleChange = (e) =>
+    const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
-
-    const openEditModal = (section) => {
-        setEditSection(section);
-        setFormData(section === "personal" ? personalInfo : centerInfo);
-        setShowEditModal(true);
     };
 
     const saveChanges = () => {
-        if (editSection === "personal") setPersonalInfo(formData);
-        else setCenterInfo(formData);
-        setShowEditModal(false);
+        const updatedPersonal = {
+            name: formData.name,
+            email: formData.email,
+            contact: formData.contact,
+        };
+
+        const updatedCenter = {
+            name: formData.centerName,
+            address: formData.address,
+            contact: formData.centerContact,
+        };
+
+        setPersonalInfo(updatedPersonal);
+        setCenterInfo(updatedCenter);
+        setIsEditing(false);
     };
 
     return (
-        <div className="container registration-form">
+        <div className="container subadmin-info">
             <h2>Subadmin Profile</h2>
+            <p>Manage and update your profile information</p>
             <hr />
 
-            {/* Personal Info Section */}
-            <div className="card p-4 mb-4 shadow-sm">
-                <h5 className="info-title mb-3">Personal Information</h5>
-                <div className="personal-fields mb-3">
-                    <TextInput label="Name" value={personalInfo.name} disabled />
-                    <TextInput label="Email" value={personalInfo.email} disabled />
-                    <TextInput label="Contact" value={personalInfo.contact} disabled />
-                </div>
-                <div className="text-end">
-                    <button
-                        className="operation-btn"
-                        onClick={() => openEditModal("personal")}
-                    >
-                        Edit Personal Info
-                    </button>
-                </div>
+            {/* Personal Info */}
+            <span className="info-title mb-3">Personal Information:</span>
+            <div className="personal-fields mb-3">
+                <TextInput
+                    label="Name"
+                    name="name"
+                    value={isEditing ? formData.name : personalInfo.name}
+                    onChange={handleChange}
+                    disabled={!isEditing}
+                />
+                <TextInput
+                    label="Email"
+                    name="email"
+                    value={isEditing ? formData.email : personalInfo.email}
+                    onChange={handleChange}
+                    disabled={!isEditing}
+                />
+                <TextInput
+                    label="Contact"
+                    name="contact"
+                    value={isEditing ? formData.contact : personalInfo.contact}
+                    onChange={handleChange}
+                    disabled={!isEditing}
+                />
             </div>
 
-            {/* Center Info Section */}
-            <div className="card p-4 mb-4 shadow-sm">
-                <h5 className="info-title mb-3">Center Information</h5>
-                <div className="personal-fields mb-3">
-                    <TextInput label="Center Name" value={centerInfo.name} disabled />
-                    <TextInput label="Address" value={centerInfo.address} disabled />
-                    <TextInput label="Contact" value={centerInfo.contact} disabled />
-                </div>
-                <div className="text-end">
-                    <button
-                        className="operation-btn"
-                        onClick={() => openEditModal("center")}
-                    >
-                        Edit Center Info
-                    </button>
-                </div>
+            {/* Center Info */}
+            <span className="info-title mb-3">Center Information:</span>
+            <div className="personal-fields mb-3">
+                <TextInput
+                    label="Center Name"
+                    name="centerName"
+                    value={isEditing ? formData.centerName ?? centerInfo.name : centerInfo.name}
+                    onChange={handleChange}
+                    disabled={!isEditing}
+                />
+                <TextInput
+                    label="Address"
+                    name="address"
+                    value={isEditing ? formData.address ?? centerInfo.address : centerInfo.address}
+                    onChange={handleChange}
+                    disabled={!isEditing}
+                />
+                <TextInput
+                    label="Contact"
+                    name="centerContact"
+                    value={isEditing ? formData.centerContact ?? centerInfo.contact : centerInfo.contact}
+                    onChange={handleChange}
+                    disabled={!isEditing}
+                />
             </div>
 
-            {/* Edit Modal */}
-            {showEditModal && (
-                <>
-                    <div className="custom-modal-backdrop"></div>
-                    <div className="modal fade show d-block custom-modal">
-                        <div className="modal-dialog modal-dialog-centered">
-                            <div className="modal-content p-4">
-                                <div className="modal-header">
-                                    <h5 className="modal-title">
-                                        Edit {editSection === "personal" ? "Personal" : "Center"} Information
-                                    </h5>
-                                    <button
-                                        type="button"
-                                        className="btn-close"
-                                        onClick={() => setShowEditModal(false)}
-                                    ></button>
-                                </div>
-                                <div className="modal-body">
-                                    {Object.keys(formData).map((key) => (
-                                        <input
-                                            key={key}
-                                            name={key}
-                                            className="form-control mb-3"
-                                            value={formData[key]}
-                                            onChange={handleChange}
-                                            placeholder={key.replace("_", " ").toUpperCase()}
-                                        />
-                                    ))}
-                                </div>
-                                <div className="modal-footer d-flex justify-content-end gap-2">
-                                    <button
-                                        className="btn btn-secondary"
-                                        onClick={() => setShowEditModal(false)}
-                                    >
-                                        Cancel
-                                    </button>
-                                    <button className="operation-btn" onClick={saveChanges}>
-                                        Save Changes
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </>
-            )}
+            <div className="text-end mt-3">
+                {!isEditing ? (
+                    <button
+                        className="operation-btn"
+                        onClick={() => setIsEditing(true)}
+                    >
+                        Edit Info
+                    </button>
+                ) : (
+                    <>
+                        <button
+                            className="btn btn-secondary me-2"
+                            onClick={() => setIsEditing(false)}
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            className="operation-btn"
+                            onClick={saveChanges}
+                        >
+                            Save Changes
+                        </button>
+                    </>
+                )}
+            </div>
         </div>
     );
 }

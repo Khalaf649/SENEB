@@ -63,21 +63,6 @@
     /* or a hover highlight color */
 }
 
-/* Smaller font for info box */
-.center-info-box {
-    margin: 1rem;
-    line-height: 1.6;
-    color: #333;
-    font-size: 1.1rem;
-}
-
-.center-info-box .info-title {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: var(--darkred);
-    margin-bottom: 1rem;
-}
-
 .custom-modal {
     z-index: 1050;
     position: fixed;
@@ -94,4 +79,22 @@
     background-color: rgba(0, 0, 0, 0.5);
     position: fixed;
     inset: 0;
+}
+
+.subadmin-info {
+    background-color: var(--lightgrey);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding: 2rem;
+}
+
+.subadmin-info h2 {
+    color: var(--darkred);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.info-title {
+    font-size: 1.3rem;
+    color: var(--darkred);
 }
