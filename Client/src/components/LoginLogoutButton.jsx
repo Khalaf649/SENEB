@@ -1,7 +1,4 @@
 import React from "react";
-import "../styles/bootstrap.min.css";
-import "../styles/all.min.css";
-import "../styles/style.css";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function LoginLogoutButton({ className = "" }) {
@@ -10,20 +7,21 @@ export default function LoginLogoutButton({ className = "" }) {
 
     const handleLogout = () => {
         localStorage.removeItem("token");
-        navigate("/");  // or navigate("/login") if you prefer
+        localStorage.removeItem("loginRole");
+
+        // Trigger re-render globally
+        window.dispatchEvent(new Event("storage"));  
+
+        navigate("/"); // Go to home or login
     };
 
-    return (
-        <>
-            {token ? (
-                <button className={`btn login-logout btn-primary ${className}`} onClick={handleLogout}>
-                Logout
-                </button>
-            ) : (
-                <Link to="/login" className={`btn login-logout btn-primary ${className}`}>
-                Login
-                </Link>
-            )}
-        </>
+    return token ? (
+        <button className={`btn login-logout btn-primary ${className}`} onClick={handleLogout}>
+            Logout
+        </button>
+    ) : (
+        <Link to="/login" className={`btn login-logout btn-primary ${className}`}>
+            Login
+        </Link>
     );
 }
