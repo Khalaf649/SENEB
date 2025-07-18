@@ -1089,10 +1089,15 @@ body {
   box-shadow: 0 0 0 3px rgba(167, 51, 33, 0.2);
   background-color: #fff;
 }
+.table {
+  width: 100%;
+  min-width: 100%;
+}
 
 .table th,
 .table td {
   vertical-align: middle;
+  white-space: nowrap;
 }
 
 .table th {

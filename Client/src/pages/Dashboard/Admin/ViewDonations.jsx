@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import DataTable from "../../../components/DataTable";
 
 export default function ViewDonations() {
   const [selectedCenter, setSelectedCenter] = useState("All Centers");
@@ -76,9 +77,25 @@ export default function ViewDonations() {
     .filter((d) => d.status === "Successful")
     .reduce((sum, d) => sum + (parseInt(d.amount) || 0), 0);
 
+  const donationColumns = [
+    { header: "Email", accessor: "email"},  
+    { header: "User", accessor: "name"},  
+    { header: "Date", accessor: "date"},  
+    { header: "Center", accessor: "center"},  
+    { header: "Status", 
+      accessor: "status",
+      render: (value) => (
+        <span className={value === "Successful" ? "text-success" : "text-danger"}>
+          {value}
+        </span>
+      ),
+    },  
+    { header: "Amount", accessor: "amount"},
+  ];
   return (
     <div>
       <h2 className="mb-4">View Donations</h2>
+
       {/* Dropdown for filtering */}
       <label htmlFor="centerFilter" className="form-label">
         Filter by Center
@@ -95,6 +112,7 @@ export default function ViewDonations() {
         <option>Heliopolis Blood Center</option>
       </select>
 
+      {/* Stats */}
       <div className="stats-container">
         <div className="stats-card total">
           <h5>Total Donations</h5>
@@ -114,41 +132,8 @@ export default function ViewDonations() {
         </div>
       </div>
 
-      {/* Table placeholder */}
-      <div className="table-responsive">
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th>Email</th>
-              <th>User</th>
-              <th>Date</th>
-              <th>Center</th>
-              <th>Status</th>
-              <th>Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredDonations.map((donation, index) => (
-              <tr key={index}>
-                <td>{donation.email}</td>
-                <td>{donation.name}</td>
-                <td>{donation.date}</td>
-                <td>{donation.center}</td>
-                <td
-                  className={
-                    donation.status === "Successful"
-                      ? "text-success"
-                      : "text-danger"
-                  }
-                >
-                  {donation.status}
-                </td>
-                <td>{donation.amount}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {/* Table */}
+      <DataTable columns={donationColumns} data={filteredDonations} className="table w-100 table-striped" />
     </div>
   );
 }

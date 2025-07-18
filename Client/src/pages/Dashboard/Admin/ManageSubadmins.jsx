@@ -7,6 +7,7 @@ import {
 } from "../../../api/admin/admin";
 import TextInput from "../../../components/Auth/TextInput";
 import PasswordInput from "../../../components/Auth/PasswordInput";
+import DataTable from "../../../components/DataTable";
 
 export default function ManageSubadmins() {
   const [subadmins, setSubadmins] = useState([]);
@@ -19,6 +20,52 @@ export default function ManageSubadmins() {
     contact: "",
     bloodcenterId: "",
   });
+
+  const subadminColumns = [
+    {header: "#", accessor: "index", render: (val, row, index) => index + 1},
+    {header: "Name", accessor: "name", render: (val, row) => row.user.name},
+    {header: "Email", accessor: "email", render: (val, row) => row.user.email},
+    {header: "Contact", accessor: "contact", render: (val, row) => row.user.contact || "-"},
+    {
+      header: "Blood Center",
+      accessor: "center",
+      render: (val, row) => row.bloodcenter?.center_name || "-",
+    },
+    {
+      header: "Actions",
+    accessor: "actions",
+    render: (val, row) => (
+      <div className="d-flex justify-content-center gap-2">
+        <button
+          className="operation-btn"
+          onClick={() => {
+            setNewSubadmin({
+              name: row.user.name,
+              email: row.user.email,
+              contact: row.user.contact || "",
+              password: "",
+              confirmPassword: "",
+              bloodcenterId: row.bloodcenter.center_id,
+            });
+            setEditId(row.sub_admin_id);
+            setShowModal(true);
+          }}
+        >
+          Edit
+        </button>
+        <button
+          className="btn btn-secondary"
+          onClick={() => {
+            setSubadminToDelete(row.id);
+            setShowDeleteModal(true);
+          }}
+        >
+          Delete
+        </button>
+      </div>
+    ),
+    },
+  ]
 
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -159,6 +206,12 @@ export default function ManageSubadmins() {
     setLoading(false);
   };
 
+  const filterSubadmins = subadmins.filter(
+    (s) => 
+      s.user.name.toLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
+      s.user.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const confirmDelete = async () => {
     if (!subadminToDelete) return;
     try {
@@ -201,63 +254,7 @@ export default function ManageSubadmins() {
         </div>
       )}
 
-      <table className="table table-hover table-bordered align-middle text-center shadow-sm">
-        <thead className="subadmin-header">
-          <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Contact</th>
-            <th>Blood Center</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {subadmins
-            .filter(
-              (s) =>
-                s.user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                s.user.email.toLowerCase().includes(searchTerm.toLowerCase())
-            )
-            .map((subadmin, index) => (
-              <tr key={subadmin.id}>
-                <td>{index + 1}</td>
-                <td>{subadmin.user.name}</td>
-                <td>{subadmin.user.email}</td>
-                <td>{subadmin.user.contact || "-"}</td>
-                <td>{subadmin.bloodcenter?.center_name || "-"}</td>
-                <td className="d-flex justify-content-center gap-2">
-                  <button
-                    className="operation-btn"
-                    onClick={() => {
-                      setNewSubadmin({
-                        name: subadmin.user.name,
-                        email: subadmin.user.email,
-                        contact: subadmin.user.contact || "",
-                        password: "",
-                        confirmPassword: "",
-                        bloodcenterId: subadmin.bloodcenter.center_id,
-                      });
-                      setEditId(subadmin.sub_admin_id);
-                      setShowModal(true);
-                    }}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="btn btn-secondary"
-                    onClick={() => {
-                      setSubadminToDelete(subadmin.id);
-                      setShowDeleteModal(true);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
+      <DataTable columns={subadminColumns} data={filterSubadmins} className="table table-hover table-bordered align-middle text-center shadow-sm" />
 
       {/* Modal for Add/Edit */}
       {showModal && (
