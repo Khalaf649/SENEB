@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
@@ -13,11 +15,10 @@ import ManageBloodCenters from "../pages/Dashboard/Admin/ManageBloodCenters";
 import ViewDonations from "../pages/Dashboard/Admin/ViewDonations";
 
 import SubAdminMainPage from "../pages/Dashboard/SubAdmin/MainPage";
+import BloodStock from "../pages/Dashboard/SubAdmin/BloodStock";
 import Donnations from "../pages/Dashboard/SubAdmin/Donnations";
 import Appointments from "../pages/Dashboard/SubAdmin/Appointments";
-import ApproveRequests from "../pages/Dashboard/SubAdmin/ApproveRequests";
 import SubAdminProfile from "../pages/Profiles/SubAdminProfile";
-
 
 export default function AppRoutes() {
   return (
@@ -40,13 +41,14 @@ export default function AppRoutes() {
         <Route path="/subAdminDashboard" element={<SubAdmin />}>
           <Route index element={<SubAdminMainPage/>} />
           <Route path="donnations" element={<Donnations />} />
+          <Route path="bloodstock" element={<BloodStock />} />
           <Route path="appointments" element={<Appointments />} />       
           <Route path="profile" element={<SubAdminProfile />} />       
-          <Route path="approve-requests" element={<ApproveRequests />} />
         </Route>
 
         <Route path="/healthFacilityDashboard" element={<HealthFacility />} />
       </Routes>
+      <ToastContainer position="top-right" autoClose={3000} />
     </Router>
   );
 }

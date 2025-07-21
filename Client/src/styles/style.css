@@ -1361,5 +1361,8 @@ body {
 }
 
 /*end of View Donations*/
-
 /* End dashboard */
+.highlighted-row {
+  background-color: #fff7d6;
+  transition: background-color 0.3s ease;
+}

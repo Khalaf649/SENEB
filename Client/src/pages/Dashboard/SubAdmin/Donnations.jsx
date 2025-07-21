@@ -1,8 +1,14 @@
 import React, { useState } from "react";
+import TextInput from "../../../components/Auth/TextInput";
 import DataTable from "../../../components/DataTable";
+import ExportData from "../../../components/ExportData";
 
 export default function DonationsPage() {
-    const allDonations = [
+    const [search, setSearch] = useState("");
+    const [month, setMonth] = useState("All Months");
+    const [statusFilter, setStatusFilter] = useState("All");
+
+    const donations = [
         {
             email: "ahmed@gmail.com",
             name: "Ahmed Ali",
@@ -21,7 +27,7 @@ export default function DonationsPage() {
             email: "mohamed@hotmail.com",
             name: "Mohamed Zaki",
             date: "2025-06-10",
-            amount: "2 unit",
+            amount: "0 units",
             status: "Failed",
         },
         {
@@ -33,114 +39,65 @@ export default function DonationsPage() {
         },
     ];
 
-    const [search, setSearch] = useState("");
-    const [month, setMonth] = useState("All");
-    const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
 
-    const filteredDonations = allDonations.filter((d) => {
+    const months = [
+        "All Months",
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+
+
+    const filteredDonations = donations.filter((d) => {
         const matchesSearch = d.name.toLowerCase().includes(search.toLowerCase());
-        const matchesMonth =
-            month === "All" ||
-            new Date(d.date).toLocaleString("default", { month: "short" }) === month;
+        const donationMonth = new Date(d.date).getMonth(); // 0-11
+        const monthIndex = months.indexOf(month) - 1;
+        const matchesMonth = month === "All Months" || donationMonth === monthIndex;
 
-        return matchesSearch && matchesMonth;
+        const isFailed = d.amount === "0 units" || d.status === "Failed";
+        const matchesStatus =
+            statusFilter === "All" ||
+            (statusFilter === "Failed" && isFailed) ||
+            (statusFilter === "Successful" && !isFailed);
+
+        return matchesSearch && matchesMonth && matchesStatus;
     });
 
-    const sortedDonations = [...filteredDonations].sort((a, b) => {
-        if (!sortConfig.key) return 0;
-
-        const aVal = a[sortConfig.key];
-        const bVal = b[sortConfig.key];
-
-        if (sortConfig.key === "date") {
-            return new Date(aVal) - new Date(bVal) * (sortConfig.direction === "asc" ? 1 : -1);
-        }
-
-        if (sortConfig.key === "amount") {
-            const parseAmount = (val) => {
-                const unit = typeof val === "string" ? parseInt(val) : val;
-                return isNaN(unit) ? 0 : unit;
-            };
-            return (
-                (parseAmount(aVal) - parseAmount(bVal)) *
-                (sortConfig.direction === "asc" ? 1 : -1)
-            );
-        }
-
-        return 0;
-    });
-
-    const requestSort = (key) => {
-        let direction = "asc";
-        if (sortConfig.key === key && sortConfig.direction === "asc") {
-            direction = "desc";
-        }
-        setSortConfig({ key, direction });
-    };
-
-    const getSortIcon = (key) => {
-        if (sortConfig.key === key) {
-            return sortConfig.direction === "asc" ? "▲" : "▼";
-        }
-        return "⇅";
-    };
-
-    const downloadCSV = () => {
-        const headers = ["Email", "Name", "Date", "Amount", "Status"];
-        const rows = sortedDonations.map((d) => [
-            d.email,
-            d.name,
-            d.date,
-            d.status.toLowerCase() === "failed" ? 0 : d.amount,
-            d.status,
-        ]);
-
-        const csvContent =
-            "data:text/csv;charset=utf-8," +
-            [headers, ...rows].map((e) => e.join(",")).join("\n");
-
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "donations_report.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    };
-
-    const formattedData = sortedDonations.map((d) => ({
-        ...d,
-        amount: d.status.toLowerCase() === "failed" ? 0 : d.amount,
-    }));
-
-    const donationColumns = [
-        { header: "Email", accessor: "email" },
-        { header: "Name", accessor: "name" },
+    const columns = [
+        { accessor: "name", header: "Name" },
+        { accessor: "email", header: "Email" },
+        { accessor: "date", header: "Date" },
+        { accessor: "amount", header: "Amount" },
         {
-            header: (
-                <span style={{ cursor: "pointer" }} onClick={() => requestSort("date")}>
-                    Date {getSortIcon("date")}
-                </span>
-            ),
-            accessor: "date",
-        },
-        { header: "Amount", accessor: "amount" },
-        {
-            header: "Status",
             accessor: "status",
-            render: (value) => (
-                <span className={value === "Successful" ? "text-success" : "text-danger"}>
-                    {value}
-                </span>
-            ),
+            header: "Status",
+            render: (value, row) => {
+                const isFailed = row.amount === "0 units" || value === "Failed";
+                return (
+                    <span className={`fw-semibold ${isFailed ? "text-danger" : "text-success"}`}>
+                        {isFailed ? "Failed" : "Successful"}
+                    </span>
+                );
+            },
         },
     ];
 
     return (
         <div className="container mt-4">
-            <h2 className="mb-4 title">Center Donations</h2>
+            {/* Header */}
+            <div className="d-flex justify-content-between align-items-center mb-3">
+                <h2 className="mb-4 title">Center Donations</h2>
+                <div>
+                    <button
+                        className="operation-btn me-2"
+                        onClick={() => ExportData("donations.csv", filteredDonations, columns)}
+                    >
+                        Download CSV
+                    </button>
+                </div>
+            </div>
 
-            <div className="row mb-4">
+            {/* Filters */}
+            <div className="row mb-3">
                 <div className="col-md-4 mb-2">
                     <input
                         type="text"
@@ -157,37 +114,34 @@ export default function DonationsPage() {
                         value={month}
                         onChange={(e) => setMonth(e.target.value)}
                     >
-                        <option value="All">All Months</option>
-                        <option value="Jan">January</option>
-                        <option value="Feb">February</option>
-                        <option value="Mar">March</option>
-                        <option value="Apr">April</option>
-                        <option value="May">May</option>
-                        <option value="Jun">June</option>
-                        <option value="Jul">July</option>
-                        <option value="Aug">August</option>
-                        <option value="Sep">September</option>
-                        <option value="Oct">October</option>
-                        <option value="Nov">November</option>
-                        <option value="Dec">December</option>
+                        {months.map((m) => (
+                            <option key={m} value={m}>{m}</option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="col-md-4 mb-2">
+                    <select
+                        className="form-select"
+                        value={statusFilter}
+                        onChange={(e) => setStatusFilter(e.target.value)}
+                    >
+                        <option value="All">All Statuses</option>
+                        <option value="Successful">Successful</option>
+                        <option value="Failed">Failed</option>
                     </select>
                 </div>
             </div>
 
+            {/* Table */}
             <DataTable
-                columns={donationColumns}
-                data={formattedData}
+                columns={columns}
+                data={filteredDonations}
+                emptyMessage="No donations found."
+                exportFileName="donation.csv"
                 className="table w-100 table-striped"
                 headerClassName="table-danger"
-                emptyMessage="No donations found."
             />
-
-            <button
-                className="btn operation-btn btn-outline-danger mt-3"
-                onClick={downloadCSV}
-            >
-                Download CSV
-            </button>
         </div>
     );
 }

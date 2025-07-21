@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function DataTable({ columns, data, className = "table" }) {
+export default function DataTable({ columns, data, className = "table", highlightedId = null }) {
     return (
         <div className="table-responsive w-100">
             <table className={className}>
@@ -14,11 +14,14 @@ export default function DataTable({ columns, data, className = "table" }) {
                 <tbody>
                     {data.length > 0 ? (
                         data.map((row, rowIndex) => (
-                            <tr key={row.id || rowIndex}>
+                            <tr
+                                key={row.id || rowIndex}
+                                className={row.id === highlightedId ? "bg-yellow-100 transition-all duration-500" : ""}
+                            >
                                 {columns.map((col, colIndex) => (
                                     <td key={colIndex}>
                                         {col.render
-                                            ? col.render(row[col.accessor], row, rowIndex)
+                                            ? col.render(row, rowIndex)
                                             : row[col.accessor]}
                                     </td>
                                 ))}

@@ -4,11 +4,15 @@
     overflow: hidden;
 }
 
+.subadmin .text {
+    margin: 1.3rem;
+}
+
 .subadmin .title {
     font-size: 2rem;
     font-weight: 600;
     color: var(--deepred);
-    margin: 1rem;
+
 }
 
 .subadmin-navbar {
@@ -47,9 +51,10 @@
     height: 200px;
 }
 
+.stat-link a.link-with-icon,
 .chart-link a.link-with-icon {
     text-decoration: none;
-    color: var(--darkred);
+    color: var(--white);
     /* or #7a2617 or any color that fits */
     font-weight: 600;
     display: inline-flex;
@@ -58,8 +63,8 @@
     cursor: pointer;
 }
 
-.chart-link a.link-with-icon:hover {
-    color: var(--lightred);
+.stat-link a.link-with-icon:hover {
+    color: var(--lightgrey);
     /* or a hover highlight color */
 }
 
@@ -94,4 +99,47 @@
     background-color: rgba(0, 0, 0, 0.5);
     position: fixed;
     inset: 0;
+}
+
+.accept-btn,
+.decline-btn,
+.register-btn {
+    padding: 6px 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    min-width: 90px;
+}
+
+/* Accept Button */
+.accept-btn {
+    background-color: #018201;
+    color: white;
+}
+
+.accept-btn:hover {
+    background-color: #006d00;
+}
+
+/* Decline Button */
+.decline-btn {
+    background-color: #939292;
+    color: white;
+}
+
+.decline-btn:hover {
+    background-color: #6a6a6a;
+}
+
+/* Register Button */
+.register-btn {
+    background-color: var(--darkred);
+    color: white;
+}
+
+.register-btn:hover {
+    background-color: var(--deepred);
 }
