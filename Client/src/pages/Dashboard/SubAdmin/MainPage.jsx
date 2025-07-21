@@ -10,7 +10,7 @@ import {
 const COLORS = ["#b30000", "#e60000", "#ff6666", "#990000", "#cc0000", "#ff9999"];
 
 const stats = {
-    bloodStock: 120,
+    bloodStock: 75,
     pendingAppointments: 18,
     donnations: 22,
 };
@@ -36,13 +36,17 @@ const donationTrendData = [
 export default function SubAdminDashboard() {
     return (
         <div className="container-fluid subadmin py-2">
-            <h2 className="mb-4 title">Sub Admin Dashboard</h2>
+
+            <div className="text mb-4">
+                <h2 className="title">Sub Admin Dashboard</h2>
+                <p className="sub-heading text-muted">Overview of center activity, stock, and donations</p>
+            </div>
 
             {/* Stat Cards */}
             <div className="row mb-4">
-                <StatCard title="Total Blood Stock" value={stats.bloodStock} icon={<FaDatabase />} />
+                <StatCard title="Total Blood Stock" titleLink="/subAdminDashboard/bloodstock" value={stats.bloodStock} icon={<FaDatabase />} warning={stats.bloodStock < 10} />
                 <StatCard title="Pending Appointments" value={stats.pendingAppointments} icon={<FaExclamationCircle />} />
-                <StatCard title="Donnations" value={stats.donnations} icon={<FaCalendarCheck />} />
+                <StatCard title="Donnations" titleLink="/subAdminDashboard/donnations" value={stats.donnations} icon={<FaCalendarCheck />} />
             </div>
 
             {/* Charts */}
@@ -60,7 +64,6 @@ export default function SubAdminDashboard() {
                 <div className="col-md-6 mb-4">
                     <LineChartCard
                         title="Monthly Donations"
-                        titleLink="/subAdminDashboard/donnations"
                         data={donationTrendData}
                         xKey="month"
                         yKey="donations"

@@ -1,87 +1,103 @@
 import React, { useState } from "react";
+import TextInput from "../../../components/Auth/TextInput";
+import DataTable from "../../../components/DataTable";
+import ExportData from "../../../components/ExportData";
 
 export default function DonationsPage() {
-    const allDonations = [
-        { donor: "Ahmed Ali", contact: "01274615810", date: "2025-07-01", amount: 1, bloodType: "A+" },
-        { donor: "Sara Ibrahim", contact: "0115595998", date: "2025-07-05", amount: 1, bloodType: "O+" },
-        { donor: "Mohamed Zaki", contact: "0109988776", date: "2025-06-10", amount: 2, bloodType: "B+" },
-        { donor: "Laila Nour", contact: "0101122334", date: "2025-06-15", amount: 1, bloodType: "A+" },
-        // Add more sample data...
+    const [search, setSearch] = useState("");
+    const [month, setMonth] = useState("All Months");
+    const [statusFilter, setStatusFilter] = useState("All");
+
+    const donations = [
+        {
+            email: "ahmed@gmail.com",
+            name: "Ahmed Ali",
+            date: "2025-07-01",
+            amount: "1 unit",
+            status: "Successful",
+        },
+        {
+            email: "sara@yahoo.com",
+            name: "Sara Ibrahim",
+            date: "2025-07-05",
+            amount: "1 unit",
+            status: "Successful",
+        },
+        {
+            email: "mohamed@hotmail.com",
+            name: "Mohamed Zaki",
+            date: "2025-06-10",
+            amount: "0 units",
+            status: "Failed",
+        },
+        {
+            email: "laila@gmail.com",
+            name: "Laila Nour",
+            date: "2025-06-15",
+            amount: "1 unit",
+            status: "Successful",
+        },
     ];
 
-    const [search, setSearch] = useState("");
-    const [bloodType, setBloodType] = useState("All");
-    const [month, setMonth] = useState("All");
-    const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
 
-    const filteredDonations = allDonations.filter((d) => {
-        const matchesSearch = d.donor.toLowerCase().includes(search.toLowerCase());
-        const matchesBlood = bloodType === "All" || d.bloodType === bloodType;
-        const matchesMonth =
-            month === "All" ||
-            new Date(d.date).toLocaleString("default", { month: "short" }) === month;
+    const months = [
+        "All Months",
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
 
-        return matchesSearch && matchesBlood && matchesMonth;
-    });
-    const sortedDonations = [...filteredDonations].sort((a, b) => {
-        if (!sortConfig.key) return 0;
 
-        const aVal = a[sortConfig.key];
-        const bVal = b[sortConfig.key];
+    const filteredDonations = donations.filter((d) => {
+        const matchesSearch = d.name.toLowerCase().includes(search.toLowerCase());
+        const donationMonth = new Date(d.date).getMonth(); // 0-11
+        const monthIndex = months.indexOf(month) - 1;
+        const matchesMonth = month === "All Months" || donationMonth === monthIndex;
 
-        if (sortConfig.key === "date") {
-            const aDate = new Date(aVal);
-            const bDate = new Date(bVal);
-            return sortConfig.direction === "asc"
-                ? aDate - bDate
-                : bDate - aDate;
-        }
+        const isFailed = d.amount === "0 units" || d.status === "Failed";
+        const matchesStatus =
+            statusFilter === "All" ||
+            (statusFilter === "Failed" && isFailed) ||
+            (statusFilter === "Successful" && !isFailed);
 
-        if (sortConfig.key === "amount") {
-            return sortConfig.direction === "asc"
-                ? aVal - bVal
-                : bVal - aVal;
-        }
-
-        return 0;
+        return matchesSearch && matchesMonth && matchesStatus;
     });
 
-    const requestSort = (key) => {
-        let direction = "asc";
-        if (sortConfig.key === key && sortConfig.direction === "asc") {
-            direction = "desc";
-        }
-        setSortConfig({ key, direction });
-    };
-
-    const getSortIcon = (key) => {
-        if (sortConfig.key === key) {
-            return sortConfig.direction === "asc" ? "▲" : "▼";
-        }
-        return "⇅";
-    };
-    const downloadCSV = () => {
-        const headers = ["Donor Name", "Contact", "Date", "Amount (Units)", "Blood Type"];
-        const rows = filteredDonations.map(d => [d.donor, d.contact, d.date, d.amount, d.bloodType]);
-
-        let csvContent =
-            "data:text/csv;charset=utf-8," +
-            [headers, ...rows].map(e => e.join(",")).join("\n");
-
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "donations_report.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    };
+    const columns = [
+        { accessor: "name", header: "Name" },
+        { accessor: "email", header: "Email" },
+        { accessor: "date", header: "Date" },
+        { accessor: "amount", header: "Amount" },
+        {
+            accessor: "status",
+            header: "Status",
+            render: (value, row) => {
+                const isFailed = row.amount === "0 units" || value === "Failed";
+                return (
+                    <span className={`fw-semibold ${isFailed ? "text-danger" : "text-success"}`}>
+                        {isFailed ? "Failed" : "Successful"}
+                    </span>
+                );
+            },
+        },
+    ];
 
     return (
         <div className="container mt-4">
-            <h2 className="mb-4 title">Center Donations</h2>
+            {/* Header */}
+            <div className="d-flex justify-content-between align-items-center mb-3">
+                <h2 className="mb-4 title">Center Donations</h2>
+                <div>
+                    <button
+                        className="operation-btn me-2"
+                        onClick={() => ExportData("donations.csv", filteredDonations, columns)}
+                    >
+                        Download CSV
+                    </button>
+                </div>
+            </div>
 
-            <div className="row mb-4">
+            {/* Filters */}
+            <div className="row mb-3">
                 <div className="col-md-4 mb-2">
                     <input
                         type="text"
@@ -91,81 +107,41 @@ export default function DonationsPage() {
                         onChange={(e) => setSearch(e.target.value)}
                     />
                 </div>
-                <div className="col-md-4 mb-2">
-                    <select
-                        className="form-select"
-                        value={bloodType}
-                        onChange={(e) => setBloodType(e.target.value)}
-                    >
-                        <option value="All">All Blood Types</option>
-                        <option value="A+">A+</option>
-                        <option value="A-">A-</option>
-                        <option value="B+">B+</option>
-                        <option value="B-">B-</option>
-                        <option value="AB+">AB+</option>
-                        <option value="AB-">AB-</option>
-                        <option value="O+">O+</option>
-                        <option value="O-">O-</option>
-                    </select>
-                </div>
+
                 <div className="col-md-4 mb-2">
                     <select
                         className="form-select"
                         value={month}
                         onChange={(e) => setMonth(e.target.value)}
                     >
-                        <option value="All">All Months</option>
-                        <option value="Jan">January</option>
-                        <option value="Feb">February</option>
-                        <option value="Mar">March</option>
-                        <option value="Apr">April</option>
-                        <option value="May">May</option>
-                        <option value="Jun">June</option>
-                        <option value="Jul">July</option>
-                        <option value="Aug">August</option>
-                        <option value="Sep">September</option>
-                        <option value="Oct">October</option>
-                        <option value="Nov">November</option>
-                        <option value="Dec">December</option>
+                        {months.map((m) => (
+                            <option key={m} value={m}>{m}</option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="col-md-4 mb-2">
+                    <select
+                        className="form-select"
+                        value={statusFilter}
+                        onChange={(e) => setStatusFilter(e.target.value)}
+                    >
+                        <option value="All">All Statuses</option>
+                        <option value="Successful">Successful</option>
+                        <option value="Failed">Failed</option>
                     </select>
                 </div>
             </div>
 
-            <table className="table table-bordered table-striped">
-                <thead className="table-danger">
-                    <tr>
-                        <th>Donor</th>
-                        <th>Contact</th>
-                        <th onClick={() => requestSort("date")} style={{ cursor: "pointer" }}>
-                            Date {getSortIcon("date")}
-                        </th>
-                        <th onClick={() => requestSort("amount")} style={{ cursor: "pointer" }}>
-                            Amount (Units) {getSortIcon("amount")}
-                        </th>
-                        <th>Blood Type</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {sortedDonations.map((d, idx) => (
-                        <tr key={idx}>
-                            <td>{d.donor}</td>
-                            <td>{d.contact}</td>
-                            <td>{d.date}</td>
-                            <td>{d.amount}</td>
-                            <td>{d.bloodType}</td>
-                        </tr>
-                    ))}
-                    {sortedDonations.length === 0 && (
-                        <tr>
-                            <td colSpan="5" className="text-center">No donations found.</td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-
-            <button className="btn operation-btn btn-outline-danger mt-3" onClick={downloadCSV}>
-                Download CSV
-            </button>
+            {/* Table */}
+            <DataTable
+                columns={columns}
+                data={filteredDonations}
+                emptyMessage="No donations found."
+                exportFileName="donation.csv"
+                className="table w-100 table-striped"
+                headerClassName="table-danger"
+            />
         </div>
     );
 }
