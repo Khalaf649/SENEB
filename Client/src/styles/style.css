@@ -98,11 +98,13 @@ body {
 .login-logout:hover {
   background-color: #612116;
 }
+
 .sidebar-logout {
   position: absolute;
   bottom: 25px;
   left: 25px;
 }
+
 /* End Navbar */
 
 /* Header section */
@@ -795,6 +797,7 @@ body {
   min-height: 100vh;
   background: linear-gradient(135deg, var(--darkred), #5a1a12);
 }
+
 .sidebar {
   position: fixed;
   top: 0;
@@ -873,6 +876,7 @@ body {
   max-width: 1200px;
   min-height: 100%;
 }
+
 /* Start main dashboard */
 .bg-red-gradient {
   background: linear-gradient(135deg, var(--darkred), #5a1a12);
@@ -888,6 +892,7 @@ body {
   display: flex;
   flex-direction: column;
 }
+
 
 .chart-title {
   font-size: 1.25rem;
@@ -939,16 +944,20 @@ body {
   display: inline-block;
   border-radius: 2px;
 }
+
 .stat-card {
   padding: 0.75rem;
 }
+
 .stat-card h6 {
   font-weight: 600;
   font-size: 1rem;
 }
+
 .stat-card p {
   font-size: 1.3rem;
 }
+
 /* End main dashboard */
 /*start of manage subadmins*/
 .operation-btn {
@@ -1360,9 +1369,3 @@ body {
   border-top: 5px solid #b1afaf;
 }
 
-/*end of View Donations*/
-/* End dashboard */
-.highlighted-row {
-  background-color: #fff7d6;
-  transition: background-color 0.3s ease;
-}

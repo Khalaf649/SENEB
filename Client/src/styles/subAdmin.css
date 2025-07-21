@@ -68,21 +68,6 @@
     /* or a hover highlight color */
 }
 
-/* Smaller font for info box */
-.center-info-box {
-    margin: 1rem;
-    line-height: 1.6;
-    color: #333;
-    font-size: 1.1rem;
-}
-
-.center-info-box .info-title {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: var(--darkred);
-    margin-bottom: 1rem;
-}
-
 .custom-modal {
     z-index: 1050;
     position: fixed;
@@ -101,45 +86,3 @@
     inset: 0;
 }
 
-.accept-btn,
-.decline-btn,
-.register-btn {
-    padding: 6px 14px;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    min-width: 90px;
-}
-
-/* Accept Button */
-.accept-btn {
-    background-color: #018201;
-    color: white;
-}
-
-.accept-btn:hover {
-    background-color: #006d00;
-}
-
-/* Decline Button */
-.decline-btn {
-    background-color: #939292;
-    color: white;
-}
-
-.decline-btn:hover {
-    background-color: #6a6a6a;
-}
-
-/* Register Button */
-.register-btn {
-    background-color: var(--darkred);
-    color: white;
-}
-
-.register-btn:hover {
-    background-color: var(--deepred);
-}

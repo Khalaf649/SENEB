@@ -13,6 +13,7 @@ import HealthFacility from "../pages/Dashboard/HealthFacility/HealthFacility";
 import ManageSubadmins from "../pages/Dashboard/Admin/ManageSubadmins";
 import ManageBloodCenters from "../pages/Dashboard/Admin/ManageBloodCenters";
 import ViewDonations from "../pages/Dashboard/Admin/ViewDonations";
+import BloodStock from "../pages/Dashboard/Admin/BloodStock";
 
 import SubAdminMainPage from "../pages/Dashboard/SubAdmin/MainPage";
 import BloodStock from "../pages/Dashboard/SubAdmin/BloodStock";
@@ -34,7 +35,8 @@ export default function AppRoutes() {
           <Route index element={<AdminMainPage />} />
           <Route path="manage-subadmins" element={<ManageSubadmins />} />
           <Route path="manage-blood-centers" element={<ManageBloodCenters />} />
-          <Route path="view-donations" element={<ViewDonations/>}/>
+          <Route path="view-donations" element={<ViewDonations />} />
+          <Route path="center-data" element={<BloodStock />} />
         </Route>
 
         {/* Sub Admin */}
