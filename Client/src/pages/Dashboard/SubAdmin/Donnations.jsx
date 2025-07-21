@@ -63,23 +63,26 @@ export default function DonationsPage() {
     });
 
     const columns = [
-        { accessor: "name", header: "Name" },
-        { accessor: "email", header: "Email" },
-        { accessor: "date", header: "Date" },
-        { accessor: "amount", header: "Amount" },
+        { header: "Name", accessor: "name" },
+        { header: "Email", accessor: "email" },
+        { header: "Date", accessor: "date" },
+        { header: "Amount", accessor: "amount" },
         {
-            accessor: "status",
             header: "Status",
-            render: (value, row) => {
-                const isFailed = row.amount === "0 units" || value === "Failed";
-                return (
-                    <span className={`fw-semibold ${isFailed ? "text-danger" : "text-success"}`}>
-                        {isFailed ? "Failed" : "Successful"}
-                    </span>
-                );
+            accessor: "status",
+            render: (row) => {
+                const isFailed =
+                    typeof row.amount === "string" && row.amount.trim().startsWith("0");
+
+                if (isFailed || row.status === "Failed") {
+                    return <span className="text-danger fw-semibold">Failed</span>;
+                }
+
+                return <span className="text-success fw-semibold">Successful</span>;
             },
         },
     ];
+
 
     return (
         <div className="container mt-4">
