@@ -13,7 +13,11 @@ export default  (req: AuthRequest, res: Response, next: NextFunction):void => {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as tokenPayload;
-    req.user = { id: decoded.id, role: decoded.role } ; // Attach user info to request
+    req.user = { id: decoded.id, role: decoded.role, centerId: decoded.centerId }; // Attach user info to request
+    if(!req.user.id || !req.user.role) {
+       res.status(401).json({ message: "Invalid token." });
+       return;
+    }
      next();
   } catch (err) {
      res.status(401).json({ message: "Invalid or expired token." });

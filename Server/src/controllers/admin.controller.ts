@@ -239,4 +239,57 @@ export const deleteSubAdmin = async (req: Request, res: Response) => {
      res.status(500).json({ message: "Server error." });
   }
 };
+export const getAdminData= async (req:AuthRequest,res:Response)=>{
+  const userId = req.user?.id;
+
+  if (!userId) {
+     res.status(401).json({ message: "Unauthorized" });
+     return;
+  }
+
+  try {
+    const adminData=await prisma.users.findUnique({
+      where: { user_id: userId },
+      select: {
+        user_id: true,
+        name: true,
+        email: true,
+        contact_phone: true,
+        role: true,
+      },
+    })
+
+    if (!adminData) {
+       res.status(404).json({ message: "Admin not found" });
+       return
+    }
+
+    res.status(200).json(adminData);
+  } catch (error) {
+    console.error("Error fetching admin data:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+export const getDonationHistory = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const donationData = await prisma.$queryRawUnsafe(`
+      SELECT 
+        U.name as User, 
+        U.email as Email, 
+        C.center_name as Center, 
+        DH.donation_date as Date, 
+        DH.units_donated as Amount, 
+        DH.Status as Status
+      FROM donationhistory DH
+      JOIN donors D ON DH.donor_id = D.donor_id
+      JOIN Users U ON D.user_id = U.user_id
+      JOIN bloodcenters C ON DH.center_id = C.center_id
+    `);
+
+    res.status(200).json({data: donationData });
+  } catch (error) {
+    console.error('Error fetching donation history:', error);
+    next(error);
+  }
+};
 

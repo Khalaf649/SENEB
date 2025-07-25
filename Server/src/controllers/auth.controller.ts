@@ -51,6 +51,18 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
       id: user.user_id,
       role: user.role as Role
     };
+      if(user.role== "sub_admin") {
+        const subAdmin=await prisma.subadmins.findUnique({
+          where:{
+            user_id:user.user_id
+          }
+        });
+        if(!subAdmin){
+           res.status(500).json({ message: "Sub-admin record missing" });
+           return;
+        }
+        payload.centerId = subAdmin.center_id;
+      }
 
     const token = jwt.sign(
       payload,
@@ -58,7 +70,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
       { expiresIn: "7d" }
     );
 
-    res.json({ token, role: user.role });
+    res.json({ token,role:user.role });
   } catch (error) {
     next(error);
   }

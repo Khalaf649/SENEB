@@ -8,7 +8,10 @@ export default (roles: string[]) => {
        res.status(401).json({ message: "Unauthorized: No user role found" });
         return;
     }
-
+    if(req.user.role === "sub_admin" && !req.user.centerId) {
+       res.status(403).json({ message: "Forbidden: Sub-admins must have a centerId" });
+       return;
+    }
     if (!roles.includes(req.user.role)) {
        res.status(403).json({ message: `Forbidden: Requires role(s): ${roles.join(', ')}` });
         return;
