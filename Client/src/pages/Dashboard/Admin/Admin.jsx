@@ -66,9 +66,9 @@ export default function Admin() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link sidebar-link" to="center-data">
-                  <i className="fas fa-database me-2"></i> Center Data / Blood
-                  Stock
+                <Link className="nav-link sidebar-link" to="all-blood-stock">
+                  <i className="fas fa-database me-2"></i> Centers Blood Stock
+                  
                 </Link>
               </li>
             </div>
