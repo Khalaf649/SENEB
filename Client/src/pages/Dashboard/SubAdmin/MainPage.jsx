@@ -46,7 +46,7 @@ export default function SubAdminDashboard() {
             <div className="row mb-4">
                 <StatCard title="Total Blood Stock" titleLink="/subAdminDashboard/bloodstock" value={stats.bloodStock} icon={<FaDatabase />} warning={stats.bloodStock < 10} />
                 <StatCard title="Pending Appointments" value={stats.pendingAppointments} icon={<FaExclamationCircle />} />
-                <StatCard title="Donnations" titleLink="/subAdminDashboard/donnations" value={stats.donnations} icon={<FaCalendarCheck />} />
+                <StatCard title="Donations" titleLink="/subAdminDashboard/donations" value={stats.donations} icon={<FaCalendarCheck />} />
             </div>
 
             {/* Charts */}

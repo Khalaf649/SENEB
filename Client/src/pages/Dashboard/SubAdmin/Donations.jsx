@@ -1,44 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextInput from "../../../components/Auth/TextInput";
 import DataTable from "../../../components/DataTable";
 import ExportData from "../../../components/ExportData";
+import { fetchDonations } from "../../../api/subAdmin/donations";
 
 export default function DonationsPage() {
     const [search, setSearch] = useState("");
     const [month, setMonth] = useState("All Months");
     const [statusFilter, setStatusFilter] = useState("All");
-
-    const donations = [
-        {
-            email: "ahmed@gmail.com",
-            name: "Ahmed Ali",
-            date: "2025-07-01",
-            amount: "1 unit",
-            status: "Successful",
-        },
-        {
-            email: "sara@yahoo.com",
-            name: "Sara Ibrahim",
-            date: "2025-07-05",
-            amount: "1 unit",
-            status: "Successful",
-        },
-        {
-            email: "mohamed@hotmail.com",
-            name: "Mohamed Zaki",
-            date: "2025-06-10",
-            amount: "0 units",
-            status: "Failed",
-        },
-        {
-            email: "laila@gmail.com",
-            name: "Laila Nour",
-            date: "2025-06-15",
-            amount: "1 unit",
-            status: "Successful",
-        },
-    ];
-
+    const [donations, setDonations] = useState([]);
 
     const months = [
         "All Months",
@@ -46,14 +16,26 @@ export default function DonationsPage() {
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];
 
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if(!token) return;
+
+        fetchDonations(token)
+            .then(setDonations)
+            .catch((err) => {
+                console.error("Failed to fetch donations:", err);
+            })
+    }, []);
+
 
     const filteredDonations = donations.filter((d) => {
-        const matchesSearch = d.name.toLowerCase().includes(search.toLowerCase());
+        const matchesSearch = d.User.toLowerCase().includes(search.toLowerCase());
+
         const donationMonth = new Date(d.date).getMonth(); // 0-11
         const monthIndex = months.indexOf(month) - 1;
         const matchesMonth = month === "All Months" || donationMonth === monthIndex;
 
-        const isFailed = d.amount === "0 units" || d.status === "Failed";
+        const isFailed = d.Amount === "0 units" || d.Status === "Failed";
         const matchesStatus =
             statusFilter === "All" ||
             (statusFilter === "Failed" && isFailed) ||
@@ -63,18 +45,18 @@ export default function DonationsPage() {
     });
 
     const columns = [
-        { header: "Name", accessor: "name" },
-        { header: "Email", accessor: "email" },
-        { header: "Date", accessor: "date" },
-        { header: "Amount", accessor: "amount" },
+        { header: "Name", accessor: "User" },
+        { header: "Email", accessor: "Email" },
+        { header: "Date", accessor: "Date" },
+        { header: "Amount", accessor: "Amount" },
         {
             header: "Status",
-            accessor: "status",
+            accessor: "Status",
             render: (row) => {
                 const isFailed =
-                    typeof row.amount === "string" && row.amount.trim().startsWith("0");
+                    typeof row.Amount === "string" && row.Amount.trim().startsWith("0");
 
-                if (isFailed || row.status === "Failed") {
+                if (isFailed || row.Status === "Failed") {
                     return <span className="text-danger fw-semibold">Failed</span>;
                 }
 
