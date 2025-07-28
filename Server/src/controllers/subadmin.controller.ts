@@ -127,6 +127,7 @@ export const addDonationHistory = async (req: AuthRequest, res: Response, next: 
     const CenterId = req.user?.centerId;
 
 
+
     try {
         const donor = await prisma.donors.findUnique({
             where: { user_id: donationData.userId }
@@ -144,7 +145,11 @@ export const addDonationHistory = async (req: AuthRequest, res: Response, next: 
               donation_date: new Date()
             }
         });
-        res.status(201).json({ message: "Donation history added", data: newDonation });
+        await prisma.donors.update({
+            where: { donor_id: donor.donor_id },
+            data: { last_donation_date: newDonation.donation_date }
+        });
+        res.status(201).json({ message: "Donation history added" });
     } catch (error) {
         console.error('Error adding donation history:', error);
         res.status(500).json({ message: "Internal server error" });
