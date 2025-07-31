@@ -103,7 +103,31 @@ export const updateDonorProfile = async (req: AuthRequest, res: Response, next: 
 export const  getAppointments=(req: AuthRequest, res: Response, next: NextFunction) => {
 }
 
-export  const createAppointment=(req: AuthRequest, res: Response, next: NextFunction) => {
+export  const createAppointment=async(req: AuthRequest, res: Response, next: NextFunction) => {
 }
-export const getDonationHistory=(req: AuthRequest, res: Response, next: NextFunction) => {
-}
+export const getDonationHistory = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  const userId = req.user?.id;
+
+  try {
+    const donor = await prisma.donors.findUnique({
+      where: {
+        user_id: userId
+      }
+    });
+
+    if (!donor) {
+       res.status(404).json({ message: "Donor not found" });
+       return;
+    }
+
+    const donationhistory = await prisma.donationhistory.findMany({
+      where: {
+        donor_id: donor.donor_id
+      }
+    });
+
+    res.status(200).json(donationhistory);
+  } catch (error) {
+    next(error);
+  }
+};

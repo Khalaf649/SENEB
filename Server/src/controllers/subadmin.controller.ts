@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import AuthRequest from "../Interfaces/AuthRequest";
 import { PrismaClient } from "../../generated/prisma";
+import { donation } from "../Interfaces/donation";
+import dayjs from 'dayjs';
 
 const prisma = new PrismaClient();
 
@@ -119,4 +121,37 @@ export const getDonationHistory = async (req: AuthRequest, res: Response, next: 
     }
 
 
+}
+export const addDonationHistory = async (req: AuthRequest, res: Response, next: NextFunction) => {
+    const donationData: donation = req.body;
+    const CenterId = req.user?.centerId;
+
+
+
+    try {
+        const donor = await prisma.donors.findUnique({
+            where: { user_id: donationData.userId }
+        });
+        if (!donor) {
+            res.status(404).json({ message: "Donor not found" });
+            return;
+        }
+        const newDonation = await prisma.donationhistory.create({
+            data: {
+              donor_id: donor.donor_id,
+              units_donated: donationData.unitsDonated,
+              status: donationData.status,
+              center_id: CenterId!,
+              donation_date: new Date()
+            }
+        });
+        await prisma.donors.update({
+            where: { donor_id: donor.donor_id },
+            data: { last_donation_date: newDonation.donation_date }
+        });
+        res.status(201).json({ message: "Donation history added" });
+    } catch (error) {
+        console.error('Error adding donation history:', error);
+        res.status(500).json({ message: "Internal server error" });
+    }
 }
