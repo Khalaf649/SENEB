@@ -17,7 +17,7 @@ import AllBloodStock from "../pages/Dashboard/Admin/BloodStock";
 
 import SubAdminMainPage from "../pages/Dashboard/SubAdmin/MainPage";
 import BloodStock from "../pages/Dashboard/SubAdmin/BloodStock";
-import Donnations from "../pages/Dashboard/SubAdmin/Donnations";
+import Donations from "../pages/Dashboard/SubAdmin/Donations";
 import Appointments from "../pages/Dashboard/SubAdmin/Appointments";
 import SubAdminProfile from "../pages/Profiles/SubAdminProfile";
 
@@ -42,7 +42,7 @@ export default function AppRoutes() {
         {/* Sub Admin */}
         <Route path="/subAdminDashboard" element={<SubAdmin />}>
           <Route index element={<SubAdminMainPage/>} />
-          <Route path="donnations" element={<Donnations />} />
+          <Route path="donations" element={<Donations />} />
           <Route path="bloodstock" element={<BloodStock />} />
           <Route path="appointments" element={<Appointments />} />       
           <Route path="profile" element={<SubAdminProfile />} />       

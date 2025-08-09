@@ -1,18 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { fetchSubAdminData, fetchCenterData } from "../../api/subAdmin/profile";
 import TextInput from "../../components/Auth/TextInput";
 
 export default function SubAdminProfile() {
     const [personalInfo, setPersonalInfo] = useState({
-        name: "Omar Adel",
-        email: "omar.adel@bloodcenter.org",
-        contact: "01065432198",
+        name: "",
+        email: "",
+        contact_phone: "",
     });
 
     const [centerInfo, setCenterInfo] = useState({
-        name: "Cairo Blood Center",
-        address: "123 Tahrir Street, Cairo",
-        contact: "01012345678",
+        center_name: "",
+        address: "",
+        contact_info: "",
     });
+
+    const token = localStorage.getItem("token");
+    useEffect(() => {
+
+        fetchSubAdminData(token)
+            .then((data) => {
+                setPersonalInfo(data.subadmin);
+            })
+            .catch((err) => {
+                console.error("Failed to load personal info:", err);
+            });
+
+        fetchCenterData(token)
+            .then((data) => {
+                setCenterInfo(data.center);
+            })
+    }, [])
 
     const [showEditModal, setShowEditModal] = useState(false);
     const [editSection, setEditSection] = useState(""); // "personal" or "center"
@@ -44,7 +62,7 @@ export default function SubAdminProfile() {
                 <div className="personal-fields mb-3">
                     <TextInput label="Name" value={personalInfo.name} disabled />
                     <TextInput label="Email" value={personalInfo.email} disabled />
-                    <TextInput label="Contact" value={personalInfo.contact} disabled />
+                    <TextInput label="Contact" value={personalInfo.contact_phone} disabled />
                 </div>
                 <div className="text-end">
                     <button
@@ -60,9 +78,9 @@ export default function SubAdminProfile() {
             <div className="card p-4 mb-4 shadow-sm">
                 <h5 className="info-title mb-3">Center Information</h5>
                 <div className="personal-fields mb-3">
-                    <TextInput label="Center Name" value={centerInfo.name} disabled />
+                    <TextInput label="Center Name" value={centerInfo.center_name} disabled />
                     <TextInput label="Address" value={centerInfo.address} disabled />
-                    <TextInput label="Contact" value={centerInfo.contact} disabled />
+                    <TextInput label="Contact" value={centerInfo.contact_info} disabled />
                 </div>
                 <div className="text-end">
                     <button
