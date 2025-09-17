@@ -1502,9 +1502,6 @@ body {
 
 /* Stat Cards */
 
-.row .col-md-4 {
-  display: flex;
-}
 
 .donor-card {
   flex: 1;
@@ -1567,7 +1564,7 @@ body {
 
 
 .donation-countdown-card {
-  background: var(--lightgrey);
+  background-color: #ebe9e9;
 
   border-radius: 14px;
   color: var(--text-dark);
@@ -1604,7 +1601,21 @@ body {
   border-radius: 10px;
 }
 
+.donor-appointment-btn {
+  background: linear-gradient(135deg, #a63a3a 0%, #7a2617 100%);
+  border-radius: 0.5rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  color: white;
+}
+
+.donor-appointment-btn:hover {
+  background: linear-gradient(135deg, #7a2617 0%, #a63a3a 100%);
+  transform: translateY(-2px);
+}
 
 /*end of donor dashboard*/
+
+
 
 /* End dashboard */

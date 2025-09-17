@@ -23,6 +23,7 @@ import SubAdminProfile from "../pages/Profiles/SubAdminProfile";
 
 import Donor from "../pages/Dashboard/Donor/Donor";
 import DonorMainPage from "../pages/Dashboard/Donor/DonorMainPage";
+import BookAppointment from "../pages/Dashboard/Donor/BookAppointment";
 
 export default function AppRoutes() {
   return (
@@ -31,7 +32,6 @@ export default function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/donorProfile" element={<DonorProfile />} />
 
         {/* Admin */}
         <Route path="/adminDashboard" element={<Admin />}>
@@ -52,9 +52,10 @@ export default function AppRoutes() {
         </Route>
 
         {/* Donor */}
-        <Route path="/donorDashboard" element={<Donor />} />
         <Route path="/donorDashboard" element={<Donor />}>
           <Route index element={<DonorMainPage />} />
+          <Route path="profile" element={<DonorProfile />} />
+          <Route path="book-appointment" element={<BookAppointment />} />
         </Route>
 
         <Route path="/healthFacilityDashboard" element={<HealthFacility />} />

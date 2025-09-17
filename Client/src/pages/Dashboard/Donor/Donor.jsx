@@ -31,7 +31,14 @@ export default function Donor() {
               width="135"
               height="135"
             />
-            <h5 className="fw-semibold mt-1">{donor.fullName}</h5>
+            <h5 className="fw-semibold mt-1">
+              <Link
+                to="/donorDashboard"
+                className="text-decoration-none text-white"
+              >
+                {donor.fullName}
+              </Link>
+            </h5>
           </div>
           <hr className="sidebar-divider" />
 
@@ -52,7 +59,7 @@ export default function Donor() {
               </li>
 
               <li className="nav-item">
-                <Link className="nav-link sidebar-link" to="appointments">
+                <Link className="nav-link sidebar-link" to="book-appointment">
                   <i className="fas fa-calendar-alt me-2"></i> Book Appointment
                 </Link>
               </li>
