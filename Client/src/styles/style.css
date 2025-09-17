@@ -882,6 +882,7 @@ body {
   background: linear-gradient(135deg, var(--darkred), #5a1a12);
   color: var(--white);
 }
+
 /* Shared Chart Card */
 .chart-card {
   padding: 1rem;
@@ -908,7 +909,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem; 
+  gap: 1rem;
 }
 
 .pie-flex-layout {
@@ -1478,5 +1479,132 @@ body {
 
 
 /*end of BloodStock */
+
+/*start of donor dashboard*/
+
+/*MainPage design*/
+.bg-light {
+  background-color: var(--white) !important;
+
+  border-radius: 12px;
+  color: var(--text-dark);
+}
+
+.bg-light h2 {
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.bg-light p {
+
+  font-size: 0.95rem;
+}
+
+/* Stat Cards */
+
+.row .col-md-4 {
+  display: flex;
+}
+
+.donor-card {
+  flex: 1;
+  min-width: 200px;
+  background: linear-gradient(135deg, #a63a3a 0%, #7a2617 100%);
+  color: white;
+  border-radius: 1rem;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 2px 6px var(--shadow-color);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.donor-card :hover {
+  transform: translateY(-4px);
+  box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+.donor-card h5 {
+  color: var(--white) !important;
+  margin-bottom: 0.75rem;
+  font-weight: 80;
+  font-size: 1.2rem;
+}
+
+.donor-card p {
+  color: var(--white);
+  font-size: 1.5rem;
+  font-weight: 700 !important;
+  margin-top: 0.5rem;
+}
+
+/* Countdown Card */
+.card.text-center h5 {
+  color: var(--darkred);
+  font-weight: 100;
+}
+
+.card.text-center p.fs-4 {
+  color: var(--lightred);
+  font-weight: bold;
+}
+
+/* Progress Bar */
+.progress {
+  background-color: var(--lightgrey);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  background: linear-gradient(90deg, var(--lightred), var(--darkred));
+  font-weight: 600;
+  color: var(--text-light);
+  font-size: 0.85rem;
+  border-radius: 10px;
+}
+
+
+
+.donation-countdown-card {
+  background: var(--lightgrey);
+
+  border-radius: 14px;
+  color: var(--text-dark);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.donation-countdown-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+.donation-countdown-card h5 {
+  color: var(--text-dark);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.donation-countdown-card p.fs-4 {
+  color: var(--darkred);
+}
+
+/* Progress bar inside countdown card */
+.donation-countdown-card .progress {
+  background-color: var(--lightgrey);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.donation-countdown-card .progress-bar {
+  background: linear-gradient(90deg, var(--lightred), var(--darkred));
+  font-weight: 600;
+  color: var(--text-light);
+  font-size: 0.85rem;
+  border-radius: 10px;
+}
+
+
+/*end of donor dashboard*/
 
 /* End dashboard */

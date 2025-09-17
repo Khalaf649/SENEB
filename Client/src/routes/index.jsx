@@ -21,6 +21,9 @@ import Donnations from "../pages/Dashboard/SubAdmin/Donnations";
 import Appointments from "../pages/Dashboard/SubAdmin/Appointments";
 import SubAdminProfile from "../pages/Profiles/SubAdminProfile";
 
+import Donor from "../pages/Dashboard/Donor/Donor";
+import DonorMainPage from "../pages/Dashboard/Donor/DonorMainPage";
+
 export default function AppRoutes() {
   return (
     <Router>
@@ -35,17 +38,23 @@ export default function AppRoutes() {
           <Route index element={<AdminMainPage />} />
           <Route path="manage-subadmins" element={<ManageSubadmins />} />
           <Route path="manage-blood-centers" element={<ManageBloodCenters />} />
-          <Route path="view-donations" element={<ViewDonations/>}/>
-          <Route path="all-blood-stock" element={<AllBloodStock/>}/>
+          <Route path="view-donations" element={<ViewDonations />} />
+          <Route path="all-blood-stock" element={<AllBloodStock />} />
         </Route>
 
         {/* Sub Admin */}
         <Route path="/subAdminDashboard" element={<SubAdmin />}>
-          <Route index element={<SubAdminMainPage/>} />
+          <Route index element={<SubAdminMainPage />} />
           <Route path="donnations" element={<Donnations />} />
           <Route path="bloodstock" element={<BloodStock />} />
-          <Route path="appointments" element={<Appointments />} />       
-          <Route path="profile" element={<SubAdminProfile />} />       
+          <Route path="appointments" element={<Appointments />} />
+          <Route path="profile" element={<SubAdminProfile />} />
+        </Route>
+
+        {/* Donor */}
+        <Route path="/donorDashboard" element={<Donor />} />
+        <Route path="/donorDashboard" element={<Donor />}>
+          <Route index element={<DonorMainPage />} />
         </Route>
 
         <Route path="/healthFacilityDashboard" element={<HealthFacility />} />
